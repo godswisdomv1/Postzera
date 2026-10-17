@@ -1,0 +1,99 @@
+name: build_and_deploy
+
+# Android build. MANUAL ONLY: never add push or pull_request here.
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Dart entry point
+        type: choice
+        default: lib/main.dart
+        options: [lib/main.dart, lib/dev/gallery_main.dart]
+      ad_mode:
+        description: test uses Google sample ad ids, prod uses ours
+        type: choice
+        default: test
+        options: [test, prod]
+      consent_geo:
+        description: Force a consent geography for testing
+        type: choice
+        default: none
+        options: [none, eea, not_eea]
+      test_device_id:
+        description: AdMob test device id (optional)
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Refuse unsafe production settings
+        if: inputs.ad_mode == 'prod' && inputs.consent_geo != 'none'
+        run: |
+          echo "Production builds cannot force a consent geography."
+          exit 1
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.47.7'
+          channel: stable
+          cache: true
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+      - name: Dependencies and localization
+        working-directory: app
+        run: |
+          flutter pub get
+          flutter gen-l10n
+      - name: Analyze and test
+        working-directory: app
+        run: |
+          bash tool/ci_step.sh analyze flutter analyze --no-fatal-infos
+          if [ -d test ]; then bash tool/ci_step.sh test flutter test; fi
+      - name: Signing
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > app/android/app/upload.jks
+          {
+            echo "storePassword=$ANDROID_KEYSTORE_PASSWORD"
+            echo "keyPassword=$ANDROID_KEY_PASSWORD"
+            echo "keyAlias=$ANDROID_KEY_ALIAS"
+            echo "storeFile=upload.jks"
+          } > app/android/key.properties
+      - name: Build APKs
+        working-directory: app
+        run: |
+          DEFINES="--dart-define=AD_MODE=${{ inputs.ad_mode }} --dart-define=CONSENT_DEBUG_GEO=${{ inputs.consent_geo }} --dart-define=AD_TEST_DEVICE_ID=${{ inputs.test_device_id }}"
+          bash tool/ci_step.sh build-apk flutter build apk --release --split-per-abi --target ${{ inputs.target }} --obfuscate --split-debug-info=build/symbols $DEFINES
+      - name: Build AAB
+        working-directory: app
+        run: |
+          DEFINES="--dart-define=AD_MODE=${{ inputs.ad_mode }} --dart-define=CONSENT_DEBUG_GEO=${{ inputs.consent_geo }} --dart-define=AD_TEST_DEVICE_ID=${{ inputs.test_device_id }}"
+          bash tool/ci_step.sh build-aab flutter build appbundle --release --target ${{ inputs.target }} --obfuscate --split-debug-info=build/symbols $DEFINES
+      - name: Size report
+        working-directory: app
+        run: bash tool/ci_step.sh sizes ls -l build/app/outputs/flutter-apk build/app/outputs/bundle/release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: postzera-android-apk
+          path: app/build/app/outputs/flutter-apk/*.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: postzera-android-aab
+          path: app/build/app/outputs/bundle/release/*.aab
+      - uses: actions/upload-artifact@v4
+        with:
+          name: postzera-symbols
+          path: app/build/symbols

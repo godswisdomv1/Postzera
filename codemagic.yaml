@@ -1,0 +1,46 @@
+workflows:
+  ios-workflow:
+    name: Postzera iOS
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    # No triggering block: builds start only when you press Start build.
+    integrations:
+      app_store_connect: Postzera-ASC     # the API key name you create in Codemagic
+    environment:
+      flutter: 3.47.7
+      xcode: latest                        # Xcode 26 or later is required for uploads
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.zdmgold.postzera
+      vars:
+        BUNDLE_ID: com.zdmgold.postzera
+        AD_MODE: test                      # set to prod only for the release run
+    scripts:
+      - name: Dependencies and localization
+        script: |
+          cd app
+          flutter pub get
+          flutter gen-l10n
+      - name: Analyze and test
+        script: |
+          cd app
+          flutter analyze --no-fatal-infos
+          flutter test
+      - name: Apply signing profiles
+        script: |
+          cd app/ios
+          xcode-project use-profiles
+      - name: Build IPA
+        script: |
+          cd app
+          flutter build ipa --release \
+            --export-options-plist=/Users/builder/export_options.plist \
+            --obfuscate --split-debug-info=build/symbols \
+            --dart-define=AD_MODE=$AD_MODE
+    artifacts:
+      - app/build/ios/ipa/*.ipa
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        submit_to_app_store: false         # changed only by hand for the public release

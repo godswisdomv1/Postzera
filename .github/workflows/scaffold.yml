@@ -5,14 +5,15 @@ name: scaffold
 #   scaffold  creates app/android and app/ios from the Flutter 3.47.7 template
 #   finalize  writes pubspec.lock and the generated localization files, and
 #             formats the Dart code, then commits the result to main
+#   brand     generates launcher icons and the native splash from app/assets/brand
 on:
   workflow_dispatch:
     inputs:
       task:
-        description: scaffold or finalize
+        description: scaffold, finalize or brand
         type: choice
         default: scaffold
-        options: [scaffold, finalize]
+        options: [scaffold, finalize, brand]
 
 permissions:
   contents: write
@@ -49,6 +50,14 @@ jobs:
           flutter pub get
           flutter gen-l10n
           dart format $(ls -d lib test 2>/dev/null)
+      - name: Launcher icons and splash
+        if: inputs.task == 'brand'
+        working-directory: app
+        run: |
+          set -euo pipefail
+          flutter pub get
+          dart run flutter_launcher_icons
+          dart run flutter_native_splash:create
       - name: Commit
         run: |
           set -euo pipefail
