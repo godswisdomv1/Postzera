@@ -1,7 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:postzera/utils/date_format.dart';
 
 void main() {
+  setUpAll(() => initializeDateFormatting('en'));
+
   test('isSameLocalDay compares calendar days', () {
     expect(
       isSameLocalDay(DateTime(2026, 10, 17, 0, 1), DateTime(2026, 10, 17, 23, 59)),
