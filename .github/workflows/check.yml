@@ -29,17 +29,17 @@ jobs:
           channel: stable
           cache: true
       - name: Dependencies
-        run: flutter pub get
+        run: bash tool/ci_step.sh pub-get flutter pub get
       - name: Localization
-        run: flutter gen-l10n
+        run: bash tool/ci_step.sh gen-l10n flutter gen-l10n
       - name: Analyze
-        run: flutter analyze --no-fatal-infos
+        run: bash tool/ci_step.sh analyze flutter analyze --no-fatal-infos
       - name: Test
         run: |
           if [ -d test ]; then
-            flutter test
+            bash tool/ci_step.sh test flutter test --reporter expanded
           else
             echo "No tests yet."
           fi
       - name: Layer checks
-        run: bash tool/check_layers.sh
+        run: bash tool/ci_step.sh layers bash tool/check_layers.sh
