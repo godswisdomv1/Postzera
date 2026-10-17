@@ -1,0 +1,21 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  language:
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
+  exclude:
+    - lib/l10n/app_localizations*.dart
+  errors:
+    use_build_context_synchronously: error
+    unawaited_futures: error
+
+linter:
+  rules:
+    avoid_print: true
+    prefer_const_constructors: true
+    require_trailing_commas: true
+    always_use_package_imports: true
+    directives_ordering: true
+    unawaited_futures: true

@@ -1,0 +1,63 @@
+name: scaffold
+
+# One-time helper, manual only. The sandbox that writes this project cannot run
+# Flutter, so this workflow does the two jobs that need it:
+#   scaffold  creates app/android and app/ios from the Flutter 3.47.7 template
+#   finalize  writes pubspec.lock and the generated localization files, and
+#             formats the Dart code, then commits the result to main
+on:
+  workflow_dispatch:
+    inputs:
+      task:
+        description: scaffold or finalize
+        type: choice
+        default: scaffold
+        options: [scaffold, finalize]
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.47.7'
+          channel: stable
+          cache: true
+      - name: Scaffold native folders
+        if: inputs.task == 'scaffold'
+        run: |
+          set -euo pipefail
+          if [ -d app/android ] || [ -d app/ios ]; then
+            echo "Native folders already exist. Refusing to overwrite them."
+            exit 1
+          fi
+          flutter create --org com.zdmgold --project-name postzera \
+            --platforms android,ios --empty "$RUNNER_TEMP/scaffold"
+          cp -R "$RUNNER_TEMP/scaffold/android" app/android
+          cp -R "$RUNNER_TEMP/scaffold/ios" app/ios
+          rm -f app/android/local.properties
+      - name: Lockfile, localization and formatting
+        if: inputs.task == 'finalize'
+        working-directory: app
+        run: |
+          set -euo pipefail
+          flutter pub get
+          flutter gen-l10n
+          dart format $(ls -d lib test 2>/dev/null)
+      - name: Commit
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Nothing to commit."
+            exit 0
+          fi
+          git commit -m "ci: ${{ inputs.task }}"
+          git push origin HEAD:main

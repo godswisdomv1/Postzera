@@ -1,0 +1,45 @@
+name: check
+
+# Light check: dependencies, localization, analysis, tests, layer rules.
+# No app build and no signing. The build workflow stays manual-only.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.47.7'
+          channel: stable
+          cache: true
+      - name: Dependencies
+        run: flutter pub get
+      - name: Localization
+        run: flutter gen-l10n
+      - name: Analyze
+        run: flutter analyze --no-fatal-infos
+      - name: Test
+        run: |
+          if [ -d test ]; then
+            flutter test
+          else
+            echo "No tests yet."
+          fi
+      - name: Layer checks
+        run: bash tool/check_layers.sh

@@ -1,0 +1,127 @@
+{
+  "@@locale": "en",
+  "app_name": "Postzera",
+  "@app_name": {
+    "description": "The product name. Never translated."
+  },
+  "common_cancel": "Cancel",
+  "@common_cancel": {
+    "description": "Button label that dismisses a dialog or sheet without acting."
+  },
+  "common_done": "Done",
+  "@common_done": {
+    "description": "Button label that confirms and closes."
+  },
+  "common_retry": "Retry",
+  "@common_retry": {
+    "description": "Button label that repeats a failed action."
+  },
+  "common_delete": "Delete",
+  "@common_delete": {
+    "description": "Button label for a destructive delete action."
+  },
+  "common_undo": "Undo",
+  "@common_undo": {
+    "description": "Banner action that reverts the last action."
+  },
+  "common_copy": "Copy",
+  "@common_copy": {
+    "description": "Button label that copies text to the clipboard."
+  },
+  "common_copied": "Copied",
+  "@common_copied": {
+    "description": "Feedback shown after text was copied to the clipboard."
+  },
+  "common_close": "Close",
+  "@common_close": {
+    "description": "Button label that closes a screen or sheet."
+  },
+  "error_validation": "Check this field and try again.",
+  "@error_validation": {
+    "description": "Inline message for an invalid field or CSV row."
+  },
+  "error_storageFull": "Your phone is out of storage. Free some space and try again.",
+  "@error_storageFull": {
+    "description": "Shown when creating an image or video fails because the disk is full."
+  },
+  "error_renderFailed": "We couldn’t create this image or video.",
+  "@error_renderFailed": {
+    "description": "Shown on a variant card when rendering fails."
+  },
+  "error_sourceUnreadable": "We couldn’t read that photo or video.",
+  "@error_sourceUnreadable": {
+    "description": "Shown when the chosen media file is missing or unsupported."
+  },
+  "error_shareFailed": "Sharing didn’t work. Try again.",
+  "@error_shareFailed": {
+    "description": "Shown when the system share sheet fails."
+  },
+  "error_shareUnavailable": "Sharing isn’t available on this device.",
+  "@error_shareUnavailable": {
+    "description": "Shown when the system share sheet cannot be opened."
+  },
+  "error_notificationsDenied": "Notifications are off. Turn them on in your phone’s settings to get reminders.",
+  "@error_notificationsDenied": {
+    "description": "Informational row when the notification permission was denied."
+  },
+  "error_scheduleFailed": "We couldn’t set your reminders. Try again.",
+  "@error_scheduleFailed": {
+    "description": "Queue banner when scheduling reminders fails."
+  },
+  "error_consentUnavailable": "Privacy choices aren’t available right now.",
+  "@error_consentUnavailable": {
+    "description": "Shown when the consent form cannot be loaded."
+  },
+  "error_adLoadFailed": "An ad couldn’t be loaded.",
+  "@error_adLoadFailed": {
+    "description": "Logged and hidden in the app; kept for completeness."
+  },
+  "error_purchaseCancelled": "Purchase cancelled.",
+  "@error_purchaseCancelled": {
+    "description": "Shown after the user cancels the purchase."
+  },
+  "error_purchaseFailed": "The purchase didn’t go through. Try again.",
+  "@error_purchaseFailed": {
+    "description": "Shown on the paywall when a purchase fails."
+  },
+  "error_storeUnavailable": "The store isn’t available right now. Try again later.",
+  "@error_storeUnavailable": {
+    "description": "Shown on the paywall when the store cannot be reached."
+  },
+  "error_dbCorrupt": "Your library had a problem, so a backup copy was kept and a fresh one was started.",
+  "@error_dbCorrupt": {
+    "description": "One-time banner after a damaged database was replaced."
+  },
+  "error_dbDowngrade": "This library was created by a newer version of Postzera. Update the app to open it.",
+  "@error_dbDowngrade": {
+    "description": "Fatal message when the database is newer than the app."
+  },
+  "error_dbUnavailable": "Changes can’t be saved right now. Anything you add will be lost when you close the app.",
+  "@error_dbUnavailable": {
+    "description": "Permanent warning when the app runs without a database."
+  },
+  "error_importUnreadable": "We couldn’t read that file.",
+  "@error_importUnreadable": {
+    "description": "Shown when the chosen CSV file cannot be read."
+  },
+  "error_unexpected": "Something went wrong.",
+  "@error_unexpected": {
+    "description": "Generic message for an unexpected error."
+  },
+  "fatal_title": "Something went wrong",
+  "@fatal_title": {
+    "description": "Title of the fatal error screen."
+  },
+  "fatal_message": "Postzera hit an unexpected problem.",
+  "@fatal_message": {
+    "description": "Body of the fatal error screen."
+  },
+  "fatal_tryAgain": "Try again",
+  "@fatal_tryAgain": {
+    "description": "Button on the fatal error screen that restarts the app view."
+  },
+  "fatal_support": "Contact support",
+  "@fatal_support": {
+    "description": "Link on the fatal error screen that opens the support page."
+  }
+}
