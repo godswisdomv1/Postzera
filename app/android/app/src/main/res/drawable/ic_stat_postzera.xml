@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Seed mark: a teardrop with a vertical cut. Single color, as Android
+     requires for the small notification icon. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:fillType="evenOdd"
+        android:pathData="M12,2 C12,2 5,9 5,14 A7,7 0 0 0 19,14 C19,9 12,2 12,2 Z M11.25,10 L12.75,10 L12.75,19 L11.25,19 Z" />
+</vector>
