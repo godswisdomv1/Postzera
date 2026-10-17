@@ -21,9 +21,8 @@ String formatDateTime(DateTime value, String locale) =>
 /// Formats a time given as minutes from midnight, such as the reminder time.
 String formatMinutesOfDay(int minutes, String locale) {
   final int clamped = minutes.clamp(0, 1439);
-  return DateFormat.jm(locale).format(
-    DateTime(2000, 1, 1, clamped ~/ 60, clamped % 60),
-  );
+  return DateFormat.jm(locale)
+      .format(DateTime(2000, 1, 1, clamped ~/ 60, clamped % 60));
 }
 
 /// True when both instants fall on the same calendar day in local time.

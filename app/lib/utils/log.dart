@@ -45,8 +45,7 @@ abstract final class Log {
     if (count <= 0) {
       return const <String>[];
     }
-    final int start =
-        _entries.length > count ? _entries.length - count : 0;
+    final int start = _entries.length > count ? _entries.length - count : 0;
     return _entries
         .sublist(start)
         .map((LogEntry e) => e.toString())

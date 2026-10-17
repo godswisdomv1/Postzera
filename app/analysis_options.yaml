@@ -7,6 +7,9 @@ analyzer:
     strict-raw-types: true
   exclude:
     - lib/l10n/app_localizations*.dart
+    - build/**
+    - android/**
+    - ios/**
   errors:
     use_build_context_synchronously: error
     unawaited_futures: error

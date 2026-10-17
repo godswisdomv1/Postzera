@@ -7,11 +7,17 @@ void main() {
 
   test('isSameLocalDay compares calendar days', () {
     expect(
-      isSameLocalDay(DateTime(2026, 10, 17, 0, 1), DateTime(2026, 10, 17, 23, 59)),
+      isSameLocalDay(
+        DateTime(2026, 10, 17, 0, 1),
+        DateTime(2026, 10, 17, 23, 59),
+      ),
       isTrue,
     );
     expect(
-      isSameLocalDay(DateTime(2026, 10, 17, 23, 59), DateTime(2026, 10, 18, 0, 1)),
+      isSameLocalDay(
+        DateTime(2026, 10, 17, 23, 59),
+        DateTime(2026, 10, 18, 0, 1),
+      ),
       isFalse,
     );
   });
