@@ -1,5 +1,3 @@
-import 'dart:ui' show FontVariation;
-
 import 'package:flutter/widgets.dart';
 import 'package:postzera/theme/pz_colors.dart';
 

@@ -1,5 +1,3 @@
-import 'dart:ui' show Brightness;
-
 import 'package:flutter/widgets.dart';
 
 /// Every color token of the design system (blueprint section 12), for one
