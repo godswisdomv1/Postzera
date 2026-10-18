@@ -63,6 +63,7 @@ class MediaPlan {
     required this.sourceKind,
     required this.cacheKey,
     this.sourcePath,
+    this.sourceDurationMs,
     this.slides = const <SlidePlan>[],
   });
 
@@ -76,6 +77,9 @@ class MediaPlan {
 
   /// The user's photo or video, when there is one.
   final String? sourcePath;
+
+  /// Length of the user's video, when the source is a video.
+  final int? sourceDurationMs;
 
   /// Slides of a text-card video. Empty for an image or a clip overlay.
   final List<SlidePlan> slides;
@@ -96,6 +100,7 @@ class MediaPlan {
       listEquals(other.blocks, blocks) &&
       other.sourceKind == sourceKind &&
       other.sourcePath == sourcePath &&
+      other.sourceDurationMs == sourceDurationMs &&
       listEquals(other.slides, slides) &&
       other.cacheKey == cacheKey;
 
@@ -107,6 +112,7 @@ class MediaPlan {
         Object.hashAll(blocks),
         sourceKind,
         sourcePath,
+        sourceDurationMs,
         Object.hashAll(slides),
         cacheKey,
       );
