@@ -1,7 +1,7 @@
 import 'package:postzera/core/models/variant.dart';
 
 /// Draws still images: cards, photo-backed cards, slides and the transparent
-/// text layers laid over a video. Implemented with `dart:ui`.
+/// text layers laid over a video. Implemented in platform/media.
 abstract class MediaRendererPort {
   /// Writes a PNG of the whole variant image to [outPath].
   Future<void> renderImage(MediaPlan plan, {required String outPath});
