@@ -41,5 +41,15 @@ dev_dependencies:
 flutter:
   uses-material-design: false
   generate: true
-  # The font and license asset entries from blueprint section 4 are added in
-  # Batch 4, in the same commit that adds the files they point to.
+  assets:
+    - assets/licenses/
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Variable.ttf
+    - family: Newsreader
+      fonts:
+        - asset: assets/fonts/Newsreader-Variable.ttf
+    - family: JetBrainsMono
+      fonts:
+        - asset: assets/fonts/JetBrainsMono-Variable.ttf
