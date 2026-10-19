@@ -2,6 +2,7 @@ import 'package:postzera/core/data/default_profiles.dart';
 import 'package:postzera/core/models/media_source.dart';
 import 'package:postzera/core/models/platform_profile.dart';
 import 'package:postzera/core/models/post.dart';
+import 'package:postzera/core/ports/clock.dart';
 
 /// A draft post for tests.
 Post testPost({
@@ -33,3 +34,13 @@ PlatformProfile profileById(String id) =>
 
 /// `n` copies of "word" separated by spaces (5n - 1 characters).
 String words(int n) => List<String>.filled(n, 'word').join(' ');
+
+/// A clock that always says the same time.
+class FixedClock implements Clock {
+  const FixedClock(this.value);
+
+  final DateTime value;
+
+  @override
+  DateTime now() => value;
+}
