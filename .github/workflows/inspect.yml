@@ -1,0 +1,34 @@
+name: inspect
+
+# Manual helper: prints source of a dependency as annotations so the build
+# process can read an API it cannot download.
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: package name
+        type: string
+      files:
+        description: files under lib/ (space separated), or --grep followed by a regex
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.47.7'
+          channel: stable
+          cache: true
+      - name: Resolve
+        working-directory: app
+        run: flutter pub get
+      - name: Print
+        working-directory: app
+        run: python3 tool/inspect_pkg.py ${{ inputs.package }} ${{ inputs.files }}
