@@ -31,4 +31,9 @@ jobs:
         run: flutter pub get
       - name: Print
         working-directory: app
-        run: python3 tool/inspect_pkg.py ${{ inputs.package }} ${{ inputs.files }}
+        env:
+          PKG: ${{ inputs.package }}
+          FILES: ${{ inputs.files }}
+        run: |
+          set -f
+          python3 tool/inspect_pkg.py "$PKG" $FILES
