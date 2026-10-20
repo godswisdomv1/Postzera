@@ -15,6 +15,12 @@ print(s.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A'), end='')
 ")"
 if [ "$code" -ne 0 ]; then
   echo "::error title=${title} failed::${tail_text}"
+  details="$(sed 's/\x1b\[[0-9;]*m//g' "$out" | grep -n -A22 -E '\[E\]|Error:|Exception' | head -n 110 | cut -c1-300 | python3 -c "
+import sys
+s = sys.stdin.read()
+print(s.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A'), end='')
+")"
+  echo "::error title=${title} details::${details}"
 else
   echo "::notice title=${title} output::${tail_text}"
 fi
