@@ -44,7 +44,7 @@ void main() {
         (3024, 4032),
         (6000, 4000),
         (5000, 5000),
-        (2000, 1000),
+        (6000, 3000),
       ]) {
         final ({int width, int height})? t =
             ImageProcessor.coverTarget(src.$1, src.$2, 1080, 1920);
