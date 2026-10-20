@@ -85,15 +85,15 @@ jobs:
       - name: Size report
         working-directory: app
         run: bash tool/ci_step.sh sizes ls -l build/app/outputs/flutter-apk build/app/outputs/bundle/release
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: postzera-android-apk
           path: app/build/app/outputs/flutter-apk/*.apk
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: postzera-android-aab
           path: app/build/app/outputs/bundle/release/*.aab
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: postzera-symbols
           path: app/build/symbols
