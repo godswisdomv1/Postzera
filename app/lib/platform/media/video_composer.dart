@@ -58,9 +58,7 @@ class VideoComposer implements VideoComposerPort {
     int? knownMs = plan.sourceDurationMs;
     if (knownMs == null) {
       try {
-        final VideoMetadata meta = await _editor.getMetadata(
-          video: EditorVideo.file(source),
-        );
+        final VideoMetadata meta = await _editor.getMetadata(EditorVideo.file(source));
         knownMs = meta.duration.inMilliseconds;
       } catch (error) {
         throw _classify(error);

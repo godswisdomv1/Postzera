@@ -50,9 +50,7 @@ class MediaPickerService implements MediaPickerPort {
       return null;
     }
     try {
-      final VideoMetadata meta = await _editor.getMetadata(
-        video: EditorVideo.file(file.path),
-      );
+      final VideoMetadata meta = await _editor.getMetadata(EditorVideo.file(file.path));
       final int ms = meta.duration.inMilliseconds;
       if (ms <= 0) {
         throw AppError.of(AppErrorKind.sourceUnreadable, details: 'no duration');
