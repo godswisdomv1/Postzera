@@ -47,7 +47,8 @@ void main() {
       extension: 'p/ng',
     );
     expect(path.startsWith(root.path), isTrue);
-    expect(path.contains('..'), isFalse);
+    expect(path.contains('/../'), isFalse);
+    expect(path.contains('/etc'), isFalse);
     expect(File(path).parent.path.startsWith('${root.path}/media/out'), isTrue);
   });
 

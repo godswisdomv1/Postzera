@@ -37,7 +37,7 @@ jobs:
       - name: Test
         run: |
           if [ -d test ]; then
-            bash tool/ci_step.sh test flutter test --reporter expanded
+            bash tool/ci_step.sh test flutter test --reporter failures-only
           else
             echo "No tests yet."
           fi
