@@ -14,11 +14,11 @@ class SendRecord {
   });
 
   factory SendRecord.fromJson(Map<String, Object?> json) => SendRecord(
-        postId: readString(json['postId']),
-        platformId: readString(json['platformId']),
-        status: readEnum(SendStatus.values, json['status'], SendStatus.pending),
-        doneAt: readDateOrNull(json['doneAt']),
-      );
+    postId: readString(json['postId']),
+    platformId: readString(json['platformId']),
+    status: readEnum(SendStatus.values, json['status'], SendStatus.pending),
+    doneAt: readDateOrNull(json['doneAt']),
+  );
 
   final String postId;
   final String platformId;
@@ -33,21 +33,20 @@ class SendRecord {
     SendStatus? status,
     DateTime? doneAt,
     bool clearDoneAt = false,
-  }) =>
-      SendRecord(
-        postId: postId ?? this.postId,
-        platformId: platformId ?? this.platformId,
-        status: status ?? this.status,
-        doneAt: clearDoneAt ? null : (doneAt ?? this.doneAt),
-      );
+  }) => SendRecord(
+    postId: postId ?? this.postId,
+    platformId: platformId ?? this.platformId,
+    status: status ?? this.status,
+    doneAt: clearDoneAt ? null : (doneAt ?? this.doneAt),
+  );
 
   Map<String, Object?> toJson() => <String, Object?>{
-        'schemaVersion': modelSchemaVersion,
-        'postId': postId,
-        'platformId': platformId,
-        'status': status.name,
-        'doneAt': doneAt?.toUtc().millisecondsSinceEpoch,
-      };
+    'schemaVersion': modelSchemaVersion,
+    'postId': postId,
+    'platformId': platformId,
+    'status': status.name,
+    'doneAt': doneAt?.toUtc().millisecondsSinceEpoch,
+  };
 
   @override
   bool operator ==(Object other) =>

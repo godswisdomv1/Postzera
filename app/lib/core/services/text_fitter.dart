@@ -103,7 +103,8 @@ class TextFitter {
     if (_isEmoji(rune)) {
       return 2;
     }
-    final bool light = (rune >= 0 && rune <= 4351) ||
+    final bool light =
+        (rune >= 0 && rune <= 4351) ||
         (rune >= 8192 && rune <= 8205) ||
         (rune >= 8208 && rune <= 8223) ||
         (rune >= 8242 && rune <= 8247);

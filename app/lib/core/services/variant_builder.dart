@@ -54,13 +54,11 @@ class VariantBuilder {
     MediaCardTheme theme, {
     DateTime? sourceModified,
   }) {
-    final List<PlatformProfile> enabled = profiles
-        .where((PlatformProfile p) => p.enabled)
-        .toList()
-      ..sort(
-        (PlatformProfile a, PlatformProfile b) =>
-            a.sortOrder.compareTo(b.sortOrder),
-      );
+    final List<PlatformProfile> enabled =
+        profiles.where((PlatformProfile p) => p.enabled).toList()..sort(
+          (PlatformProfile a, PlatformProfile b) =>
+              a.sortOrder.compareTo(b.sortOrder),
+        );
     return <Variant>[
       for (final PlatformProfile p in enabled)
         build(post, p, theme, sourceModified: sourceModified),

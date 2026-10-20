@@ -55,26 +55,27 @@ void main() {
     String cta = 'Read more',
     MediaSource? media,
     String theme = 'paper',
-  }) =>
-      builder
-          .build(
-            testPost(hook: hook, body: body, cta: cta, media: media, theme: theme),
-            profileById(platform),
-            cardThemeById(theme),
-          )
-          .mediaPlan;
+  }) => builder
+      .build(
+        testPost(hook: hook, body: body, cta: cta, media: media, theme: theme),
+        profileById(platform),
+        cardThemeById(theme),
+      )
+      .mediaPlan;
 
-  test('an auto card is a PNG of exactly the canvas size on the theme color',
-      () async {
-    final MediaPlan plan = planFor('instagram');
-    final String out = '${dir.path}/card.png';
-    await renderer.renderImage(plan, outPath: out);
-    final ui.Image image = await decodePng(out);
-    expect(image.width, 1080);
-    expect(image.height, 1350);
-    expect(await pixelAt(image, 2, 2), <int>[0xF7, 0xF5, 0xF1, 0xFF]);
-    image.dispose();
-  });
+  test(
+    'an auto card is a PNG of exactly the canvas size on the theme color',
+    () async {
+      final MediaPlan plan = planFor('instagram');
+      final String out = '${dir.path}/card.png';
+      await renderer.renderImage(plan, outPath: out);
+      final ui.Image image = await decodePng(out);
+      expect(image.width, 1080);
+      expect(image.height, 1350);
+      expect(await pixelAt(image, 2, 2), <int>[0xF7, 0xF5, 0xF1, 0xFF]);
+      image.dispose();
+    },
+  );
 
   test('every platform shape renders at its own size', () async {
     const Map<String, (int, int)> sizes = <String, (int, int)>{
@@ -118,8 +119,9 @@ void main() {
     final String out = '${dir.path}/text.png';
     await renderer.renderImage(plan, outPath: out);
     final ui.Image image = await decodePng(out);
-    final ByteData data =
-        (await image.toByteData(format: ui.ImageByteFormat.rawRgba))!;
+    final ByteData data = (await image.toByteData(
+      format: ui.ImageByteFormat.rawRgba,
+    ))!;
     int differing = 0;
     for (int i = 0; i < data.lengthInBytes; i += 4 * 97) {
       if (data.getUint8(i) != 0xF7) {
@@ -131,7 +133,13 @@ void main() {
   });
 
   test('a photo fills the canvas and the text sits on a panel', () async {
-    final String photo = await writePng(dir, 'photo.png', 1200, 1200, 0xFF0000FF);
+    final String photo = await writePng(
+      dir,
+      'photo.png',
+      1200,
+      1200,
+      0xFF0000FF,
+    );
     final MediaPlan plan = planFor(
       'instagram',
       media: MediaSource(kind: MediaSourceKind.photo, path: photo),
@@ -150,7 +158,10 @@ void main() {
   test('a missing photo is a sourceUnreadable error', () async {
     final MediaPlan plan = planFor(
       'instagram',
-      media: MediaSource(kind: MediaSourceKind.photo, path: '${dir.path}/gone.jpg'),
+      media: MediaSource(
+        kind: MediaSourceKind.photo,
+        path: '${dir.path}/gone.jpg',
+      ),
     );
     await expectLater(
       renderer.renderImage(plan, outPath: '${dir.path}/x.png'),
@@ -167,7 +178,11 @@ void main() {
   test('an overlay is transparent except for its caption panel', () async {
     final MediaPlan plan = planFor('tiktok');
     final String out = '${dir.path}/overlay.png';
-    await renderer.renderOverlay(plan, blocks: plan.blocks.take(1).toList(), outPath: out);
+    await renderer.renderOverlay(
+      plan,
+      blocks: plan.blocks.take(1).toList(),
+      outPath: out,
+    );
     final ui.Image image = await decodePng(out);
     expect(image.width, 1080);
     expect(image.height, 1920);

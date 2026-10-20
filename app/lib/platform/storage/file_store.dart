@@ -55,8 +55,10 @@ class FileStore implements FileStorePort {
       await _sources.create(recursive: true);
       await _deleteSources(postId);
       final String extension = _safeExtension(p.extension(fromPath));
-      final String destination =
-          p.join(_sources.path, '${_safe(postId)}$extension');
+      final String destination = p.join(
+        _sources.path,
+        '${_safe(postId)}$extension',
+      );
       await File(fromPath).copy(destination);
       return destination;
     });
@@ -126,8 +128,10 @@ class FileStore implements FileStorePort {
     final DateTime cutoff = _now().subtract(olderThan);
     int removed = 0;
     try {
-      await for (final FileSystemEntity entity
-          in _out.list(recursive: true, followLinks: false)) {
+      await for (final FileSystemEntity entity in _out.list(
+        recursive: true,
+        followLinks: false,
+      )) {
         if (entity is! File) {
           continue;
         }

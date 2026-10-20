@@ -27,7 +27,10 @@ void main() {
         .select("SELECT name FROM sqlite_master WHERE type = 'table'")
         .map((Row row) => row['name'])
         .toList();
-    expect(tables, containsAll(<String>['posts', 'platform_profiles', 'send_records']));
+    expect(
+      tables,
+      containsAll(<String>['posts', 'platform_profiles', 'send_records']),
+    );
     db.close();
   });
 
@@ -49,7 +52,9 @@ void main() {
     final DatabaseOpenResult second = SqliteDatabase.openFile(path);
     expect(second.recoveredFromCorruption, isFalse);
     expect(
-      second.database!.select('SELECT COUNT(*) AS n FROM platform_profiles').first['n'],
+      second.database!
+          .select('SELECT COUNT(*) AS n FROM platform_profiles')
+          .first['n'],
       1,
     );
     second.database!.close();
@@ -96,7 +101,10 @@ void main() {
         .listSync()
         .map((FileSystemEntity e) => e.path.split('/').last)
         .toList();
-    expect(names.any((String n) => n.startsWith('postzera.db.corrupt-')), isTrue);
+    expect(
+      names.any((String n) => n.startsWith('postzera.db.corrupt-')),
+      isTrue,
+    );
     r.database!.close();
   });
 
@@ -109,7 +117,10 @@ void main() {
       }),
       throwsStateError,
     );
-    expect(db.select('SELECT COUNT(*) AS n FROM platform_profiles').first['n'], 0);
+    expect(
+      db.select('SELECT COUNT(*) AS n FROM platform_profiles').first['n'],
+      0,
+    );
     db.close();
   });
 }

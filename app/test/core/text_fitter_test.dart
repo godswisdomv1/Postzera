@@ -31,7 +31,10 @@ void main() {
 
     test('a link counts 23 whatever its length', () {
       expect(
-        fitter.length('https://example.com/very/long/path?x=1', CountingScheme.x),
+        fitter.length(
+          'https://example.com/very/long/path?x=1',
+          CountingScheme.x,
+        ),
         23,
       );
       expect(fitter.length('a https://x.co b', CountingScheme.x), 27);
@@ -50,15 +53,21 @@ void main() {
     });
 
     test('cuts at a word boundary and adds an ellipsis', () {
-      final FitResult r =
-          fitter.fit('hello wonderful world', 12, CountingScheme.plain);
+      final FitResult r = fitter.fit(
+        'hello wonderful world',
+        12,
+        CountingScheme.plain,
+      );
       expect(r.text, 'hello…');
       expect(r.truncated, isTrue);
     });
 
     test('keeps a whole word when the cut lands on a space', () {
-      final FitResult r =
-          fitter.fit('hello world foo', 12, CountingScheme.plain);
+      final FitResult r = fitter.fit(
+        'hello world foo',
+        12,
+        CountingScheme.plain,
+      );
       expect(r.text, 'hello world…');
       expect(fitter.length(r.text, CountingScheme.plain), 12);
     });

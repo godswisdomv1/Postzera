@@ -15,11 +15,11 @@ class SafeInsets {
   });
 
   factory SafeInsets.fromJson(Map<String, Object?> json) => SafeInsets(
-        top: readInt(json['top']),
-        bottom: readInt(json['bottom']),
-        left: readInt(json['left']),
-        right: readInt(json['right']),
-      );
+    top: readInt(json['top']),
+    bottom: readInt(json['bottom']),
+    left: readInt(json['left']),
+    right: readInt(json['right']),
+  );
 
   /// The insets of blueprint section 8: for 9:16, 270 / 672 / 64 / 227 px
   /// (the strictest edges of the Reels, Stories and TikTok zones); for every
@@ -44,11 +44,11 @@ class SafeInsets {
   final int right;
 
   Map<String, Object?> toJson() => <String, Object?>{
-        'top': top,
-        'bottom': bottom,
-        'left': left,
-        'right': right,
-      };
+    'top': top,
+    'bottom': bottom,
+    'left': left,
+    'right': right,
+  };
 
   @override
   bool operator ==(Object other) =>
@@ -124,23 +124,22 @@ class MediaSpec {
     int? heightPx,
     SafeInsets? safeInsets,
     int? maxVideoSeconds,
-  }) =>
-      MediaSpec(
-        aspect: aspect ?? this.aspect,
-        widthPx: widthPx ?? this.widthPx,
-        heightPx: heightPx ?? this.heightPx,
-        safeInsets: safeInsets ?? this.safeInsets,
-        maxVideoSeconds: maxVideoSeconds ?? this.maxVideoSeconds,
-      );
+  }) => MediaSpec(
+    aspect: aspect ?? this.aspect,
+    widthPx: widthPx ?? this.widthPx,
+    heightPx: heightPx ?? this.heightPx,
+    safeInsets: safeInsets ?? this.safeInsets,
+    maxVideoSeconds: maxVideoSeconds ?? this.maxVideoSeconds,
+  );
 
   Map<String, Object?> toJson() => <String, Object?>{
-        'schemaVersion': modelSchemaVersion,
-        'aspect': aspect.name,
-        'widthPx': widthPx,
-        'heightPx': heightPx,
-        'safeInsets': safeInsets.toJson(),
-        'maxVideoSeconds': maxVideoSeconds,
-      };
+    'schemaVersion': modelSchemaVersion,
+    'aspect': aspect.name,
+    'widthPx': widthPx,
+    'heightPx': heightPx,
+    'safeInsets': safeInsets.toJson(),
+    'maxVideoSeconds': maxVideoSeconds,
+  };
 
   @override
   bool operator ==(Object other) =>

@@ -159,10 +159,10 @@ void main() {
   });
 
   Variant variant(String platform, {MediaSource? media}) => builder.build(
-        testPost(hook: 'Hook', body: 'Body text', cta: 'Go', media: media),
-        profileById(platform),
-        cardThemeById('paper'),
-      );
+    testPost(hook: 'Hook', body: 'Body text', cta: 'Go', media: media),
+    profileById(platform),
+    cardThemeById('paper'),
+  );
 
   test('an image variant is rendered once and verified', () async {
     final List<double> progress = <double>[];
@@ -191,7 +191,10 @@ void main() {
   });
 
   test('a changed variant gets its own file', () async {
-    final MediaResult a = await pipeline.produce(variant('instagram'), postId: 'p1');
+    final MediaResult a = await pipeline.produce(
+      variant('instagram'),
+      postId: 'p1',
+    );
     final MediaResult b = await pipeline.produce(
       builder.build(
         testPost(hook: 'Different'),
@@ -204,58 +207,67 @@ void main() {
     expect(renderer.images, 2);
   });
 
-  test('text-card slides become one video and the slide files are removed',
-      () async {
-    final Variant v = variant('tiktok');
-    final MediaResult r = await pipeline.produce(v, postId: 'p1');
-    expect(r.path, endsWith('.mp4'));
-    expect(r.kind, MediaOutputKind.video);
-    expect(r.width, 1080);
-    expect(r.height, 1920);
-    expect(renderer.slides, v.mediaPlan.slides.length);
-    expect(video.composes, 1);
-    expect(r.durationMs, v.mediaPlan.slidesDurationMs);
-    expect(files.sizes.keys.where((String k) => k.endsWith('.png')), isEmpty);
-    expect(files.sizes.keys.where((String k) => k.endsWith('.mp4')).length, 1);
-  });
+  test(
+    'text-card slides become one video and the slide files are removed',
+    () async {
+      final Variant v = variant('tiktok');
+      final MediaResult r = await pipeline.produce(v, postId: 'p1');
+      expect(r.path, endsWith('.mp4'));
+      expect(r.kind, MediaOutputKind.video);
+      expect(r.width, 1080);
+      expect(r.height, 1920);
+      expect(renderer.slides, v.mediaPlan.slides.length);
+      expect(video.composes, 1);
+      expect(r.durationMs, v.mediaPlan.slidesDurationMs);
+      expect(files.sizes.keys.where((String k) => k.endsWith('.png')), isEmpty);
+      expect(
+        files.sizes.keys.where((String k) => k.endsWith('.mp4')).length,
+        1,
+      );
+    },
+  );
 
-  test('a clip gets a hook overlay for 4 s and a call to action for 3 s',
-      () async {
-    final Variant v = variant(
-      'tiktok',
-      media: const MediaSource(
-        kind: MediaSourceKind.video,
-        path: '/v/clip.mp4',
-        durationMs: 12000,
-      ),
-    );
-    final MediaResult r = await pipeline.produce(v, postId: 'p1');
-    expect(video.reframes, 1);
-    expect(renderer.overlays, 2);
-    expect(video.lastOverlays.length, 2);
-    expect(video.lastOverlays[0].startMs, 0);
-    expect(video.lastOverlays[0].endMs, 4000);
-    expect(video.lastOverlays[1].startMs, 9000);
-    expect(video.lastOverlays[1].endMs, 12000);
-    expect(r.durationMs, 12000);
-    expect(files.sizes.keys.where((String k) => k.endsWith('.png')), isEmpty);
-  });
-
-  test('an unexpected renderer failure becomes renderFailed and leaves no file',
-      () async {
-    renderer.failWith = StateError('boom');
-    await expectLater(
-      pipeline.produce(variant('instagram'), postId: 'p1'),
-      throwsA(
-        isA<AppError>().having(
-          (AppError e) => e.kind,
-          'kind',
-          AppErrorKind.renderFailed,
+  test(
+    'a clip gets a hook overlay for 4 s and a call to action for 3 s',
+    () async {
+      final Variant v = variant(
+        'tiktok',
+        media: const MediaSource(
+          kind: MediaSourceKind.video,
+          path: '/v/clip.mp4',
+          durationMs: 12000,
         ),
-      ),
-    );
-    expect(files.sizes, isEmpty);
-  });
+      );
+      final MediaResult r = await pipeline.produce(v, postId: 'p1');
+      expect(video.reframes, 1);
+      expect(renderer.overlays, 2);
+      expect(video.lastOverlays.length, 2);
+      expect(video.lastOverlays[0].startMs, 0);
+      expect(video.lastOverlays[0].endMs, 4000);
+      expect(video.lastOverlays[1].startMs, 9000);
+      expect(video.lastOverlays[1].endMs, 12000);
+      expect(r.durationMs, 12000);
+      expect(files.sizes.keys.where((String k) => k.endsWith('.png')), isEmpty);
+    },
+  );
+
+  test(
+    'an unexpected renderer failure becomes renderFailed and leaves no file',
+    () async {
+      renderer.failWith = StateError('boom');
+      await expectLater(
+        pipeline.produce(variant('instagram'), postId: 'p1'),
+        throwsA(
+          isA<AppError>().having(
+            (AppError e) => e.kind,
+            'kind',
+            AppErrorKind.renderFailed,
+          ),
+        ),
+      );
+      expect(files.sizes, isEmpty);
+    },
+  );
 
   test('a classified error from an adapter passes through unchanged', () async {
     renderer.failWith = AppError.of(AppErrorKind.storageFull);
@@ -288,9 +300,14 @@ void main() {
 
   test('cancel stops a render in progress and cleans up', () async {
     video.gate = Completer<void>();
-    final Future<MediaResult> running =
-        pipeline.produce(variant('tiktok'), postId: 'p1');
-    final Future<void> check = expectLater(running, throwsA(isA<MediaCancelled>()));
+    final Future<MediaResult> running = pipeline.produce(
+      variant('tiktok'),
+      postId: 'p1',
+    );
+    final Future<void> check = expectLater(
+      running,
+      throwsA(isA<MediaCancelled>()),
+    );
     await video.started.future;
     await pipeline.cancel();
     await check;

@@ -17,23 +17,23 @@ class Entitlement {
   });
 
   const Entitlement.unknown()
-      : state = EntitlementState.unknown,
-        source = EntitlementSource.cache,
-        updatedAt = null;
+    : state = EntitlementState.unknown,
+      source = EntitlementSource.cache,
+      updatedAt = null;
 
   factory Entitlement.fromJson(Map<String, Object?> json) => Entitlement(
-        state: readEnum(
-          EntitlementState.values,
-          json['state'],
-          EntitlementState.unknown,
-        ),
-        source: readEnum(
-          EntitlementSource.values,
-          json['source'],
-          EntitlementSource.cache,
-        ),
-        updatedAt: readDateOrNull(json['updatedAt']),
-      );
+    state: readEnum(
+      EntitlementState.values,
+      json['state'],
+      EntitlementState.unknown,
+    ),
+    source: readEnum(
+      EntitlementSource.values,
+      json['source'],
+      EntitlementSource.cache,
+    ),
+    updatedAt: readDateOrNull(json['updatedAt']),
+  );
 
   final EntitlementState state;
   final EntitlementSource source;
@@ -47,19 +47,18 @@ class Entitlement {
     EntitlementState? state,
     EntitlementSource? source,
     DateTime? updatedAt,
-  }) =>
-      Entitlement(
-        state: state ?? this.state,
-        source: source ?? this.source,
-        updatedAt: updatedAt ?? this.updatedAt,
-      );
+  }) => Entitlement(
+    state: state ?? this.state,
+    source: source ?? this.source,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
 
   Map<String, Object?> toJson() => <String, Object?>{
-        'schemaVersion': modelSchemaVersion,
-        'state': state.name,
-        'source': source.name,
-        'updatedAt': updatedAt?.toUtc().millisecondsSinceEpoch,
-      };
+    'schemaVersion': modelSchemaVersion,
+    'state': state.name,
+    'source': source.name,
+    'updatedAt': updatedAt?.toUtc().millisecondsSinceEpoch,
+  };
 
   @override
   bool operator ==(Object other) =>

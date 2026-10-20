@@ -14,8 +14,10 @@ import 'package:postzera/core/models/send_record.dart';
 import 'test_helpers.dart';
 
 /// Adds a field a future version might write.
-Map<String, Object?> withFuture(Map<String, Object?> json) =>
-    <String, Object?>{...json, 'fieldFromTheFuture': <String>['x']};
+Map<String, Object?> withFuture(Map<String, Object?> json) => <String, Object?>{
+  ...json,
+  'fieldFromTheFuture': <String>['x'],
+};
 
 void main() {
   test('MediaSource', () {
@@ -112,22 +114,23 @@ void main() {
   });
 
   test('Post with every field set', () {
-    final Post p = testPost(
-      hook: 'H',
-      body: 'B',
-      cta: 'C',
-      link: 'https://example.com',
-      tags: const <String>['#a'],
-      media: const MediaSource(
-        kind: MediaSourceKind.video,
-        path: '/v.mp4',
-        durationMs: 5000,
-      ),
-      theme: 'midnight',
-    ).copyWith(
-      status: PostStatus.scheduled,
-      scheduledAt: DateTime.utc(2026, 11, 1, 9),
-    );
+    final Post p =
+        testPost(
+          hook: 'H',
+          body: 'B',
+          cta: 'C',
+          link: 'https://example.com',
+          tags: const <String>['#a'],
+          media: const MediaSource(
+            kind: MediaSourceKind.video,
+            path: '/v.mp4',
+            durationMs: 5000,
+          ),
+          theme: 'midnight',
+        ).copyWith(
+          status: PostStatus.scheduled,
+          scheduledAt: DateTime.utc(2026, 11, 1, 9),
+        );
     expect(Post.fromJson(p.toJson()), p);
     expect(Post.fromJson(withFuture(p.toJson())), p);
   });
@@ -141,8 +144,11 @@ void main() {
     );
     expect(SendRecord.fromJson(r.toJson()), r);
     expect(SendRecord.fromJson(withFuture(r.toJson())), r);
-    const SendRecord pending =
-        SendRecord(postId: 'p', platformId: 'x', status: SendStatus.pending);
+    const SendRecord pending = SendRecord(
+      postId: 'p',
+      platformId: 'x',
+      status: SendStatus.pending,
+    );
     expect(SendRecord.fromJson(pending.toJson()), pending);
   });
 
@@ -157,7 +163,10 @@ void main() {
     );
     expect(AppSettings.fromJson(s.toJson()), s);
     expect(AppSettings.fromJson(withFuture(s.toJson())), s);
-    expect(AppSettings.fromJson(const <String, Object?>{}), const AppSettings());
+    expect(
+      AppSettings.fromJson(const <String, Object?>{}),
+      const AppSettings(),
+    );
   });
 
   test('AppSettings clamps a damaged reminder time', () {

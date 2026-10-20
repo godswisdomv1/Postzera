@@ -16,7 +16,9 @@ class SqliteSendRecordRepository implements SendRecordRepository {
 
   @override
   Future<List<SendRecord>> forPost(String postId) async => _db
-      .select('SELECT $_columns FROM send_records WHERE post_id = ?', <Object?>[postId])
+      .select('SELECT $_columns FROM send_records WHERE post_id = ?', <Object?>[
+        postId,
+      ])
       .map(_fromRow)
       .toList();
 
@@ -58,15 +60,17 @@ class SqliteSendRecordRepository implements SendRecordRepository {
 
   @override
   Future<void> deleteForPost(String postId) async {
-    _db.execute('DELETE FROM send_records WHERE post_id = ?', <Object?>[postId]);
+    _db.execute('DELETE FROM send_records WHERE post_id = ?', <Object?>[
+      postId,
+    ]);
   }
 
   static SendRecord _fromRow(Row row) => SendRecord(
-        postId: readString(row['post_id']),
-        platformId: readString(row['platform_id']),
-        status: readEnum(SendStatus.values, row['status'], SendStatus.pending),
-        doneAt: readDateOrNull(row['done_at']),
-      );
+    postId: readString(row['post_id']),
+    platformId: readString(row['platform_id']),
+    status: readEnum(SendStatus.values, row['status'], SendStatus.pending),
+    doneAt: readDateOrNull(row['done_at']),
+  );
 }
 
 /// The fallback used when SQLite cannot be used.
@@ -87,8 +91,10 @@ class InMemorySendRecordRepository implements SendRecordRepository {
 
   @override
   Future<void> upsert(SendRecord record) async {
-    _byPost.putIfAbsent(record.postId, () => <String, SendRecord>{})[
-        record.platformId] = record;
+    _byPost.putIfAbsent(
+      record.postId,
+      () => <String, SendRecord>{},
+    )[record.platformId] = record;
   }
 
   @override

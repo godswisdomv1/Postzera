@@ -42,25 +42,29 @@ class AppError implements Exception {
   factory AppError.of(AppErrorKind kind, {String? details}) {
     final (bool recoverable, bool retriable, AppErrorCause cause) flags =
         switch (kind) {
-      AppErrorKind.validation => (true, false, AppErrorCause.user),
-      AppErrorKind.storageFull => (true, true, AppErrorCause.system),
-      AppErrorKind.renderFailed => (true, true, AppErrorCause.system),
-      AppErrorKind.sourceUnreadable => (true, false, AppErrorCause.user),
-      AppErrorKind.shareFailed => (true, true, AppErrorCause.system),
-      AppErrorKind.shareUnavailable => (true, true, AppErrorCause.system),
-      AppErrorKind.notificationsDenied => (true, false, AppErrorCause.user),
-      AppErrorKind.scheduleFailed => (true, true, AppErrorCause.system),
-      AppErrorKind.consentUnavailable => (true, false, AppErrorCause.system),
-      AppErrorKind.adLoadFailed => (true, false, AppErrorCause.system),
-      AppErrorKind.purchaseCancelled => (true, false, AppErrorCause.user),
-      AppErrorKind.purchaseFailed => (true, true, AppErrorCause.system),
-      AppErrorKind.storeUnavailable => (true, true, AppErrorCause.system),
-      AppErrorKind.dbCorrupt => (true, false, AppErrorCause.system),
-      AppErrorKind.dbDowngrade => (false, false, AppErrorCause.system),
-      AppErrorKind.dbUnavailable => (false, false, AppErrorCause.system),
-      AppErrorKind.importUnreadable => (true, true, AppErrorCause.user),
-      AppErrorKind.unexpected => (false, false, AppErrorCause.system),
-    };
+          AppErrorKind.validation => (true, false, AppErrorCause.user),
+          AppErrorKind.storageFull => (true, true, AppErrorCause.system),
+          AppErrorKind.renderFailed => (true, true, AppErrorCause.system),
+          AppErrorKind.sourceUnreadable => (true, false, AppErrorCause.user),
+          AppErrorKind.shareFailed => (true, true, AppErrorCause.system),
+          AppErrorKind.shareUnavailable => (true, true, AppErrorCause.system),
+          AppErrorKind.notificationsDenied => (true, false, AppErrorCause.user),
+          AppErrorKind.scheduleFailed => (true, true, AppErrorCause.system),
+          AppErrorKind.consentUnavailable => (
+            true,
+            false,
+            AppErrorCause.system,
+          ),
+          AppErrorKind.adLoadFailed => (true, false, AppErrorCause.system),
+          AppErrorKind.purchaseCancelled => (true, false, AppErrorCause.user),
+          AppErrorKind.purchaseFailed => (true, true, AppErrorCause.system),
+          AppErrorKind.storeUnavailable => (true, true, AppErrorCause.system),
+          AppErrorKind.dbCorrupt => (true, false, AppErrorCause.system),
+          AppErrorKind.dbDowngrade => (false, false, AppErrorCause.system),
+          AppErrorKind.dbUnavailable => (false, false, AppErrorCause.system),
+          AppErrorKind.importUnreadable => (true, true, AppErrorCause.user),
+          AppErrorKind.unexpected => (false, false, AppErrorCause.system),
+        };
     return AppError(
       kind: kind,
       recoverable: flags.$1,
@@ -97,6 +101,7 @@ class AppError implements Exception {
       Object.hash(kind, recoverable, retriable, cause, messageKey, details);
 
   @override
-  String toString() => 'AppError(${kind.name}'
+  String toString() =>
+      'AppError(${kind.name}'
       '${details == null ? '' : ': $details'})';
 }

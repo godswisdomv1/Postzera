@@ -29,6 +29,5 @@ class ConsentLogic {
   bool canShowAds({
     required ConsentState consent,
     required Entitlement entitlement,
-  }) =>
-      consent.canRequestAds && !entitlement.isPro;
+  }) => consent.canRequestAds && !entitlement.isPro;
 }

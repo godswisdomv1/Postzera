@@ -13,16 +13,15 @@ void main() {
     required ConsentStatus status,
     required bool canRequestAds,
     bool privacyOptions = false,
-  }) =>
-      logic.resolve(
-        ConsentRefreshResult(
-          updateOk: updateOk,
-          status: status,
-          canRequestAds: canRequestAds,
-          privacyOptionsRequired: privacyOptions,
-        ),
-        now: now,
-      );
+  }) => logic.resolve(
+    ConsentRefreshResult(
+      updateOk: updateOk,
+      status: status,
+      canRequestAds: canRequestAds,
+      privacyOptionsRequired: privacyOptions,
+    ),
+    now: now,
+  );
 
   test('outside the regions, a successful refresh allows ads', () {
     final ConsentState s = resolve(
@@ -45,15 +44,17 @@ void main() {
     expect(s.privacyOptionsRequired, isTrue);
   });
 
-  test('ads stay blocked while consent is required, whatever else is reported',
-      () {
-    final ConsentState s = resolve(
-      updateOk: true,
-      status: ConsentStatus.required,
-      canRequestAds: true,
-    );
-    expect(s.canRequestAds, isFalse);
-  });
+  test(
+    'ads stay blocked while consent is required, whatever else is reported',
+    () {
+      final ConsentState s = resolve(
+        updateOk: true,
+        status: ConsentStatus.required,
+        canRequestAds: true,
+      );
+      expect(s.canRequestAds, isFalse);
+    },
+  );
 
   test('after the form is answered with yes, ads are allowed', () {
     final ConsentState s = resolve(

@@ -32,8 +32,9 @@ class Post {
       cta: readString(json['cta']),
       link: readString(json['link']),
       hashtags: readStringList(json['hashtags']),
-      mediaSource:
-          media.isEmpty ? const MediaSource.auto() : MediaSource.fromJson(media),
+      mediaSource: media.isEmpty
+          ? const MediaSource.auto()
+          : MediaSource.fromJson(media),
       cardThemeId: readString(json['cardThemeId'], 'paper'),
       scheduledAt: readDateOrNull(json['scheduledAt']),
       status: readEnum(PostStatus.values, json['status'], PostStatus.draft),
@@ -71,37 +72,36 @@ class Post {
     PostStatus? status,
     DateTime? createdAt,
     DateTime? updatedAt,
-  }) =>
-      Post(
-        id: id ?? this.id,
-        hook: hook ?? this.hook,
-        body: body ?? this.body,
-        cta: cta ?? this.cta,
-        link: link ?? this.link,
-        cardThemeId: cardThemeId ?? this.cardThemeId,
-        hashtags: hashtags ?? this.hashtags,
-        mediaSource: mediaSource ?? this.mediaSource,
-        scheduledAt: clearScheduledAt ? null : (scheduledAt ?? this.scheduledAt),
-        status: status ?? this.status,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-      );
+  }) => Post(
+    id: id ?? this.id,
+    hook: hook ?? this.hook,
+    body: body ?? this.body,
+    cta: cta ?? this.cta,
+    link: link ?? this.link,
+    cardThemeId: cardThemeId ?? this.cardThemeId,
+    hashtags: hashtags ?? this.hashtags,
+    mediaSource: mediaSource ?? this.mediaSource,
+    scheduledAt: clearScheduledAt ? null : (scheduledAt ?? this.scheduledAt),
+    status: status ?? this.status,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
 
   Map<String, Object?> toJson() => <String, Object?>{
-        'schemaVersion': modelSchemaVersion,
-        'id': id,
-        'hook': hook,
-        'body': body,
-        'cta': cta,
-        'link': link,
-        'hashtags': hashtags,
-        'mediaSource': mediaSource.toJson(),
-        'cardThemeId': cardThemeId,
-        'scheduledAt': scheduledAt?.toUtc().millisecondsSinceEpoch,
-        'status': status.name,
-        'createdAt': createdAt.toUtc().millisecondsSinceEpoch,
-        'updatedAt': updatedAt.toUtc().millisecondsSinceEpoch,
-      };
+    'schemaVersion': modelSchemaVersion,
+    'id': id,
+    'hook': hook,
+    'body': body,
+    'cta': cta,
+    'link': link,
+    'hashtags': hashtags,
+    'mediaSource': mediaSource.toJson(),
+    'cardThemeId': cardThemeId,
+    'scheduledAt': scheduledAt?.toUtc().millisecondsSinceEpoch,
+    'status': status.name,
+    'createdAt': createdAt.toUtc().millisecondsSinceEpoch,
+    'updatedAt': updatedAt.toUtc().millisecondsSinceEpoch,
+  };
 
   @override
   bool operator ==(Object other) =>
@@ -121,17 +121,17 @@ class Post {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        hook,
-        body,
-        cta,
-        link,
-        cardThemeId,
-        Object.hashAll(hashtags),
-        mediaSource,
-        scheduledAt,
-        status,
-        createdAt,
-        updatedAt,
-      );
+    id,
+    hook,
+    body,
+    cta,
+    link,
+    cardThemeId,
+    Object.hashAll(hashtags),
+    mediaSource,
+    scheduledAt,
+    status,
+    createdAt,
+    updatedAt,
+  );
 }

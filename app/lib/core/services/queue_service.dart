@@ -87,10 +87,12 @@ class QueueService {
       final List<SendRecord> own = records[post.id] ?? const <SendRecord>[];
       final QueueEntry entry = QueueEntry(
         post: post,
-        doneCount:
-            own.where((SendRecord r) => r.status == SendStatus.done).length,
-        skippedCount:
-            own.where((SendRecord r) => r.status == SendStatus.skipped).length,
+        doneCount: own
+            .where((SendRecord r) => r.status == SendStatus.done)
+            .length,
+        skippedCount: own
+            .where((SendRecord r) => r.status == SendStatus.skipped)
+            .length,
         platformCount: platformCount,
       );
       if (!at.isAfter(now)) {

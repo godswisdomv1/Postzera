@@ -11,10 +11,10 @@ void main() {
   final FixedClock clock = FixedClock(now);
 
   Post scheduled(String id, DateTime at) => testPost().copyWith(
-        id: id,
-        status: PostStatus.scheduled,
-        scheduledAt: at,
-      );
+    id: id,
+    status: PostStatus.scheduled,
+    scheduledAt: at,
+  );
 
   test('an empty list gives no reminders', () {
     expect(planner.plan(const <Post>[], clock), isEmpty);
@@ -45,7 +45,10 @@ void main() {
   test('at most 60 reminders are kept, the soonest ones', () {
     final List<Post> posts = <Post>[
       for (int i = 0; i < 70; i++)
-        scheduled('p$i', DateTime.utc(2026, 10, 18, 9).add(Duration(minutes: i))),
+        scheduled(
+          'p$i',
+          DateTime.utc(2026, 10, 18, 9).add(Duration(minutes: i)),
+        ),
     ];
     final List<ReminderSlot> slots = planner.plan(posts, clock);
     expect(slots.length, 60);
@@ -56,12 +59,17 @@ void main() {
   test('notification ids are stable, 31-bit and distinct', () {
     final List<Post> posts = <Post>[
       for (int i = 0; i < 50; i++)
-        scheduled('p$i', DateTime.utc(2026, 10, 18, 9).add(Duration(minutes: i))),
+        scheduled(
+          'p$i',
+          DateTime.utc(2026, 10, 18, 9).add(Duration(minutes: i)),
+        ),
     ];
     final List<ReminderSlot> first = planner.plan(posts, clock);
     final List<ReminderSlot> second = planner.plan(posts, clock);
     expect(first, second);
-    final Set<int> ids = first.map((ReminderSlot s) => s.notificationId).toSet();
+    final Set<int> ids = first
+        .map((ReminderSlot s) => s.notificationId)
+        .toSet();
     expect(ids.length, 50);
     for (final int id in ids) {
       expect(id, greaterThanOrEqualTo(0));
@@ -101,9 +109,6 @@ void main() {
     final List<ReminderSlot> slots = planner.plan(<Post>[
       for (int i = 0; i < instants.length; i++) scheduled('p$i', instants[i]),
     ], FixedClock(january));
-    expect(
-      slots.map((ReminderSlot s) => s.whenUtc).toList(),
-      instants,
-    );
+    expect(slots.map((ReminderSlot s) => s.whenUtc).toList(), instants);
   });
 }

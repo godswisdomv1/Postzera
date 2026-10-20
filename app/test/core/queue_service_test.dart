@@ -21,19 +21,26 @@ void main() {
 
   group('sections', () {
     test('splits into overdue, today and upcoming', () {
-      final QueueSections s = service.sections(<Post>[
-        scheduled('overdue', DateTime(2026, 10, 18, 9)),
-        scheduled('today', DateTime(2026, 10, 18, 18)),
-        scheduled('tomorrow', DateTime(2026, 10, 19, 9)),
-        scheduled('in7', DateTime(2026, 10, 25, 9)),
-        scheduled('in8', DateTime(2026, 10, 26, 9)),
-        scheduled('yesterday', DateTime(2026, 10, 17, 9)),
-      ], const <String, List<SendRecord>>{}, clock, platformCount: 9);
+      final QueueSections s = service.sections(
+        <Post>[
+          scheduled('overdue', DateTime(2026, 10, 18, 9)),
+          scheduled('today', DateTime(2026, 10, 18, 18)),
+          scheduled('tomorrow', DateTime(2026, 10, 19, 9)),
+          scheduled('in7', DateTime(2026, 10, 25, 9)),
+          scheduled('in8', DateTime(2026, 10, 26, 9)),
+          scheduled('yesterday', DateTime(2026, 10, 17, 9)),
+        ],
+        const <String, List<SendRecord>>{},
+        clock,
+        platformCount: 9,
+      );
       expect(s.overdue.map((QueueEntry e) => e.post.id).toList(), <String>[
         'yesterday',
         'overdue',
       ]);
-      expect(s.today.map((QueueEntry e) => e.post.id).toList(), <String>['today']);
+      expect(s.today.map((QueueEntry e) => e.post.id).toList(), <String>[
+        'today',
+      ]);
       expect(s.upcoming.map((QueueEntry e) => e.post.id).toList(), <String>[
         'tomorrow',
         'in7',
@@ -42,11 +49,24 @@ void main() {
     });
 
     test('drafts and sent posts never appear', () {
-      final QueueSections s = service.sections(<Post>[
-        scheduled('draft', DateTime(2026, 10, 18, 18), status: PostStatus.draft),
-        scheduled('sent', DateTime(2026, 10, 18, 18), status: PostStatus.sent),
-        testPost().copyWith(status: PostStatus.scheduled),
-      ], const <String, List<SendRecord>>{}, clock, platformCount: 9);
+      final QueueSections s = service.sections(
+        <Post>[
+          scheduled(
+            'draft',
+            DateTime(2026, 10, 18, 18),
+            status: PostStatus.draft,
+          ),
+          scheduled(
+            'sent',
+            DateTime(2026, 10, 18, 18),
+            status: PostStatus.sent,
+          ),
+          testPost().copyWith(status: PostStatus.scheduled),
+        ],
+        const <String, List<SendRecord>>{},
+        clock,
+        platformCount: 9,
+      );
       expect(s.isEmpty, isTrue);
     });
 
@@ -55,7 +75,11 @@ void main() {
         <Post>[scheduled('a', DateTime(2026, 10, 18, 18))],
         <String, List<SendRecord>>{
           'a': <SendRecord>[
-            const SendRecord(postId: 'a', platformId: 'x', status: SendStatus.done),
+            const SendRecord(
+              postId: 'a',
+              platformId: 'x',
+              status: SendStatus.done,
+            ),
             const SendRecord(
               postId: 'a',
               platformId: 'instagram',
@@ -105,7 +129,10 @@ void main() {
 
     test('search matches hook or body, ignoring case', () {
       expect(
-        service.filterAndSort(all, query: 'APPLE').map((Post p) => p.id).toSet(),
+        service
+            .filterAndSort(all, query: 'APPLE')
+            .map((Post p) => p.id)
+            .toSet(),
         <String>{'a', 'b'},
       );
     });

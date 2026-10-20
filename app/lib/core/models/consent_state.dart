@@ -14,10 +14,10 @@ class ConsentState {
   });
 
   const ConsentState.unknown()
-      : status = ConsentStatus.unknown,
-        canRequestAds = false,
-        privacyOptionsRequired = false,
-        updatedAt = null;
+    : status = ConsentStatus.unknown,
+      canRequestAds = false,
+      privacyOptionsRequired = false,
+      updatedAt = null;
 
   final ConsentStatus status;
 
@@ -33,14 +33,13 @@ class ConsentState {
     bool? canRequestAds,
     bool? privacyOptionsRequired,
     DateTime? updatedAt,
-  }) =>
-      ConsentState(
-        status: status ?? this.status,
-        canRequestAds: canRequestAds ?? this.canRequestAds,
-        privacyOptionsRequired:
-            privacyOptionsRequired ?? this.privacyOptionsRequired,
-        updatedAt: updatedAt ?? this.updatedAt,
-      );
+  }) => ConsentState(
+    status: status ?? this.status,
+    canRequestAds: canRequestAds ?? this.canRequestAds,
+    privacyOptionsRequired:
+        privacyOptionsRequired ?? this.privacyOptionsRequired,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
 
   @override
   bool operator ==(Object other) =>

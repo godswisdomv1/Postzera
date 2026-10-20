@@ -13,20 +13,19 @@ Post testPost({
   List<String> tags = const <String>[],
   MediaSource? media,
   String theme = 'paper',
-}) =>
-    Post(
-      id: 'p1',
-      hook: hook,
-      body: body,
-      cta: cta,
-      link: link,
-      hashtags: tags,
-      mediaSource: media ?? const MediaSource.auto(),
-      cardThemeId: theme,
-      status: PostStatus.draft,
-      createdAt: DateTime.utc(2026, 10, 18),
-      updatedAt: DateTime.utc(2026, 10, 18),
-    );
+}) => Post(
+  id: 'p1',
+  hook: hook,
+  body: body,
+  cta: cta,
+  link: link,
+  hashtags: tags,
+  mediaSource: media ?? const MediaSource.auto(),
+  cardThemeId: theme,
+  status: PostStatus.draft,
+  createdAt: DateTime.utc(2026, 10, 18),
+  updatedAt: DateTime.utc(2026, 10, 18),
+);
 
 /// One of the nine default profiles by id.
 PlatformProfile profileById(String id) =>

@@ -5,7 +5,9 @@ import 'package:postzera/platform/storage/prefs_settings_store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  Future<PrefsSettingsStore> store([Map<String, Object> initial = const <String, Object>{}]) async {
+  Future<PrefsSettingsStore> store([
+    Map<String, Object> initial = const <String, Object>{},
+  ]) async {
     SharedPreferences.setMockInitialValues(initial);
     return PrefsSettingsStore(await SharedPreferences.getInstance());
   }

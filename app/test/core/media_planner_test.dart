@@ -21,8 +21,10 @@ void main() {
     path: '/v/clip.mp4',
     durationMs: 12000,
   );
-  const MediaSource photo =
-      MediaSource(kind: MediaSourceKind.photo, path: '/v/pic.jpg');
+  const MediaSource photo = MediaSource(
+    kind: MediaSourceKind.photo,
+    path: '/v/pic.jpg',
+  );
 
   group('fnv1a64Hex', () {
     test('matches the published test vectors', () {
@@ -34,7 +36,10 @@ void main() {
 
   group('kind', () {
     test('an auto source follows the platform preference', () {
-      expect(plan(testPost(), profileById('x')).plan.kind, MediaOutputKind.image);
+      expect(
+        plan(testPost(), profileById('x')).plan.kind,
+        MediaOutputKind.image,
+      );
       expect(
         plan(testPost(), profileById('instagram')).plan.kind,
         MediaOutputKind.image,
@@ -61,7 +66,12 @@ void main() {
     });
 
     test('a video source always gives a video', () {
-      for (final String id in <String>['x', 'instagram', 'pinterest', 'tiktok']) {
+      for (final String id in <String>[
+        'x',
+        'instagram',
+        'pinterest',
+        'tiktok',
+      ]) {
         expect(
           plan(testPost(media: video), profileById(id)).plan.kind,
           MediaOutputKind.video,
@@ -156,10 +166,12 @@ void main() {
         testPost(hook: 'Hook', body: words(60), cta: 'Buy now'),
         profileById('tiktok'),
       ).plan;
-      expect(
-        p.slides.map((SlidePlan s) => s.durationMs).toList(),
-        <int>[3000, 6000, 6000, 3000],
-      );
+      expect(p.slides.map((SlidePlan s) => s.durationMs).toList(), <int>[
+        3000,
+        6000,
+        6000,
+        3000,
+      ]);
       expect(p.slidesDurationMs, 18000);
 
       final MediaPlan short = plan(
@@ -193,10 +205,7 @@ void main() {
         tenSeconds,
       ).plan;
       expect(p.slidesDurationMs, lessThanOrEqualTo(10000));
-      expect(
-        p.slides.every((SlidePlan s) => s.durationMs > 0),
-        isTrue,
-      );
+      expect(p.slides.every((SlidePlan s) => s.durationMs > 0), isTrue);
     });
 
     test('a photo source still gets slides, and keeps its path', () {
@@ -221,30 +230,44 @@ void main() {
       expect(RegExp(r'^[0-9a-f]{16}$').hasMatch(a), isTrue);
     });
 
-    test('changes with the text, the theme, the platform and the source file', () {
-      final String base = plan(testPost(), profileById('x')).plan.cacheKey;
-      expect(plan(testPost(hook: 'Other'), profileById('x')).plan.cacheKey, isNot(base));
-      expect(
-        planner
-            .plan(testPost(), profileById('x'), 'caption', theme: cardThemeById('ink'))
-            .plan
-            .cacheKey,
-        isNot(base),
-      );
-      expect(plan(testPost(), profileById('instagram')).plan.cacheKey, isNot(base));
+    test(
+      'changes with the text, the theme, the platform and the source file',
+      () {
+        final String base = plan(testPost(), profileById('x')).plan.cacheKey;
+        expect(
+          plan(testPost(hook: 'Other'), profileById('x')).plan.cacheKey,
+          isNot(base),
+        );
+        expect(
+          planner
+              .plan(
+                testPost(),
+                profileById('x'),
+                'caption',
+                theme: cardThemeById('ink'),
+              )
+              .plan
+              .cacheKey,
+          isNot(base),
+        );
+        expect(
+          plan(testPost(), profileById('instagram')).plan.cacheKey,
+          isNot(base),
+        );
 
-      final String v1 = plan(
-        testPost(media: video),
-        profileById('x'),
-        mod: DateTime.utc(2026, 10, 1),
-      ).plan.cacheKey;
-      final String v2 = plan(
-        testPost(media: video),
-        profileById('x'),
-        mod: DateTime.utc(2026, 10, 2),
-      ).plan.cacheKey;
-      expect(v1, isNot(v2));
-    });
+        final String v1 = plan(
+          testPost(media: video),
+          profileById('x'),
+          mod: DateTime.utc(2026, 10, 1),
+        ).plan.cacheKey;
+        final String v2 = plan(
+          testPost(media: video),
+          profileById('x'),
+          mod: DateTime.utc(2026, 10, 2),
+        ).plan.cacheKey;
+        expect(v1, isNot(v2));
+      },
+    );
 
     test('does not change with the post id or timestamps', () {
       final Post a = testPost();

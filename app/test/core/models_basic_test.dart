@@ -55,7 +55,15 @@ void main() {
         'quora',
       ]);
       expect(profiles.map((p) => p.sortOrder).toList(), <int>[
-        0, 1, 2, 3, 4, 5, 6, 7, 8,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
       ]);
       expect(profiles.every((p) => p.enabled && !p.isCustom), isTrue);
     });
@@ -82,16 +90,22 @@ void main() {
 
   group('media geometry', () {
     test('9:16 uses the combined safe window', () {
-      final SafeInsets s =
-          SafeInsets.forCanvas(MediaAspect.ratio9x16, 1080, 1920);
+      final SafeInsets s = SafeInsets.forCanvas(
+        MediaAspect.ratio9x16,
+        1080,
+        1920,
+      );
       expect(s, const SafeInsets(top: 270, bottom: 672, left: 64, right: 227));
       expect(1080 - s.left - s.right, 789);
       expect(1920 - s.top - s.bottom, 978);
     });
 
     test('other shapes use 6% margins', () {
-      final SafeInsets s =
-          SafeInsets.forCanvas(MediaAspect.ratio4x5, 1080, 1350);
+      final SafeInsets s = SafeInsets.forCanvas(
+        MediaAspect.ratio4x5,
+        1080,
+        1350,
+      );
       expect(s.left, 65);
       expect(s.top, 81);
     });

@@ -82,12 +82,12 @@ class TemplateEngine {
     final String tagText = tags.join(' ');
 
     String slotText(TemplateSlot slot) => switch (slot) {
-          TemplateSlot.hook => post.hook.trim(),
-          TemplateSlot.body => post.body.trim(),
-          TemplateSlot.cta => post.cta.trim(),
-          TemplateSlot.link => post.link.trim(),
-          TemplateSlot.hashtags => tagText,
-        };
+      TemplateSlot.hook => post.hook.trim(),
+      TemplateSlot.body => post.body.trim(),
+      TemplateSlot.cta => post.cta.trim(),
+      TemplateSlot.link => post.link.trim(),
+      TemplateSlot.hashtags => tagText,
+    };
 
     // 2. Blocks in order, skipping empty slots.
     final List<_Part> parts = <_Part>[];
@@ -118,15 +118,16 @@ class TemplateEngine {
         ),
       );
     }
-    final bool hasLinkBlock =
-        template.blocks.any((TemplateBlock b) => b.slot == TemplateSlot.link);
+    final bool hasLinkBlock = template.blocks.any(
+      (TemplateBlock b) => b.slot == TemplateSlot.link,
+    );
     if (hasLinkBlock && post.link.trim().isEmpty) {
       warnings.add(VariantWarning.linkMissing);
     }
 
     // 3. Assemble. Inline hashtags join the last block that is not the link.
-    bool inlineOn = template.hashtagStyle == HashtagStyle.inline &&
-        tags.isNotEmpty;
+    bool inlineOn =
+        template.hashtagStyle == HashtagStyle.inline && tags.isNotEmpty;
 
     String assemble() {
       final int host = inlineOn
@@ -222,7 +223,11 @@ class TemplateEngine {
         if (titleLimit == null) {
           title = text;
         } else {
-          final FitResult cut = fitter.fit(text, titleLimit, CountingScheme.plain);
+          final FitResult cut = fitter.fit(
+            text,
+            titleLimit,
+            CountingScheme.plain,
+          );
           title = cut.text;
           if (cut.truncated) {
             warnings.add(VariantWarning.captionTruncated);

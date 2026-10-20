@@ -130,7 +130,9 @@ abstract final class SqliteDatabase {
           for (final String sql in steps) {
             db.execute(sql);
           }
-          db.execute('PRAGMA user_version = ${StorageMigrations.currentVersion}');
+          db.execute(
+            'PRAGMA user_version = ${StorageMigrations.currentVersion}',
+          );
         });
       } on SqliteException {
         throw const _MigrationFailed();
@@ -163,7 +165,6 @@ abstract final class SqliteDatabase {
     }
   }
 
-  static DatabaseOpenResult _unavailable() => DatabaseOpenResult(
-        problem: AppError.of(AppErrorKind.dbUnavailable),
-      );
+  static DatabaseOpenResult _unavailable() =>
+      DatabaseOpenResult(problem: AppError.of(AppErrorKind.dbUnavailable));
 }

@@ -56,8 +56,9 @@ class SqliteProfileRepository implements ProfileRepository {
 
   @override
   Future<void> resetToDefault(String id) async {
-    final Iterable<PlatformProfile> matches =
-        defaultProfiles().where((PlatformProfile p) => p.id == id);
+    final Iterable<PlatformProfile> matches = defaultProfiles().where(
+      (PlatformProfile p) => p.id == id,
+    );
     if (matches.isEmpty) {
       return;
     }
@@ -80,8 +81,9 @@ class SqliteProfileRepository implements ProfileRepository {
 
   @override
   Future<void> ensureDefaults() async {
-    final int count =
-        readInt(_db.select('SELECT COUNT(*) AS n FROM platform_profiles').first['n']);
+    final int count = readInt(
+      _db.select('SELECT COUNT(*) AS n FROM platform_profiles').first['n'],
+    );
     if (count > 0) {
       return;
     }
@@ -160,8 +162,9 @@ class InMemoryProfileRepository implements ProfileRepository {
 
   @override
   Future<void> resetToDefault(String id) async {
-    final Iterable<PlatformProfile> matches =
-        defaultProfiles().where((PlatformProfile p) => p.id == id);
+    final Iterable<PlatformProfile> matches = defaultProfiles().where(
+      (PlatformProfile p) => p.id == id,
+    );
     if (matches.isEmpty) {
       return;
     }

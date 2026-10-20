@@ -137,8 +137,7 @@ class PzTypography {
   /// Counters such as "212 / 280".
   final TextStyle counter;
 
-  static FontWeight _weight(int value) =>
-      FontWeight.values[(value ~/ 100) - 1];
+  static FontWeight _weight(int value) => FontWeight.values[(value ~/ 100) - 1];
 
   static TextStyle _inter({
     required double size,

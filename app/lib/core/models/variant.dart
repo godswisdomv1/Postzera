@@ -106,16 +106,16 @@ class MediaPlan {
 
   @override
   int get hashCode => Object.hash(
-        kind,
-        spec,
-        theme,
-        Object.hashAll(blocks),
-        sourceKind,
-        sourcePath,
-        sourceDurationMs,
-        Object.hashAll(slides),
-        cacheKey,
-      );
+    kind,
+    spec,
+    theme,
+    Object.hashAll(blocks),
+    sourceKind,
+    sourcePath,
+    sourceDurationMs,
+    Object.hashAll(slides),
+    cacheKey,
+  );
 }
 
 /// One platform's finished text and media plan. Computed, never stored.
@@ -148,12 +148,12 @@ class Variant {
 
   @override
   int get hashCode => Object.hash(
-        platformId,
-        caption,
-        title,
-        mediaPlan,
-        Object.hashAll(warnings.toList()..sort(_byName)),
-      );
+    platformId,
+    caption,
+    title,
+    mediaPlan,
+    Object.hashAll(warnings.toList()..sort(_byName)),
+  );
 
   static int _byName(VariantWarning a, VariantWarning b) =>
       a.name.compareTo(b.name);

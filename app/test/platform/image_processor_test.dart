@@ -7,7 +7,13 @@ import 'package:postzera/core/models/app_error.dart';
 import 'package:postzera/platform/media/image_processor.dart';
 
 /// Writes a solid-color PNG of the given size and returns its path.
-Future<String> writePng(Directory dir, String name, int w, int h, int argb) async {
+Future<String> writePng(
+  Directory dir,
+  String name,
+  int w,
+  int h,
+  int argb,
+) async {
   final ui.PictureRecorder recorder = ui.PictureRecorder();
   final ui.Canvas canvas = ui.Canvas(recorder);
   canvas.drawRect(
@@ -27,14 +33,22 @@ void main() {
 
   group('coverTarget', () {
     test('a large landscape photo is decoded at the canvas height', () {
-      final ({int width, int height})? t =
-          ImageProcessor.coverTarget(4000, 3000, 1080, 1350);
+      final ({int width, int height})? t = ImageProcessor.coverTarget(
+        4000,
+        3000,
+        1080,
+        1350,
+      );
       expect(t, (width: 1800, height: 1350));
     });
 
     test('a large portrait photo is decoded at the canvas width', () {
-      final ({int width, int height})? t =
-          ImageProcessor.coverTarget(3000, 4000, 1080, 1350);
+      final ({int width, int height})? t = ImageProcessor.coverTarget(
+        3000,
+        4000,
+        1080,
+        1350,
+      );
       expect(t, (width: 1080, height: 1440));
     });
 
@@ -46,8 +60,12 @@ void main() {
         (5000, 5000),
         (6000, 3000),
       ]) {
-        final ({int width, int height})? t =
-            ImageProcessor.coverTarget(src.$1, src.$2, 1080, 1920);
+        final ({int width, int height})? t = ImageProcessor.coverTarget(
+          src.$1,
+          src.$2,
+          1080,
+          1920,
+        );
         expect(t, isNotNull);
         expect(t!.width, greaterThanOrEqualTo(1080));
         expect(t.height, greaterThanOrEqualTo(1920));
@@ -73,7 +91,11 @@ void main() {
 
     test('decodes a real image at a size that covers the canvas', () async {
       final String path = await writePng(dir, 'big.png', 600, 400, 0xFF336699);
-      final ui.Image image = await const ImageProcessor().decodeCover(path, 300, 300);
+      final ui.Image image = await const ImageProcessor().decodeCover(
+        path,
+        300,
+        300,
+      );
       expect(image.width, greaterThanOrEqualTo(300));
       expect(image.height, greaterThanOrEqualTo(300));
       expect(image.width, lessThan(600));
@@ -82,8 +104,11 @@ void main() {
 
     test('a small image keeps its own size', () async {
       final String path = await writePng(dir, 'small.png', 100, 80, 0xFF336699);
-      final ui.Image image =
-          await const ImageProcessor().decodeCover(path, 1080, 1350);
+      final ui.Image image = await const ImageProcessor().decodeCover(
+        path,
+        1080,
+        1350,
+      );
       expect(image.width, 100);
       expect(image.height, 80);
       image.dispose();

@@ -65,9 +65,13 @@ class MediaPlanner {
   }) {
     final PlatformTemplate template = profile.template;
     final MediaSource source = post.mediaSource;
-    final MediaSourceKind sourceKind =
-        source.path == null ? MediaSourceKind.auto : source.kind;
-    final MediaOutputKind kind = _resolveKind(profile.preferredKind, sourceKind);
+    final MediaSourceKind sourceKind = source.path == null
+        ? MediaSourceKind.auto
+        : source.kind;
+    final MediaOutputKind kind = _resolveKind(
+      profile.preferredKind,
+      sourceKind,
+    );
 
     bool shortened = false;
     final bool useHook = template.mediaTextSlots.contains(TemplateSlot.hook);
@@ -122,8 +126,9 @@ class MediaPlanner {
         blocks: blocks,
         sourceKind: sourceKind,
         sourcePath: sourceKind == MediaSourceKind.auto ? null : source.path,
-        sourceDurationMs:
-            sourceKind == MediaSourceKind.video ? source.durationMs : null,
+        sourceDurationMs: sourceKind == MediaSourceKind.video
+            ? source.durationMs
+            : null,
         slides: slides,
         cacheKey: key,
       ),
@@ -193,13 +198,18 @@ class MediaPlanner {
 
     // Cap the total length.
     final int cap = maxSeconds * 1000;
-    final int total =
-        slides.fold<int>(0, (int sum, SlidePlan s) => sum + s.durationMs);
+    final int total = slides.fold<int>(
+      0,
+      (int sum, SlidePlan s) => sum + s.durationMs,
+    );
     if (total > cap && total > 0) {
       return (
         slides: <SlidePlan>[
           for (final SlidePlan s in slides)
-            SlidePlan(blocks: s.blocks, durationMs: s.durationMs * cap ~/ total),
+            SlidePlan(
+              blocks: s.blocks,
+              durationMs: s.durationMs * cap ~/ total,
+            ),
         ],
         overflow: overflow,
       );
@@ -208,8 +218,10 @@ class MediaPlanner {
   }
 
   ({List<String> chunks, bool overflow}) _splitBody(String body) {
-    final List<String> words =
-        body.split(RegExp(r'\s+')).where((String w) => w.isNotEmpty).toList();
+    final List<String> words = body
+        .split(RegExp(r'\s+'))
+        .where((String w) => w.isNotEmpty)
+        .toList();
     final List<String> chunks = <String>[];
     String current = '';
     for (final String word in words) {
@@ -267,7 +279,8 @@ class MediaPlanner {
         for (final SlidePlan s in slides)
           <Object?>[
             s.durationMs,
-            for (final CardTextBlock b in s.blocks) <Object?>[b.role.name, b.text],
+            for (final CardTextBlock b in s.blocks)
+              <Object?>[b.role.name, b.text],
           ],
       ],
       sourceKind.name,

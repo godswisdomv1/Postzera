@@ -25,8 +25,11 @@ void main() {
   });
 
   test('cap keeps the first tags and reports what was dropped', () {
-    final ({List<String> tags, bool dropped}) r =
-        service.cap(<String>['#a', '#b', '#c'], 2);
+    final ({List<String> tags, bool dropped}) r = service.cap(<String>[
+      '#a',
+      '#b',
+      '#c',
+    ], 2);
     expect(r.tags, <String>['#a', '#b']);
     expect(r.dropped, isTrue);
     expect(service.cap(<String>['#a'], 2).dropped, isFalse);

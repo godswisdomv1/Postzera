@@ -8,9 +8,9 @@ import 'test_helpers.dart';
 void main() {
   int counter = 0;
   CsvImporter importer() => CsvImporter(
-        clock: FixedClock(DateTime.utc(2026, 10, 18, 8)),
-        idGenerator: () => 'id${counter++}',
-      );
+    clock: FixedClock(DateTime.utc(2026, 10, 18, 8)),
+    idGenerator: () => 'id${counter++}',
+  );
   const CsvExporter exporter = CsvExporter();
 
   group('round trip', () {
@@ -43,15 +43,21 @@ void main() {
         expect(got.hashtags, want.hashtags);
         expect(got.cardThemeId, want.cardThemeId);
         expect(got.scheduledAt, want.scheduledAt);
-        expect(got.status, want.scheduledAt == null
-            ? PostStatus.draft
-            : PostStatus.scheduled);
+        expect(
+          got.status,
+          want.scheduledAt == null ? PostStatus.draft : PostStatus.scheduled,
+        );
       }
     });
 
     test('the export starts with a byte-order mark and the header', () {
       final String text = exporter.encode(posts);
-      expect(text.startsWith('\uFEFFhook,body,cta,link,hashtags,scheduled,card_theme'), isTrue);
+      expect(
+        text.startsWith(
+          '\uFEFFhook,body,cta,link,hashtags,scheduled,card_theme',
+        ),
+        isTrue,
+      );
       expect(text, contains('"Comma, and ""quotes"""'));
     });
   });
@@ -148,14 +154,18 @@ void main() {
       final CsvImportResult r = importer().parse(
         'hook,card_theme\nA,INK \nB,nope\nC,\n',
       );
-      expect(
-        r.valid.map((Post p) => p.cardThemeId).toList(),
-        <String>['ink', 'paper', 'paper'],
-      );
+      expect(r.valid.map((Post p) => p.cardThemeId).toList(), <String>[
+        'ink',
+        'paper',
+        'paper',
+      ]);
     });
 
     test('at most 200 rows are read', () {
-      final String rows = List<String>.generate(201, (int i) => 'Post $i').join('\n');
+      final String rows = List<String>.generate(
+        201,
+        (int i) => 'Post $i',
+      ).join('\n');
       final CsvImportResult r = importer().parse('hook\n$rows\n');
       expect(r.valid.length, 200);
       expect(r.extraRows, 1);

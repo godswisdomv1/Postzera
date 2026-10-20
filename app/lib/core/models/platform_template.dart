@@ -30,12 +30,12 @@ class TemplateBlock {
   });
 
   factory TemplateBlock.fromJson(Map<String, Object?> json) => TemplateBlock(
-        slot: readEnum(TemplateSlot.values, json['slot'], TemplateSlot.body),
-        prefix: readString(json['prefix']),
-        suffix: readString(json['suffix']),
-        maxChars: readIntOrNull(json['maxChars']),
-        required: readBool(json['required']),
-      );
+    slot: readEnum(TemplateSlot.values, json['slot'], TemplateSlot.body),
+    prefix: readString(json['prefix']),
+    suffix: readString(json['suffix']),
+    maxChars: readIntOrNull(json['maxChars']),
+    required: readBool(json['required']),
+  );
 
   final TemplateSlot slot;
   final String prefix;
@@ -50,22 +50,21 @@ class TemplateBlock {
     int? maxChars,
     bool clearMaxChars = false,
     bool? required,
-  }) =>
-      TemplateBlock(
-        slot: slot ?? this.slot,
-        prefix: prefix ?? this.prefix,
-        suffix: suffix ?? this.suffix,
-        maxChars: clearMaxChars ? null : (maxChars ?? this.maxChars),
-        required: required ?? this.required,
-      );
+  }) => TemplateBlock(
+    slot: slot ?? this.slot,
+    prefix: prefix ?? this.prefix,
+    suffix: suffix ?? this.suffix,
+    maxChars: clearMaxChars ? null : (maxChars ?? this.maxChars),
+    required: required ?? this.required,
+  );
 
   Map<String, Object?> toJson() => <String, Object?>{
-        'slot': slot.name,
-        'prefix': prefix,
-        'suffix': suffix,
-        'maxChars': maxChars,
-        'required': required,
-      };
+    'slot': slot.name,
+    'prefix': prefix,
+    'suffix': suffix,
+    'maxChars': maxChars,
+    'required': required,
+  };
 
   @override
   bool operator ==(Object other) =>
@@ -113,7 +112,9 @@ class PlatformTemplate {
         TrimStrategy.dropFromEnd,
       ),
       mediaTextSlots: readStringList(json['mediaTextSlots'])
-          .map((String s) => readEnum(TemplateSlot.values, s, TemplateSlot.hook))
+          .map(
+            (String s) => readEnum(TemplateSlot.values, s, TemplateSlot.hook),
+          )
           .toList(),
       mediaBodyMaxChars: readInt(json['mediaBodyMaxChars']),
     );
@@ -141,27 +142,26 @@ class PlatformTemplate {
     TrimStrategy? trim,
     List<TemplateSlot>? mediaTextSlots,
     int? mediaBodyMaxChars,
-  }) =>
-      PlatformTemplate(
-        blocks: blocks ?? this.blocks,
-        joiner: joiner ?? this.joiner,
-        titleSlot: clearTitleSlot ? null : (titleSlot ?? this.titleSlot),
-        hashtagStyle: hashtagStyle ?? this.hashtagStyle,
-        trim: trim ?? this.trim,
-        mediaTextSlots: mediaTextSlots ?? this.mediaTextSlots,
-        mediaBodyMaxChars: mediaBodyMaxChars ?? this.mediaBodyMaxChars,
-      );
+  }) => PlatformTemplate(
+    blocks: blocks ?? this.blocks,
+    joiner: joiner ?? this.joiner,
+    titleSlot: clearTitleSlot ? null : (titleSlot ?? this.titleSlot),
+    hashtagStyle: hashtagStyle ?? this.hashtagStyle,
+    trim: trim ?? this.trim,
+    mediaTextSlots: mediaTextSlots ?? this.mediaTextSlots,
+    mediaBodyMaxChars: mediaBodyMaxChars ?? this.mediaBodyMaxChars,
+  );
 
   Map<String, Object?> toJson() => <String, Object?>{
-        'schemaVersion': modelSchemaVersion,
-        'blocks': blocks.map((TemplateBlock b) => b.toJson()).toList(),
-        'joiner': joiner,
-        'titleSlot': titleSlot?.name,
-        'hashtagStyle': hashtagStyle.name,
-        'trim': trim.name,
-        'mediaTextSlots': mediaTextSlots.map((TemplateSlot s) => s.name).toList(),
-        'mediaBodyMaxChars': mediaBodyMaxChars,
-      };
+    'schemaVersion': modelSchemaVersion,
+    'blocks': blocks.map((TemplateBlock b) => b.toJson()).toList(),
+    'joiner': joiner,
+    'titleSlot': titleSlot?.name,
+    'hashtagStyle': hashtagStyle.name,
+    'trim': trim.name,
+    'mediaTextSlots': mediaTextSlots.map((TemplateSlot s) => s.name).toList(),
+    'mediaBodyMaxChars': mediaBodyMaxChars,
+  };
 
   @override
   bool operator ==(Object other) =>
@@ -176,12 +176,12 @@ class PlatformTemplate {
 
   @override
   int get hashCode => Object.hash(
-        Object.hashAll(blocks),
-        joiner,
-        titleSlot,
-        hashtagStyle,
-        trim,
-        Object.hashAll(mediaTextSlots),
-        mediaBodyMaxChars,
-      );
+    Object.hashAll(blocks),
+    joiner,
+    titleSlot,
+    hashtagStyle,
+    trim,
+    Object.hashAll(mediaTextSlots),
+    mediaBodyMaxChars,
+  );
 }

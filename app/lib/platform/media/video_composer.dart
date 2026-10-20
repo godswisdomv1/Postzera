@@ -58,7 +58,9 @@ class VideoComposer implements VideoComposerPort {
     int? knownMs = plan.sourceDurationMs;
     if (knownMs == null) {
       try {
-        final VideoMetadata meta = await _editor.getMetadata(EditorVideo.file(source));
+        final VideoMetadata meta = await _editor.getMetadata(
+          EditorVideo.file(source),
+        );
         knownMs = meta.duration.inMilliseconds;
       } catch (error) {
         throw _classify(error);
@@ -93,7 +95,10 @@ class VideoComposer implements VideoComposerPort {
   /// One frame per slide, each held for its own duration, scaled to cover the
   /// canvas.
   @visibleForTesting
-  static StopMotionRenderData slideData(List<SlideFile> slides, MediaSpec spec) {
+  static StopMotionRenderData slideData(
+    List<SlideFile> slides,
+    MediaSpec spec,
+  ) {
     return StopMotionRenderData(
       id: newId(),
       frames: <StopMotionFrame>[
@@ -141,7 +146,9 @@ class VideoComposer implements VideoComposerPort {
             clips: <VideoSegment>[
               VideoSegment(
                 video: EditorVideo.file(source),
-                endTime: sourceMs > capMs ? Duration(milliseconds: capMs) : null,
+                endTime: sourceMs > capMs
+                    ? Duration(milliseconds: capMs)
+                    : null,
               ),
             ],
           ),
@@ -170,9 +177,11 @@ class VideoComposer implements VideoComposerPort {
     _activeId = id;
     StreamSubscription<ProgressModel>? subscription;
     if (onProgress != null) {
-      subscription = _editor.progressStreamById(id).listen(
-        (ProgressModel m) => onProgress(m.progress.clamp(0, 1).toDouble()),
-      );
+      subscription = _editor
+          .progressStreamById(id)
+          .listen(
+            (ProgressModel m) => onProgress(m.progress.clamp(0, 1).toDouble()),
+          );
     }
     try {
       await render();

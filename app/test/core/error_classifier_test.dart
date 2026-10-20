@@ -38,7 +38,9 @@ void main() {
 
   test('anything else becomes the fallback the adapter chose', () {
     expect(
-      classifier.classify(StateError('x'), fallback: AppErrorKind.shareFailed).kind,
+      classifier
+          .classify(StateError('x'), fallback: AppErrorKind.shareFailed)
+          .kind,
       AppErrorKind.shareFailed,
     );
     expect(classifier.classify(StateError('x')).kind, AppErrorKind.unexpected);

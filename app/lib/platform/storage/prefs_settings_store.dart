@@ -48,8 +48,11 @@ class PrefsSettingsStore implements SettingsStore {
     if (name == null) {
       return null;
     }
-    final EntitlementState state =
-        readEnum(EntitlementState.values, name, EntitlementState.unknown);
+    final EntitlementState state = readEnum(
+      EntitlementState.values,
+      name,
+      EntitlementState.unknown,
+    );
     if (state == EntitlementState.unknown) {
       return null;
     }
@@ -72,7 +75,10 @@ class PrefsSettingsStore implements SettingsStore {
     if (at == null) {
       await _prefs.remove(entitlementTimeKey);
     } else {
-      await _prefs.setInt(entitlementTimeKey, at.toUtc().millisecondsSinceEpoch);
+      await _prefs.setInt(
+        entitlementTimeKey,
+        at.toUtc().millisecondsSinceEpoch,
+      );
     }
   }
 

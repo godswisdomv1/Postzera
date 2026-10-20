@@ -258,10 +258,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_inapp_purchase
-      sha256: "9c1b6ff7a525f7425c7f361f25f60d8aea347651e6a6ddb6acf83517eb4d1ae3"
+      sha256: "2d004a0343cd09c38445ee8a362cfa7beef2a11e1bd5b4742835d7d4c65a9757"
       url: "https://pub.dev"
     source: hosted
-    version: "10.7.3"
+    version: "11.0.3"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -745,10 +745,10 @@ packages:
     dependency: "direct main"
     description:
       name: pro_video_editor
-      sha256: "19b6c6d7bc28e667c2fb1bbcb48a2c9f7a51fed8b424635c6cf393e79bd72bdc"
+      sha256: "0299cd361a32c13bcf77f4f763628cfe099d1201845e71e822b98e50a72d60f5"
       url: "https://pub.dev"
     source: hosted
-    version: "2.35.0"
+    version: "2.40.0"
   process:
     dependency: transitive
     description:

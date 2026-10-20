@@ -64,13 +64,15 @@ class CardRenderer implements MediaRendererPort {
 
   @override
   Future<void> renderImage(MediaPlan plan, {required String outPath}) {
-    return _guard(() => _render(
-          plan,
-          outPath,
-          blocks: plan.blocks,
-          mode: _Mode.card,
-          usePhoto: true,
-        ));
+    return _guard(
+      () => _render(
+        plan,
+        outPath,
+        blocks: plan.blocks,
+        mode: _Mode.card,
+        usePhoto: true,
+      ),
+    );
   }
 
   @override
@@ -79,13 +81,15 @@ class CardRenderer implements MediaRendererPort {
     MediaPlan plan, {
     required String outPath,
   }) {
-    return _guard(() => _render(
-          plan,
-          outPath,
-          blocks: slide.blocks,
-          mode: _Mode.slide,
-          usePhoto: true,
-        ));
+    return _guard(
+      () => _render(
+        plan,
+        outPath,
+        blocks: slide.blocks,
+        mode: _Mode.slide,
+        usePhoto: true,
+      ),
+    );
   }
 
   @override
@@ -94,13 +98,15 @@ class CardRenderer implements MediaRendererPort {
     required List<CardTextBlock> blocks,
     required String outPath,
   }) {
-    return _guard(() => _render(
-          plan,
-          outPath,
-          blocks: blocks,
-          mode: _Mode.overlay,
-          usePhoto: false,
-        ));
+    return _guard(
+      () => _render(
+        plan,
+        outPath,
+        blocks: blocks,
+        mode: _Mode.overlay,
+        usePhoto: false,
+      ),
+    );
   }
 
   Future<void> _render(
@@ -130,8 +136,12 @@ class CardRenderer implements MediaRendererPort {
         recorder,
         ui.Rect.fromLTWH(0, 0, width.toDouble(), height.toDouble()),
       );
-      final ui.Rect full =
-          ui.Rect.fromLTWH(0, 0, width.toDouble(), height.toDouble());
+      final ui.Rect full = ui.Rect.fromLTWH(
+        0,
+        0,
+        width.toDouble(),
+        height.toDouble(),
+      );
       if (mode != _Mode.overlay) {
         if (photo != null) {
           images.drawCover(canvas, photo, full);
@@ -152,8 +162,9 @@ class CardRenderer implements MediaRendererPort {
       );
       picture = recorder.endRecording();
       rendered = await picture.toImage(width, height);
-      final ByteData? data =
-          await rendered.toByteData(format: ui.ImageByteFormat.png);
+      final ByteData? data = await rendered.toByteData(
+        format: ui.ImageByteFormat.png,
+      );
       if (data == null) {
         throw AppError.of(AppErrorKind.renderFailed, details: 'png encode');
       }
@@ -247,8 +258,7 @@ class CardRenderer implements MediaRendererPort {
     double top;
     final double left = window.left + pad;
     if (panel) {
-      final double panelHeight =
-          math.min(stackHeight + 2 * pad, window.height);
+      final double panelHeight = math.min(stackHeight + 2 * pad, window.height);
       final double panelTop = window.bottom - panelHeight;
       canvas.drawRRect(
         ui.RRect.fromRectAndRadius(
@@ -293,16 +303,16 @@ class CardRenderer implements MediaRendererPort {
     }
   }
 
-  static double _gapOf(Object e) => e is _TextElement
-      ? e.gapBefore
-      : (e is _PillElement ? e.gapBefore : 0);
+  static double _gapOf(Object e) =>
+      e is _TextElement ? e.gapBefore : (e is _PillElement ? e.gapBefore : 0);
 
-  static double _heightOf(Object e) => e is _TextElement
-      ? e.painter.height
-      : (e is _PillElement ? e.height : 0);
+  static double _heightOf(Object e) =>
+      e is _TextElement ? e.painter.height : (e is _PillElement ? e.height : 0);
 
   static TextDirection _directionOf(String text) =>
-      Bidi.detectRtlDirectionality(text) ? TextDirection.rtl : TextDirection.ltr;
+      Bidi.detectRtlDirectionality(text)
+      ? TextDirection.rtl
+      : TextDirection.ltr;
 
   /// Newsreader 600, starting large and shrinking until it fits four lines.
   /// It never goes below [minSize]; text that still does not fit is cut with

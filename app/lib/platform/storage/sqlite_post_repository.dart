@@ -20,14 +20,16 @@ class SqlitePostRepository implements PostRepository {
 
   @override
   Future<List<Post>> all() async => _query(
-        'SELECT $_columns FROM posts ORDER BY updated_at DESC, id ASC',
-        const <Object?>[],
-      );
+    'SELECT $_columns FROM posts ORDER BY updated_at DESC, id ASC',
+    const <Object?>[],
+  );
 
   @override
   Future<Post?> byId(String id) async {
-    final List<Post> found =
-        _query('SELECT $_columns FROM posts WHERE id = ?', <Object?>[id]);
+    final List<Post> found = _query(
+      'SELECT $_columns FROM posts WHERE id = ?',
+      <Object?>[id],
+    );
     return found.isEmpty ? null : found.first;
   }
 
@@ -161,7 +163,8 @@ class InMemoryPostRepository implements PostRepository {
   static const QueueService _service = QueueService();
 
   @override
-  Future<List<Post>> all() async => _service.filterAndSort(_posts.values.toList());
+  Future<List<Post>> all() async =>
+      _service.filterAndSort(_posts.values.toList());
 
   @override
   Future<Post?> byId(String id) async => _posts[id];
@@ -171,13 +174,12 @@ class InMemoryPostRepository implements PostRepository {
     String query = '',
     PostStatus? status,
     PostSort sort = PostSort.newest,
-  }) async =>
-      _service.filterAndSort(
-        _posts.values.toList(),
-        query: query,
-        status: status,
-        sort: sort,
-      );
+  }) async => _service.filterAndSort(
+    _posts.values.toList(),
+    query: query,
+    status: status,
+    sort: sort,
+  );
 
   @override
   Future<void> upsert(Post post) async {

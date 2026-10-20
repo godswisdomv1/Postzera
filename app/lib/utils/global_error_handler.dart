@@ -19,8 +19,10 @@ void installGlobalErrorHandlers({
     Log.e('flutter', details.exception.runtimeType.toString());
     FlutterError.presentError(details);
   };
-  WidgetsBinding.instance.platformDispatcher.onError =
-      (Object error, StackTrace stack) {
+  WidgetsBinding
+      .instance
+      .platformDispatcher
+      .onError = (Object error, StackTrace stack) {
     Log.e('platform', error.runtimeType.toString());
     fatalError.value = error is AppError
         ? error

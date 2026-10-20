@@ -18,13 +18,12 @@ void postRepositoryContract(String name, PostRepository Function() make) {
       PostStatus status = PostStatus.draft,
       DateTime? updated,
       DateTime? scheduled,
-    }) =>
-        testPost(hook: hook, body: body).copyWith(
-          id: id,
-          status: status,
-          updatedAt: updated ?? DateTime.utc(2026, 10, 18),
-          scheduledAt: scheduled,
-        );
+    }) => testPost(hook: hook, body: body).copyWith(
+      id: id,
+      status: status,
+      updatedAt: updated ?? DateTime.utc(2026, 10, 18),
+      scheduledAt: scheduled,
+    );
 
     test('starts empty', () async {
       expect(await repo.all(), isEmpty);
@@ -32,23 +31,24 @@ void postRepositoryContract(String name, PostRepository Function() make) {
     });
 
     test('keeps every field of a post', () async {
-      final Post full = testPost(
-        hook: 'H',
-        body: 'B',
-        cta: 'C',
-        link: 'https://example.com',
-        tags: const <String>['#a', '#b'],
-        media: const MediaSource(
-          kind: MediaSourceKind.video,
-          path: '/v/a.mp4',
-          durationMs: 8000,
-        ),
-        theme: 'ink',
-      ).copyWith(
-        id: 'full',
-        status: PostStatus.scheduled,
-        scheduledAt: DateTime.utc(2026, 11, 1, 9, 30),
-      );
+      final Post full =
+          testPost(
+            hook: 'H',
+            body: 'B',
+            cta: 'C',
+            link: 'https://example.com',
+            tags: const <String>['#a', '#b'],
+            media: const MediaSource(
+              kind: MediaSourceKind.video,
+              path: '/v/a.mp4',
+              durationMs: 8000,
+            ),
+            theme: 'ink',
+          ).copyWith(
+            id: 'full',
+            status: PostStatus.scheduled,
+            scheduledAt: DateTime.utc(2026, 11, 1, 9, 30),
+          );
       await repo.upsert(full);
       expect(await repo.byId('full'), full);
     });
@@ -88,9 +88,10 @@ void postRepositoryContract(String name, PostRepository Function() make) {
         (await repo.search(query: '100%')).map((Post p) => p.id).toList(),
         <String>['a'],
       );
-      expect((await repo.search(query: '%')).map((Post p) => p.id).toList(), <String>[
-        'a',
-      ]);
+      expect(
+        (await repo.search(query: '%')).map((Post p) => p.id).toList(),
+        <String>['a'],
+      );
       expect(
         (await repo.search(query: 'e_c')).map((Post p) => p.id).toList(),
         <String>['c'],

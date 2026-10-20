@@ -47,8 +47,9 @@ void profileRepositoryContract(String name, ProfileRepository Function() make) {
 
     test('reorder changes the display order', () async {
       await repo.ensureDefaults();
-      final List<String> ids =
-          (await repo.all()).map((PlatformProfile p) => p.id).toList();
+      final List<String> ids = (await repo.all())
+          .map((PlatformProfile p) => p.id)
+          .toList();
       await repo.reorder(ids.reversed.toList());
       expect(
         (await repo.all()).map((PlatformProfile p) => p.id).toList(),
@@ -58,44 +59,51 @@ void profileRepositoryContract(String name, ProfileRepository Function() make) {
 
     test('enabling and disabling is kept', () async {
       await repo.ensureDefaults();
-      final PlatformProfile tiktok =
-          (await repo.all()).firstWhere((PlatformProfile p) => p.id == 'tiktok');
+      final PlatformProfile tiktok = (await repo.all()).firstWhere(
+        (PlatformProfile p) => p.id == 'tiktok',
+      );
       await repo.upsert(tiktok.copyWith(enabled: false));
-      final PlatformProfile again =
-          (await repo.all()).firstWhere((PlatformProfile p) => p.id == 'tiktok');
+      final PlatformProfile again = (await repo.all()).firstWhere(
+        (PlatformProfile p) => p.id == 'tiktok',
+      );
       expect(again.enabled, isFalse);
     });
 
-    test('resetToDefault restores the template but keeps order and enabled',
-        () async {
-      await repo.ensureDefaults();
-      final PlatformProfile x =
-          (await repo.all()).firstWhere((PlatformProfile p) => p.id == 'x');
-      await repo.upsert(
-        x.copyWith(captionLimit: 99, enabled: false, sortOrder: 7),
-      );
-      await repo.resetToDefault('x');
-      final PlatformProfile reset =
-          (await repo.all()).firstWhere((PlatformProfile p) => p.id == 'x');
-      expect(reset.captionLimit, 280);
-      expect(reset.enabled, isFalse);
-      expect(reset.sortOrder, 7);
-    });
+    test(
+      'resetToDefault restores the template but keeps order and enabled',
+      () async {
+        await repo.ensureDefaults();
+        final PlatformProfile x = (await repo.all()).firstWhere(
+          (PlatformProfile p) => p.id == 'x',
+        );
+        await repo.upsert(
+          x.copyWith(captionLimit: 99, enabled: false, sortOrder: 7),
+        );
+        await repo.resetToDefault('x');
+        final PlatformProfile reset = (await repo.all()).firstWhere(
+          (PlatformProfile p) => p.id == 'x',
+        );
+        expect(reset.captionLimit, 280);
+        expect(reset.enabled, isFalse);
+        expect(reset.sortOrder, 7);
+      },
+    );
 
     test('only custom profiles can be deleted', () async {
       await repo.ensureDefaults();
       await repo.upsert(
         defaultProfiles().first.copyWith(
-              id: 'mine',
-              name: 'Mine',
-              isCustom: true,
-              sortOrder: 20,
-            ),
+          id: 'mine',
+          name: 'Mine',
+          isCustom: true,
+          sortOrder: 20,
+        ),
       );
       await repo.delete('x');
       await repo.delete('mine');
-      final List<String> ids =
-          (await repo.all()).map((PlatformProfile p) => p.id).toList();
+      final List<String> ids = (await repo.all())
+          .map((PlatformProfile p) => p.id)
+          .toList();
       expect(ids, contains('x'));
       expect(ids, isNot(contains('mine')));
     });
@@ -111,13 +119,12 @@ void sendRecordRepositoryContract(
     late SendRecordRepository repo;
     setUp(() => repo = make());
 
-    SendRecord record(String post, String platform, SendStatus s) =>
-        SendRecord(
-          postId: post,
-          platformId: platform,
-          status: s,
-          doneAt: s == SendStatus.done ? DateTime.utc(2026, 10, 18, 9) : null,
-        );
+    SendRecord record(String post, String platform, SendStatus s) => SendRecord(
+      postId: post,
+      platformId: platform,
+      status: s,
+      doneAt: s == SendStatus.done ? DateTime.utc(2026, 10, 18, 9) : null,
+    );
 
     test('stores and replaces a record', () async {
       await prepare('p1');
@@ -135,8 +142,11 @@ void sendRecordRepositoryContract(
       await repo.upsert(record('p1', 'x', SendStatus.done));
       await repo.upsert(record('p1', 'reddit', SendStatus.skipped));
       await repo.upsert(record('p2', 'x', SendStatus.done));
-      final Map<String, List<SendRecord>> map =
-          await repo.forPosts(<String>['p1', 'p2', 'p3']);
+      final Map<String, List<SendRecord>> map = await repo.forPosts(<String>[
+        'p1',
+        'p2',
+        'p3',
+      ]);
       expect(map['p1']!.length, 2);
       expect(map['p2']!.length, 1);
       expect(map.containsKey('p3'), isFalse);
@@ -159,7 +169,10 @@ void main() {
   setUp(() => db = SqliteDatabase.openInMemory().database!);
   tearDown(() => db.close());
 
-  postRepositoryContract('SqlitePostRepository', () => SqlitePostRepository(db));
+  postRepositoryContract(
+    'SqlitePostRepository',
+    () => SqlitePostRepository(db),
+  );
   postRepositoryContract('InMemoryPostRepository', InMemoryPostRepository.new);
 
   profileRepositoryContract(
@@ -174,7 +187,8 @@ void main() {
   sendRecordRepositoryContract(
     'SqliteSendRecordRepository',
     () => SqliteSendRecordRepository(db),
-    (String postId) => SqlitePostRepository(db).upsert(testPost().copyWith(id: postId)),
+    (String postId) =>
+        SqlitePostRepository(db).upsert(testPost().copyWith(id: postId)),
   );
   sendRecordRepositoryContract(
     'InMemorySendRecordRepository',
@@ -188,7 +202,11 @@ void main() {
       final SqliteSendRecordRepository records = SqliteSendRecordRepository(db);
       await posts.upsert(testPost().copyWith(id: 'p1'));
       await records.upsert(
-        const SendRecord(postId: 'p1', platformId: 'x', status: SendStatus.done),
+        const SendRecord(
+          postId: 'p1',
+          platformId: 'x',
+          status: SendStatus.done,
+        ),
       );
       await posts.upsert(testPost(hook: 'Edited').copyWith(id: 'p1'));
       expect((await records.forPost('p1')).length, 1);
@@ -199,7 +217,11 @@ void main() {
       final SqliteSendRecordRepository records = SqliteSendRecordRepository(db);
       await posts.upsert(testPost().copyWith(id: 'p1'));
       await records.upsert(
-        const SendRecord(postId: 'p1', platformId: 'x', status: SendStatus.done),
+        const SendRecord(
+          postId: 'p1',
+          platformId: 'x',
+          status: SendStatus.done,
+        ),
       );
       await posts.delete('p1');
       expect(await records.forPost('p1'), isEmpty);
@@ -210,7 +232,11 @@ void main() {
       final SqliteSendRecordRepository records = SqliteSendRecordRepository(db);
       await posts.upsert(testPost().copyWith(id: 'p1'));
       await records.upsert(
-        const SendRecord(postId: 'p1', platformId: 'x', status: SendStatus.done),
+        const SendRecord(
+          postId: 'p1',
+          platformId: 'x',
+          status: SendStatus.done,
+        ),
       );
       await posts.deleteAll();
       expect(await records.forPosts(<String>['p1']), isEmpty);

@@ -54,8 +54,9 @@ void main() {
     });
 
     test('a failed purchase changes nothing', () {
-      final PurchaseFailed failure =
-          PurchaseFailed(AppError.of(AppErrorKind.purchaseFailed));
+      final PurchaseFailed failure = PurchaseFailed(
+        AppError.of(AppErrorKind.purchaseFailed),
+      );
       expect(apply(free, failure), free);
       expect(apply(pro, failure), pro);
     });
@@ -82,8 +83,14 @@ void main() {
 
     test('without a store report, nothing clears Pro', () {
       final Entitlement cached = reducer.initial(pro);
-      expect(apply(cached, const PurchasePending()).state, EntitlementState.pro);
-      expect(apply(cached, const PurchaseCancelled()).state, EntitlementState.pro);
+      expect(
+        apply(cached, const PurchasePending()).state,
+        EntitlementState.pro,
+      );
+      expect(
+        apply(cached, const PurchaseCancelled()).state,
+        EntitlementState.pro,
+      );
     });
   });
 }

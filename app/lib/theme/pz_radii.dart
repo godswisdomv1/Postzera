@@ -9,19 +9,24 @@ abstract final class PzRadii {
   static const double sheet = 20;
   static const double dialog = 16;
 
-  static const BorderRadius cardRadius =
-      BorderRadius.all(Radius.circular(card));
-  static const BorderRadius heroRadius =
-      BorderRadius.all(Radius.circular(hero));
-  static const BorderRadius buttonRadius =
-      BorderRadius.all(Radius.circular(button));
-  static const BorderRadius inputRadius =
-      BorderRadius.all(Radius.circular(input));
+  static const BorderRadius cardRadius = BorderRadius.all(
+    Radius.circular(card),
+  );
+  static const BorderRadius heroRadius = BorderRadius.all(
+    Radius.circular(hero),
+  );
+  static const BorderRadius buttonRadius = BorderRadius.all(
+    Radius.circular(button),
+  );
+  static const BorderRadius inputRadius = BorderRadius.all(
+    Radius.circular(input),
+  );
   static const BorderRadius sheetRadius = BorderRadius.vertical(
     top: Radius.circular(sheet),
   );
-  static const BorderRadius dialogRadius =
-      BorderRadius.all(Radius.circular(dialog));
+  static const BorderRadius dialogRadius = BorderRadius.all(
+    Radius.circular(dialog),
+  );
 
   /// Chips and pills use half their height.
   static BorderRadius pill(double height) =>

@@ -10,19 +10,15 @@ class MediaSource {
   const MediaSource({required this.kind, this.path, this.durationMs});
 
   const MediaSource.auto()
-      : kind = MediaSourceKind.auto,
-        path = null,
-        durationMs = null;
+    : kind = MediaSourceKind.auto,
+      path = null,
+      durationMs = null;
 
   factory MediaSource.fromJson(Map<String, Object?> json) => MediaSource(
-        kind: readEnum(
-          MediaSourceKind.values,
-          json['kind'],
-          MediaSourceKind.auto,
-        ),
-        path: readStringOrNull(json['path']),
-        durationMs: readIntOrNull(json['durationMs']),
-      );
+    kind: readEnum(MediaSourceKind.values, json['kind'], MediaSourceKind.auto),
+    path: readStringOrNull(json['path']),
+    durationMs: readIntOrNull(json['durationMs']),
+  );
 
   final MediaSourceKind kind;
   final String? path;
@@ -36,19 +32,18 @@ class MediaSource {
     int? durationMs,
     bool clearPath = false,
     bool clearDuration = false,
-  }) =>
-      MediaSource(
-        kind: kind ?? this.kind,
-        path: clearPath ? null : (path ?? this.path),
-        durationMs: clearDuration ? null : (durationMs ?? this.durationMs),
-      );
+  }) => MediaSource(
+    kind: kind ?? this.kind,
+    path: clearPath ? null : (path ?? this.path),
+    durationMs: clearDuration ? null : (durationMs ?? this.durationMs),
+  );
 
   Map<String, Object?> toJson() => <String, Object?>{
-        'schemaVersion': modelSchemaVersion,
-        'kind': kind.name,
-        'path': path,
-        'durationMs': durationMs,
-      };
+    'schemaVersion': modelSchemaVersion,
+    'kind': kind.name,
+    'path': path,
+    'durationMs': durationMs,
+  };
 
   @override
   bool operator ==(Object other) =>

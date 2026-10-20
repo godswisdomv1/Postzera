@@ -16,14 +16,14 @@ class MediaCardTheme {
   });
 
   factory MediaCardTheme.fromJson(Map<String, Object?> json) => MediaCardTheme(
-        id: readString(json['id']),
-        name: readString(json['name']),
-        background: readInt(json['background']),
-        text: readInt(json['text']),
-        accent: readInt(json['accent']),
-        ctaFill: readInt(json['ctaFill']),
-        ctaLabel: readInt(json['ctaLabel']),
-      );
+    id: readString(json['id']),
+    name: readString(json['name']),
+    background: readInt(json['background']),
+    text: readInt(json['text']),
+    accent: readInt(json['accent']),
+    ctaFill: readInt(json['ctaFill']),
+    ctaLabel: readInt(json['ctaLabel']),
+  );
 
   final String id;
   final String name;
@@ -41,27 +41,26 @@ class MediaCardTheme {
     int? accent,
     int? ctaFill,
     int? ctaLabel,
-  }) =>
-      MediaCardTheme(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        background: background ?? this.background,
-        text: text ?? this.text,
-        accent: accent ?? this.accent,
-        ctaFill: ctaFill ?? this.ctaFill,
-        ctaLabel: ctaLabel ?? this.ctaLabel,
-      );
+  }) => MediaCardTheme(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    background: background ?? this.background,
+    text: text ?? this.text,
+    accent: accent ?? this.accent,
+    ctaFill: ctaFill ?? this.ctaFill,
+    ctaLabel: ctaLabel ?? this.ctaLabel,
+  );
 
   Map<String, Object?> toJson() => <String, Object?>{
-        'schemaVersion': modelSchemaVersion,
-        'id': id,
-        'name': name,
-        'background': background,
-        'text': text,
-        'accent': accent,
-        'ctaFill': ctaFill,
-        'ctaLabel': ctaLabel,
-      };
+    'schemaVersion': modelSchemaVersion,
+    'id': id,
+    'name': name,
+    'background': background,
+    'text': text,
+    'accent': accent,
+    'ctaFill': ctaFill,
+    'ctaLabel': ctaLabel,
+  };
 
   @override
   bool operator ==(Object other) =>

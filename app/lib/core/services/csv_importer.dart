@@ -64,8 +64,9 @@ class CsvImporter {
   final HashtagService hashtags;
   final String Function() _newId;
 
-  static final RegExp _date =
-      RegExp(r'^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})$');
+  static final RegExp _date = RegExp(
+    r'^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})$',
+  );
 
   CsvImportResult parse(String input) {
     final String text = input.startsWith('\uFEFF') ? input.substring(1) : input;
@@ -84,8 +85,9 @@ class CsvImporter {
     }
 
     final DateTime now = clock.now().toUtc();
-    final Set<String> themeIds =
-        builtinCardThemes.map((theme) => theme.id).toSet();
+    final Set<String> themeIds = builtinCardThemes
+        .map((theme) => theme.id)
+        .toSet();
     final List<Post> valid = <Post>[];
     final List<CsvRowError> errors = <CsvRowError>[];
     int extra = 0;

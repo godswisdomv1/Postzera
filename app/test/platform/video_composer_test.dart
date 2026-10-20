@@ -30,31 +30,37 @@ void main() {
           .mediaPlan;
 
   group('slide video', () {
-    test('has one frame per slide, held for its duration, covering the canvas',
-        () {
-      final MediaPlan plan = builder
-          .build(
-            testPost(hook: 'Hook', body: 'Body text', cta: 'Go'),
-            profileById('tiktok'),
-            cardThemeById('paper'),
-          )
-          .mediaPlan;
-      final List<SlideFile> files = <SlideFile>[
-        for (int i = 0; i < plan.slides.length; i++)
-          SlideFile(path: '/s/$i.png', durationMs: plan.slides[i].durationMs),
-      ];
-      final StopMotionRenderData data =
-          VideoComposer.slideData(files, plan.spec);
-      expect(data.frames.length, plan.slides.length);
-      expect(
-        data.frames.map((StopMotionFrame f) => f.duration!.inMilliseconds).toList(),
-        plan.slides.map((SlidePlan s) => s.durationMs).toList(),
-      );
-      expect(data.resolution!.width, 1080);
-      expect(data.resolution!.height, 1920);
-      expect(data.fit, StopMotionFit.cover);
-      expect(data.bitrate, 8000000);
-    });
+    test(
+      'has one frame per slide, held for its duration, covering the canvas',
+      () {
+        final MediaPlan plan = builder
+            .build(
+              testPost(hook: 'Hook', body: 'Body text', cta: 'Go'),
+              profileById('tiktok'),
+              cardThemeById('paper'),
+            )
+            .mediaPlan;
+        final List<SlideFile> files = <SlideFile>[
+          for (int i = 0; i < plan.slides.length; i++)
+            SlideFile(path: '/s/$i.png', durationMs: plan.slides[i].durationMs),
+        ];
+        final StopMotionRenderData data = VideoComposer.slideData(
+          files,
+          plan.spec,
+        );
+        expect(data.frames.length, plan.slides.length);
+        expect(
+          data.frames
+              .map((StopMotionFrame f) => f.duration!.inMilliseconds)
+              .toList(),
+          plan.slides.map((SlidePlan s) => s.durationMs).toList(),
+        );
+        expect(data.resolution!.width, 1080);
+        expect(data.resolution!.height, 1920);
+        expect(data.fit, StopMotionFit.cover);
+        expect(data.bitrate, 8000000);
+      },
+    );
   });
 
   group('clip reframe', () {

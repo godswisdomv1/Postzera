@@ -8,8 +8,8 @@ import 'package:pro_video_editor/pro_video_editor.dart';
 /// system shows its own picker and hands back only what the user chose.
 class MediaPickerService implements MediaPickerPort {
   MediaPickerService({ImagePicker? picker, ProVideoEditor? editor})
-      : _picker = picker ?? ImagePicker(),
-        _editor = editor ?? ProVideoEditor.instance;
+    : _picker = picker ?? ImagePicker(),
+      _editor = editor ?? ProVideoEditor.instance;
 
   final ImagePicker _picker;
   final ProVideoEditor _editor;
@@ -50,10 +50,15 @@ class MediaPickerService implements MediaPickerPort {
       return null;
     }
     try {
-      final VideoMetadata meta = await _editor.getMetadata(EditorVideo.file(file.path));
+      final VideoMetadata meta = await _editor.getMetadata(
+        EditorVideo.file(file.path),
+      );
       final int ms = meta.duration.inMilliseconds;
       if (ms <= 0) {
-        throw AppError.of(AppErrorKind.sourceUnreadable, details: 'no duration');
+        throw AppError.of(
+          AppErrorKind.sourceUnreadable,
+          details: 'no duration',
+        );
       }
       return PickedMedia(
         path: file.path,
