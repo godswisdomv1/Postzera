@@ -16,7 +16,7 @@ dependencies:
   characters: any
   hugeicons: ^1.2.0
   google_mobile_ads: ^9.1.0
-  flutter_inapp_purchase: ^10.7.1
+  flutter_inapp_purchase: ^11.0.3
   flutter_local_notifications: ^22.3.2
   timezone: any
   flutter_timezone: any
@@ -24,7 +24,7 @@ dependencies:
   url_launcher: any
   image_picker: any
   file_picker: any
-  pro_video_editor: 2.35.0
+  pro_video_editor: 2.40.0
   sqlite3: ^3.0.0
   path_provider: any
   path: any

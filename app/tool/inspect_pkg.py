@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Prints a package's source (comments removed) as GitHub annotations, so the
 API of a dependency can be read through the check-runs API without logs.
-Usage: inspect_pkg.py <package> <relative-file>...   (max 9 files per run)
+Usage: inspect_pkg.py <package> <relative-file>...   (max 9 files per run;
+       a leading @ means relative to the package root, e.g. @CHANGELOG.md)
        inspect_pkg.py <package> --grep <regex>"""
 import json, os, re, subprocess, sys
 
@@ -29,7 +30,7 @@ if len(sys.argv) > 3 and sys.argv[2] == '--grep':
     print('::notice title=grep %s::%s' % (pkg, esc(res[:48000])))
 else:
     for rel in sys.argv[2:]:
-        path = os.path.join(lib, rel)
+        path = os.path.join(base, rel[1:]) if rel.startswith('@') else os.path.join(lib, rel)
         try:
             text = compact(open(path).read())
         except OSError as e:
