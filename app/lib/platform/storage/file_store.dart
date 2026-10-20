@@ -14,9 +14,8 @@ class FileStore implements FileStorePort {
   FileStore(
     this.root, {
     DateTime Function()? now,
-    ErrorClassifier classifier = const ErrorClassifier(),
-  })  : _now = now ?? DateTime.now,
-        _classifier = classifier;
+    this.classifier = const ErrorClassifier(),
+  }) : _now = now ?? DateTime.now;
 
   /// The store in the app's support folder.
   static Future<FileStore> open() async =>
@@ -24,7 +23,7 @@ class FileStore implements FileStorePort {
 
   final Directory root;
   final DateTime Function() _now;
-  final ErrorClassifier _classifier;
+  final ErrorClassifier classifier;
 
   Directory get _sources => Directory(p.join(root.path, 'media', 'sources'));
   Directory get _out => Directory(p.join(root.path, 'media', 'out'));
@@ -189,7 +188,7 @@ class FileStore implements FileStorePort {
     try {
       return await body();
     } catch (error) {
-      throw _classifier.classify(error, fallback: fallback);
+      throw classifier.classify(error, fallback: fallback);
     }
   }
 

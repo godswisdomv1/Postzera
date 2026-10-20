@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:postzera/core/data/default_profiles.dart';
 import 'package:postzera/core/models/platform_profile.dart';
 import 'package:postzera/core/models/send_record.dart';
-import 'package:postzera/core/ports/post_repository.dart';
 import 'package:postzera/core/ports/profile_repository.dart';
 import 'package:postzera/core/ports/send_record_repository.dart';
 import 'package:postzera/platform/storage/sqlite_database.dart';
