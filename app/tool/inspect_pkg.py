@@ -35,7 +35,7 @@ if len(sys.argv) > 4 and sys.argv[2] == '--sig':
             blk = []
             for x in lines[i:i + 40]:
                 blk.append(x.strip())
-                if re.search(r'(\{\s*$|=>|;\s*$|\bas?ync\b)', x):
+                if re.search(r'(\)\s*(async\s*)?(\{|=>)|;\s*$)', x):
                     break
             out.append(' '.join(blk)[:600])
     print('::notice title=sig %s::%s' % (sys.argv[3], esc('\n'.join(out)[:3800])))
