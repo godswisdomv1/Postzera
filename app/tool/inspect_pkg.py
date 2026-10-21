@@ -24,7 +24,22 @@ def compact(text):
         out.append(line.rstrip())
     return '\n'.join(out)
 
-if len(sys.argv) > 2 and sys.argv[2] == '--ls':
+if len(sys.argv) > 4 and sys.argv[2] == '--sig':
+    # --sig <file> <regex>: one-line declarations (joined) of members/classes whose line matches.
+    text = compact(open(os.path.join(lib, sys.argv[3])).read())
+    rx = re.compile(sys.argv[4])
+    lines = text.split('\n')
+    out = []
+    for i, line in enumerate(lines):
+        if rx.search(line) and not line.strip().startswith(('return', 'await', 'final ', 'if ', 'throw')):
+            blk = []
+            for x in lines[i:i + 40]:
+                blk.append(x.strip())
+                if re.search(r'(\{\s*$|=>|;\s*$|\bas?ync\b)', x):
+                    break
+            out.append(' '.join(blk)[:600])
+    print('::notice title=sig %s::%s' % (sys.argv[3], esc('\n'.join(out)[:3800])))
+elif len(sys.argv) > 2 and sys.argv[2] == '--ls':
     listing = '\n'.join(sorted(os.path.relpath(os.path.join(d, f), lib) for d, _, fs in os.walk(lib) for f in fs))
     print('::notice title=ls %s::%s' % (pkg, esc(listing[:48000])))
 elif len(sys.argv) > 3 and sys.argv[2] in ('--grep', '--grepc'):
