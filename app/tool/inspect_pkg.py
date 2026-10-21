@@ -27,8 +27,9 @@ def compact(text):
 if len(sys.argv) > 2 and sys.argv[2] == '--ls':
     listing = '\n'.join(sorted(os.path.relpath(os.path.join(d, f), lib) for d, _, fs in os.walk(lib) for f in fs))
     print('::notice title=ls %s::%s' % (pkg, esc(listing[:48000])))
-elif len(sys.argv) > 3 and sys.argv[2] == '--grep':
-    res = subprocess.run(['grep', '-rnE', sys.argv[3], lib], capture_output=True, text=True).stdout
+elif len(sys.argv) > 3 and sys.argv[2] in ('--grep', '--grepc'):
+    flags = ['-rnE'] + (['-A14'] if sys.argv[2] == '--grepc' else [])
+    res = subprocess.run(['grep'] + flags + [sys.argv[3], lib], capture_output=True, text=True).stdout
     res = res.replace(lib + '/', '')
     print('::notice title=grep %s::%s' % (pkg, esc(res[:48000])))
 else:
