@@ -33,12 +33,14 @@ class ConsentService implements ConsentPort {
   @override
   Future<ConsentRefreshResult> showPrivacyOptions() async {
     final Completer<void> done = Completer<void>();
-    ads.ConsentForm.showPrivacyOptionsForm((ads.FormError? error) {
-      if (error != null) {
-        Log.w('consent', 'privacy options: ${error.errorCode}');
-      }
-      done.complete();
-    });
+    unawaited(
+      ads.ConsentForm.showPrivacyOptionsForm((ads.FormError? error) {
+        if (error != null) {
+          Log.w('consent', 'privacy options: ${error.errorCode}');
+        }
+        done.complete();
+      }),
+    );
     await done.future.timeout(const Duration(minutes: 10), onTimeout: () {});
     return _read(updateOk: true);
   }
@@ -91,7 +93,7 @@ class ConsentService implements ConsentPort {
       consentDebugSettings: ads.ConsentDebugSettings(
         debugGeography: config.consentGeo == 'eea'
             ? ads.DebugGeography.debugGeographyEea
-            : ads.DebugGeography.debugGeographyNotEea,
+            : ads.DebugGeography.debugGeographyOther,
         testIdentifiers:
             config.testDeviceId.isEmpty ? null : <String>[config.testDeviceId],
       ),

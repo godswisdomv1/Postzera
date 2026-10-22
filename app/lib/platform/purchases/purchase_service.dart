@@ -48,15 +48,13 @@ class PurchaseService implements port.PurchasePort {
       return null;
     }
     try {
-      final FetchProductsResult result = await _iap.fetchProducts(
+      final List<Product> products = await _iap.fetchProducts<Product>(
         skus: <String>[_productId],
         type: ProductQueryType.InApp,
       );
-      if (result is FetchProductsResultProducts) {
-        for (final Product product in result.value ?? const <Product>[]) {
-          if (product.id == _productId) {
-            return product.displayPrice;
-          }
+      for (final Product product in products) {
+        if (product.id == _productId) {
+          return product.displayPrice;
         }
       }
       return null;
