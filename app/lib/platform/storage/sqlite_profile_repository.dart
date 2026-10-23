@@ -80,6 +80,11 @@ class SqliteProfileRepository implements ProfileRepository {
   }
 
   @override
+  Future<void> deleteAll() async {
+    _db.execute('DELETE FROM platform_profiles');
+  }
+
+  @override
   Future<void> ensureDefaults() async {
     final int count = readInt(
       _db.select('SELECT COUNT(*) AS n FROM platform_profiles').first['n'],
@@ -175,6 +180,11 @@ class InMemoryProfileRepository implements ProfileRepository {
             enabled: current.enabled,
             sortOrder: current.sortOrder,
           );
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    _items.clear();
   }
 
   @override

@@ -16,6 +16,10 @@ abstract class ProfileRepository {
   /// keeping its enabled flag and position.
   Future<void> resetToDefault(String id);
 
+  /// Removes every profile, built-in and custom. `ensureDefaults` then
+  /// refills the built-in ones. Used by **Delete all data**.
+  Future<void> deleteAll();
+
   /// Fills the nine built-in profiles on first run. Does nothing when
   /// profiles already exist.
   Future<void> ensureDefaults();
