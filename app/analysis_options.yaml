@@ -22,3 +22,5 @@ linter:
     always_use_package_imports: true
     directives_ordering: true
     unawaited_futures: true
+    # Constructors take private fields by explicit assignment on purpose.
+    prefer_initializing_formals: false
