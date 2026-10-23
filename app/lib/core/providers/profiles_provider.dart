@@ -68,7 +68,8 @@ class ProfilesProvider extends ValueNotifier<ProfilesState> {
       await _profiles.ensureDefaults();
       await _reload();
     } catch (error) {
-      value = value.copyWith(
+      value = ProfilesState(
+        profiles: value.profiles,
         loading: false,
         error: _classifier.classify(error, fallback: AppErrorKind.dbUnavailable),
       );
