@@ -384,7 +384,6 @@ void main() {
     late BannerProvider banners;
     late SettingsSync settings;
     late ProfilesProvider profiles;
-    late PostsProvider posts;
     late FixedClock clock;
     late ComposerProvider composer;
 
