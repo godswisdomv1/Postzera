@@ -138,6 +138,9 @@ class FakeRenderer implements MediaRendererPort {
   int slides = 0;
   Object? failWith;
 
+  /// When set, rendering waits until it is completed.
+  Completer<void>? gate;
+
   void _write(String path) {
     final Object? error = failWith;
     if (error != null) {
@@ -149,6 +152,7 @@ class FakeRenderer implements MediaRendererPort {
   @override
   Future<void> renderImage(MediaPlan plan, {required String outPath}) async {
     images++;
+    await gate?.future;
     _write(outPath);
   }
 
@@ -209,6 +213,7 @@ class FakeNotifications implements NotificationPort {
   int cancels = 0;
   int inits = 0;
   Object? failReplace;
+  Completer<void>? gate;
   NotificationTap? launch;
   final StreamController<NotificationTap> tapController =
       StreamController<NotificationTap>.broadcast();
@@ -236,6 +241,7 @@ class FakeNotifications implements NotificationPort {
     if (error != null) {
       throw error;
     }
+    await gate?.future;
     replaced.add(slots);
   }
 
