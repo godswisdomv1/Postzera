@@ -25,7 +25,7 @@ dependencies:
   image_picker: any
   file_picker: any
   pro_video_editor: 2.40.0
-  sqlite3: ^3.0.0
+  sqlite3: ^3.8.0
   path_provider: any
   path: any
   shared_preferences: any
