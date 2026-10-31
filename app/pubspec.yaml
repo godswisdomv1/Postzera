@@ -15,17 +15,17 @@ dependencies:
   intl: any
   characters: any
   hugeicons: ^1.2.0
-  google_mobile_ads: ^9.1.0
+  google_mobile_ads: ^9.2.0
   flutter_inapp_purchase: ^11.0.3
-  flutter_local_notifications: ^22.3.2
+  flutter_local_notifications: ^22.3.3
   timezone: any
   flutter_timezone: any
   share_plus: ^13.3.1
   url_launcher: any
   image_picker: any
-  file_picker: any
-  pro_video_editor: 2.40.0
-  sqlite3: ^3.0.0
+  file_picker: ^13.3.0
+  pro_video_editor: 2.50.1
+  sqlite3: ^3.8.0
   path_provider: any
   path: any
   shared_preferences: any
