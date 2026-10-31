@@ -44,17 +44,21 @@ void main() {
     expect(s.privacyOptionsRequired, isTrue);
   });
 
-  test(
-    'ads stay blocked while consent is required, whatever else is reported',
-    () {
-      final ConsentState s = resolve(
-        updateOk: true,
-        status: ConsentStatus.required,
-        canRequestAds: true,
-      );
-      expect(s.canRequestAds, isFalse);
-    },
-  );
+  test('the app never overrides the platform answer', () {
+    // Google: consult canRequestAds and nothing else. A user who declined,
+    // where the platform still allows requests (limited ads), is not blocked
+    // by the app.
+    for (final ConsentStatus status in ConsentStatus.values) {
+      for (final bool can in <bool>[true, false]) {
+        final ConsentState s = resolve(
+          updateOk: true,
+          status: status,
+          canRequestAds: can,
+        );
+        expect(s.canRequestAds, can, reason: '$status / $can');
+      }
+    }
+  });
 
   test('after the form is answered with yes, ads are allowed', () {
     final ConsentState s = resolve(

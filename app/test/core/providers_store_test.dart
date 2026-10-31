@@ -258,6 +258,26 @@ void main() {
       expect(banner.disposed, isTrue);
     });
 
+    test('a changed choice that still allows ads reloads the banner', () async {
+      consent.next = allowed;
+      await provider.refresh();
+      await provider.loadBanner(320);
+      final FakeBanner first = ads.made.single;
+      consent.afterOptions = const ConsentRefreshResult(
+        updateOk: true,
+        status: ConsentStatus.obtained,
+        canRequestAds: true,
+        privacyOptionsRequired: true,
+      );
+      await provider.showPrivacyOptions();
+      expect(first.disposed, isTrue);
+      expect(provider.value.canShowAds, isTrue);
+      expect(provider.value.banner, isNull);
+      await provider.loadBanner(320);
+      expect(provider.value.banner, isNotNull);
+      expect(ads.loads, 2);
+    });
+
     test('a failed load is retried and then succeeds', () async {
       await provider.refresh();
       ads.script.addAll(<FakeBanner?>[null, null, FakeBanner()]);

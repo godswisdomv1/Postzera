@@ -26,8 +26,11 @@ class AdsViewState {
   final BannerHandle? banner;
 }
 
-/// Consent, then ads. No ad is requested until consent allows it, and the
-/// banner is dropped the moment consent is withdrawn or the upgrade is bought.
+/// Consent, then ads. No ad is requested until the consent platform says ads
+/// may be requested, and the banner is dropped the moment that answer turns to
+/// no or the upgrade is bought. When the user changes their choice and ads are
+/// still allowed, the banner is dropped and requested again, so the new choice
+/// governs the next ad.
 class ConsentProvider extends ValueNotifier<AdsViewState> {
   ConsentProvider({
     required ConsentPort consent,
@@ -75,11 +78,18 @@ class ConsentProvider extends ValueNotifier<AdsViewState> {
     }
   }
 
-  /// Opens the privacy-options form. Ads stop at once if the answer changed
-  /// to "no".
+  /// Opens the privacy-options form. If the answer changed to "no", ads stop
+  /// at once. If ads are still allowed, the loaded banner was requested under
+  /// the old choice, so it is dropped and the slot requests a fresh one.
   Future<void> showPrivacyOptions() async {
     try {
       _apply(await _consent.showPrivacyOptions());
+      if (value.canShowAds && value.banner != null) {
+        _retry?.cancel();
+        _attempt = 0;
+        value.banner?.dispose();
+        value = AdsViewState(consent: value.consent, canShowAds: true);
+      }
     } catch (error) {
       Log.w('consent', 'privacy options failed: ${error.runtimeType}');
     }

@@ -9,16 +9,17 @@ class ConsentLogic {
 
   /// Turns what the consent platform reported into the app's state.
   ///
-  /// The platform answers `canRequestAds` from the previous session's saved
-  /// choice when a refresh fails, so an offline launch can never override a
-  /// saved "yes", and a decline, a withdrawal or no earlier answer blocks ads.
-  /// While consent is still required (the form has not been answered), ads
-  /// stay blocked whatever else the platform says.
+  /// Google's rule is that `canRequestAds` is the only thing an app may
+  /// consult: it already answers from the previous session when a refresh
+  /// fails, and it stays false until a required form has been answered. The
+  /// app never second-guesses it. A user who declines is not an ad-free user
+  /// by default: when the platform still allows requests, Google chooses the
+  /// serving mode (personalized, non-personalized or limited ads), and the
+  /// app simply asks.
   ConsentState resolve(ConsentRefreshResult result, {required DateTime now}) {
-    final bool stillRequired = result.status == ConsentStatus.required;
     return ConsentState(
       status: result.status,
-      canRequestAds: result.canRequestAds && !stillRequired,
+      canRequestAds: result.canRequestAds,
       privacyOptionsRequired: result.privacyOptionsRequired,
       updatedAt: now.toUtc(),
     );
