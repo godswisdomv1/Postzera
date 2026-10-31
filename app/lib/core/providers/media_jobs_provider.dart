@@ -111,7 +111,8 @@ class MediaJobsProvider extends ValueNotifier<MediaJobsState> {
     _byKey[key] = entry;
     _queue.add(entry);
     _set(key, MediaJob(cacheKey: variant.mediaPlan.cacheKey));
-    unawaited(_pump());
+    // Start on the next microtask, so the job is observably queued first.
+    scheduleMicrotask(() => unawaited(_pump()));
     return entry.completer.future;
   }
 
