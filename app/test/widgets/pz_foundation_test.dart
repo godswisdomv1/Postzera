@@ -50,7 +50,7 @@ void main() {
         harness(
           PzPressable(
             onTap: () {},
-            builder: (_, __) => const SizedBox.square(dimension: 10),
+            builder: (_, _) => const SizedBox.square(dimension: 10),
           ),
         ),
       );
@@ -65,7 +65,7 @@ void main() {
         harness(
           PzPressable(
             onTap: () => taps++,
-            builder: (_, __) => const SizedBox.square(dimension: 10),
+            builder: (_, _) => const SizedBox.square(dimension: 10),
           ),
         ),
       );
@@ -75,7 +75,7 @@ void main() {
         harness(
           PzPressable(
             onTap: null,
-            builder: (_, __) => const SizedBox.square(dimension: 10),
+            builder: (_, _) => const SizedBox.square(dimension: 10),
           ),
         ),
       );
@@ -89,7 +89,7 @@ void main() {
         harness(
           PzPressable(
             onTap: () => taps++,
-            builder: (_, __) => const SizedBox.square(dimension: 10),
+            builder: (_, _) => const SizedBox.square(dimension: 10),
           ),
         ),
       );
@@ -333,10 +333,15 @@ void main() {
 
   group('PzLoadingIndicator', () {
     testWidgets('appears only after its delay and then turns', (t) async {
+      final Finder arc = find.descendant(
+        of: find.byType(PzLoadingIndicator),
+        matching: find.byType(CustomPaint),
+      );
       await t.pumpWidget(harness(const PzLoadingIndicator()));
-      expect(t.getSize(find.byType(PzLoadingIndicator)), Size.zero);
+      expect(arc, findsNothing);
       await t.pump(const Duration(milliseconds: 310));
-      expect(t.getSize(find.byType(PzLoadingIndicator)), const Size.square(24));
+      expect(arc, findsOneWidget);
+      expect(t.getSize(arc), const Size.square(24));
       await t.pumpWidget(const SizedBox.shrink());
     });
   });

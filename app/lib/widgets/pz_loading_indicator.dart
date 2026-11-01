@@ -69,13 +69,19 @@ class _PzLoadingIndicatorState extends State<PzLoadingIndicator>
     } else if (!_controller.isAnimating) {
       unawaited(_controller.repeat());
     }
-    final Widget arc = RepaintBoundary(
-      child: RotationTransition(
-        turns: _controller,
-        child: CustomPaint(
-          size: Size.square(widget.size),
-          painter: _ArcPainter(
-            widget.color ?? PzTheme.of(context).colors.accent,
+    final Widget arc = Center(
+      widthFactor: 1,
+      heightFactor: 1,
+      child: SizedBox.square(
+        dimension: widget.size,
+        child: RepaintBoundary(
+          child: RotationTransition(
+            turns: _controller,
+            child: CustomPaint(
+              painter: _ArcPainter(
+                widget.color ?? PzTheme.of(context).colors.accent,
+              ),
+            ),
           ),
         ),
       ),
