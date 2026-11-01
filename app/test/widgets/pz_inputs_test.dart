@@ -157,6 +157,16 @@ void main() {
         t.getTopLeft(find.byType(EditableText)) + const Offset(24, 12),
       );
       await t.pumpAndSettle();
+      expect(c.selection.isCollapsed, isFalse, reason: 'a word is selected');
+      final EditableTextState editable = t.state<EditableTextState>(
+        find.byType(EditableText),
+      );
+      expect(
+        editable.selectionOverlay?.toolbarIsVisible,
+        isTrue,
+        reason: 'the toolbar overlay is shown; items: '
+            '${editable.contextMenuButtonItems.map((i) => i.type).toList()}',
+      );
       expect(find.text('Cut'), findsOneWidget);
       expect(find.text('Copy'), findsOneWidget);
     });
