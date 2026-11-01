@@ -161,17 +161,10 @@ void main() {
       final EditableTextState editable = t.state<EditableTextState>(
         find.byType(EditableText),
       );
-      final bool afterPress = editable.selectionOverlay?.toolbarIsVisible ?? false;
-      final bool asked = editable.showToolbar();
+      // A long press selects the word. Asking for the toolbar then shows our
+      // chips through contextMenuBuilder.
+      expect(editable.showToolbar(), isTrue);
       await t.pumpAndSettle();
-      final bool afterAsk = editable.selectionOverlay?.toolbarIsVisible ?? false;
-      expect(
-        find.text('Cut').evaluate().length,
-        1,
-        reason: 'visible after press: $afterPress; showToolbar returned '
-            '$asked; visible after: $afterAsk; overlay: '
-            '${editable.selectionOverlay}; selection: ${c.selection}',
-      );
       expect(find.text('Cut'), findsOneWidget);
       expect(find.text('Copy'), findsOneWidget);
     });
