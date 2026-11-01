@@ -5,9 +5,10 @@ import 'package:postzera/theme/pz_theme.dart';
 /// Round accent handles at the ends of a text selection. They are drawn here
 /// because the framework's handles belong to Material and Cupertino. The
 /// toolbar is separate: see `PzTextSelectionToolbar`, which the field passes
-/// through `contextMenuBuilder`. Extending the handle-only base class is what
+/// through `contextMenuBuilder`. Mixing in `TextSelectionHandleControls` is what
 /// makes the framework use that builder.
-class PzSelectionHandles extends TextSelectionHandleControls {
+class PzSelectionHandles extends TextSelectionControls
+    with TextSelectionHandleControls {
   @override
   Widget buildHandle(
     BuildContext context,
