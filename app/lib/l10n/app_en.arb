@@ -123,5 +123,102 @@
   "fatal_support": "Contact support",
   "@fatal_support": {
     "description": "Link on the fatal error screen that opens the support page."
+  },
+  "field_cut": "Cut",
+  "@field_cut": {
+    "description": "Text selection toolbar: cuts the selected text."
+  },
+  "field_paste": "Paste",
+  "@field_paste": {
+    "description": "Text selection toolbar: pastes from the clipboard."
+  },
+  "field_selectAll": "Select all",
+  "@field_selectAll": {
+    "description": "Text selection toolbar: selects all the text in the field."
+  },
+  "banner_postSaved": "Post saved",
+  "@banner_postSaved": {
+    "description": "Banner after saving a post."
+  },
+  "banner_postScheduled": "Post scheduled",
+  "@banner_postScheduled": {
+    "description": "Banner after scheduling a post."
+  },
+  "banner_postDeleted": "Post deleted",
+  "@banner_postDeleted": {
+    "description": "Banner after deleting a post."
+  },
+  "banner_postDuplicated": "Post duplicated",
+  "@banner_postDuplicated": {
+    "description": "Banner after duplicating a post."
+  },
+  "banner_markedPosted": "Marked as posted",
+  "@banner_markedPosted": {
+    "description": "Banner after the user confirms a post was sent."
+  },
+  "banner_skipped": "Skipped",
+  "@banner_skipped": {
+    "description": "Banner after the user skips a platform."
+  },
+  "banner_captionCopied": "Caption copied",
+  "@banner_captionCopied": {
+    "description": "Banner after copying a caption to the clipboard."
+  },
+  "banner_titleCopied": "Title copied",
+  "@banner_titleCopied": {
+    "description": "Banner after copying a title to the clipboard."
+  },
+  "banner_exported": "Export ready",
+  "@banner_exported": {
+    "description": "Banner after a CSV export file was created."
+  },
+  "banner_dataDeleted": "All data deleted",
+  "@banner_dataDeleted": {
+    "description": "Banner after the user deletes all app data."
+  },
+  "banner_adsRemoved": "Ads removed",
+  "@banner_adsRemoved": {
+    "description": "Banner after the ad-removal purchase succeeds."
+  },
+  "banner_purchaseRestored": "Purchase restored",
+  "@banner_purchaseRestored": {
+    "description": "Banner after a purchase was restored."
+  },
+  "banner_nothingToRestore": "Nothing to restore",
+  "@banner_nothingToRestore": {
+    "description": "Banner when a restore finds no purchase."
+  },
+  "banner_databaseRecovered": "A damaged data file was replaced. A backup copy was kept.",
+  "@banner_databaseRecovered": {
+    "description": "Banner after the database file was damaged and a fresh one was created."
+  },
+  "banner_storageFallback": "Changes cannot be saved right now and will be lost when the app closes.",
+  "@banner_storageFallback": {
+    "description": "Permanent banner when the app cannot use its database."
+  },
+  "banner_schedulingFailed": "Reminders could not be scheduled.",
+  "@banner_schedulingFailed": {
+    "description": "Banner when scheduling reminder notifications failed."
+  },
+  "banner_imported": "{count, plural, =1{1 post imported} other{{count} posts imported}}",
+  "@banner_imported": {
+    "description": "Banner after a CSV import. The count is the number of posts added.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "undo_postDeleted": "Post deleted",
+  "@undo_postDeleted": {
+    "description": "Undo banner text after deleting a post."
+  },
+  "undo_markedPosted": "Marked as posted",
+  "@undo_markedPosted": {
+    "description": "Undo banner text after marking a post as posted."
+  },
+  "undo_skipped": "Skipped",
+  "@undo_skipped": {
+    "description": "Undo banner text after skipping a platform."
   }
 }

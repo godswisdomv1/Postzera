@@ -19,6 +19,28 @@ abstract final class PzSizes {
   static const double rowMinHeight = 56;
   static const double cardPadding = 16;
 
+  static const double navBarHeight = 56;
+  static const double dialogMaxWidth = 400;
+
+  /// Drag handle at the top of a bottom sheet.
+  static const double sheetHandleWidth = 36;
+  static const double sheetHandleHeight = 4;
+
+  /// Width of the strip at the screen edge that starts the back swipe.
+  static const double backGestureEdge = 20;
+
+  /// The round handles at the ends of a text selection.
+  static const double selectionHandle = 22;
+
+  /// The toggle switch.
+  static const double switchWidth = 52;
+  static const double switchHeight = 32;
+  static const double switchThumb = 24;
+
+  /// Date and time wheels.
+  static const double wheelItemExtent = 44;
+  static const double wheelHeight = 176;
+
   /// Border width of cards and dividers.
   static const double hairline = 0.5;
 }

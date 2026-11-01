@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:postzera/theme/pz_sizes.dart';
 import 'package:postzera/theme/pz_spacing.dart';
 import 'package:postzera/theme/pz_theme.dart';
 import 'package:postzera/widgets/foundation/pz_icon_chip.dart';
@@ -58,7 +59,7 @@ class PzNavBar extends StatelessWidget {
         child: ConstrainedBox(
           constraints: const BoxConstraints(
             maxWidth: PzSpacing.contentMaxWidth,
-            minHeight: 56,
+            minHeight: PzSizes.navBarHeight,
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(
