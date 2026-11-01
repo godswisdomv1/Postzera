@@ -378,6 +378,7 @@ void main() {
       banners.success(BannerMessage.imported, count: 12);
       await t.pump();
       expect(find.text('12 posts imported'), findsOneWidget);
+      banners.dismiss();
     });
 
     testWidgets('sticky banners stay until removed', (t) async {

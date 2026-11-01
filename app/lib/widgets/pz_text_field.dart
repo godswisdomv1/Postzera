@@ -66,9 +66,25 @@ class PzTextField extends StatefulWidget {
   State<PzTextField> createState() => _PzTextFieldState();
 }
 
-class _PzTextFieldState extends State<PzTextField> {
+class _PzTextFieldState extends State<PzTextField>
+    implements TextSelectionGestureDetectorBuilderDelegate {
   FocusNode? _ownNode;
   final PzSelectionHandles _handles = PzSelectionHandles();
+  final GlobalKey<EditableTextState> _editableKey =
+      GlobalKey<EditableTextState>();
+  late final TextSelectionGestureDetectorBuilder _gestures =
+      TextSelectionGestureDetectorBuilder(delegate: this);
+
+  // Taps, double taps, long presses and drags place the cursor, select words
+  // and show the toolbar. A bare EditableText does none of that by itself.
+  @override
+  GlobalKey<EditableTextState> get editableTextKey => _editableKey;
+
+  @override
+  bool get forcePressEnabled => false;
+
+  @override
+  bool get selectionEnabled => true;
 
   FocusNode get _node =>
       widget.focusNode ?? (_ownNode ??= FocusNode(debugLabel: 'PzTextField'));
@@ -141,6 +157,7 @@ class _PzTextFieldState extends State<PzTextField> {
     final TextDirection? direction = _directionOf(text);
 
     final Widget editable = EditableText(
+      key: _editableKey,
       controller: widget.controller,
       focusNode: _node,
       style: theme.text.body,
@@ -202,7 +219,10 @@ class _PzTextFieldState extends State<PzTextField> {
                       ),
                     ),
                   ),
-                editable,
+                _gestures.buildGestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  child: editable,
+                ),
               ],
             ),
           ),
