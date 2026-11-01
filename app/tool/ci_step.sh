@@ -27,7 +27,9 @@ tail_text="$({
 
 if [ "$code" -ne 0 ]; then
   echo "::error title=${title} failed::${tail_text}"
-  details="$(clean | grep -n -A22 -E '\[E\]|Error:|Exception' | head -n 110 | escape)"
+  # The exception text of a failed test sits just before its [E] line, so keep
+  # the lines before it, and drop the app's own log chatter.
+  details="$(clean | grep -v -E ' (INFO|WARNING|ERROR) \[' | grep -n -B32 -A4 -E '\[E\]|Error:' | head -n 200 | escape)"
   echo "::error title=${title} details::${details}"
 else
   echo "::notice title=${title} output::${tail_text}"
