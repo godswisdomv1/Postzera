@@ -153,7 +153,9 @@ void main() {
       await t.pumpAndSettle();
       await t.enterText(find.byType(EditableText), 'hello');
       await t.pump();
-      await t.longPress(find.byType(EditableText));
+      await t.longPressAt(
+        t.getTopLeft(find.byType(EditableText)) + const Offset(24, 12),
+      );
       await t.pumpAndSettle();
       expect(find.text('Cut'), findsOneWidget);
       expect(find.text('Copy'), findsOneWidget);
