@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:postzera/core/providers/banner_provider.dart';
 import 'package:postzera/core/providers/undo_provider.dart';
 import 'package:postzera/l10n/app_localizations.dart';
@@ -54,6 +55,8 @@ class Opener extends StatelessWidget {
 }
 
 void main() {
+  setUpAll(initializeDateFormatting);
+
   group('PzTextField', () {
     Widget field(
       TextEditingController c, {
@@ -148,15 +151,10 @@ void main() {
       addTearDown(c.dispose);
       await t.pumpWidget(field(c));
       await t.pumpAndSettle();
-      await t.tap(find.byType(PzTextField));
       await t.enterText(find.byType(EditableText), 'hello');
-      c.selection = const TextSelection(baseOffset: 0, extentOffset: 5);
       await t.pump();
-      final EditableTextState state = t.state<EditableTextState>(
-        find.byType(EditableText),
-      );
-      expect(state.showToolbar(), isTrue);
-      await t.pump();
+      await t.longPress(find.byType(EditableText));
+      await t.pumpAndSettle();
       expect(find.text('Cut'), findsOneWidget);
       expect(find.text('Copy'), findsOneWidget);
     });
@@ -264,7 +262,7 @@ void main() {
       await t.tap(find.text('Open'));
       await t.pumpAndSettle();
       final Offset content = t.getCenter(find.text('Sheet content'));
-      await t.dragFrom(Offset(content.dx, content.dy - 60), const Offset(0, 400));
+      await t.dragFrom(Offset(content.dx, content.dy - 34), const Offset(0, 400));
       await t.pumpAndSettle();
       expect(find.text('Sheet content'), findsNothing);
     });
@@ -441,26 +439,32 @@ void main() {
 
     testWidgets('on iPhone an edge swipe goes back', (t) async {
       debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
-      addTearDown(() => debugDefaultTargetPlatformOverride = null);
-      await t.pumpWidget(pusher());
-      await t.pumpAndSettle();
-      await t.tap(find.text('Open'));
-      await t.pumpAndSettle();
-      await t.dragFrom(const Offset(4, 300), const Offset(600, 0));
-      await t.pumpAndSettle();
-      expect(find.text('Second screen'), findsNothing);
+      try {
+        await t.pumpWidget(pusher());
+        await t.pumpAndSettle();
+        await t.tap(find.text('Open'));
+        await t.pumpAndSettle();
+        await t.dragFrom(const Offset(4, 300), const Offset(600, 0));
+        await t.pumpAndSettle();
+        expect(find.text('Second screen'), findsNothing);
+      } finally {
+        debugDefaultTargetPlatformOverride = null;
+      }
     });
 
     testWidgets('on Android an edge swipe does nothing', (t) async {
       debugDefaultTargetPlatformOverride = TargetPlatform.android;
-      addTearDown(() => debugDefaultTargetPlatformOverride = null);
-      await t.pumpWidget(pusher());
-      await t.pumpAndSettle();
-      await t.tap(find.text('Open'));
-      await t.pumpAndSettle();
-      await t.dragFrom(const Offset(4, 300), const Offset(600, 0));
-      await t.pumpAndSettle();
-      expect(find.text('Second screen'), findsOneWidget);
+      try {
+        await t.pumpWidget(pusher());
+        await t.pumpAndSettle();
+        await t.tap(find.text('Open'));
+        await t.pumpAndSettle();
+        await t.dragFrom(const Offset(4, 300), const Offset(600, 0));
+        await t.pumpAndSettle();
+        expect(find.text('Second screen'), findsOneWidget);
+      } finally {
+        debugDefaultTargetPlatformOverride = null;
+      }
     });
   });
 }
