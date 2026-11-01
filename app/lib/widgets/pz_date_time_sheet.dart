@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' show DateFormat, NumberFormat;
 import 'package:postzera/l10n/app_localizations.dart';
 import 'package:postzera/theme/pz_radii.dart';
 import 'package:postzera/theme/pz_sizes.dart';

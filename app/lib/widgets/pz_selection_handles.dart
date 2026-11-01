@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:postzera/theme/pz_sizes.dart';
 import 'package:postzera/theme/pz_theme.dart';
@@ -36,4 +38,20 @@ class PzSelectionHandles extends TextSelectionControls {
   @override
   Size getHandleSize(double textLineHeight) =>
       const Size.square(PzSizes.selectionHandle);
+
+  /// Required by the framework's base class. The toolbar is drawn through
+  /// `contextMenuBuilder` instead, so this draws nothing.
+  @override
+  Widget buildToolbar(
+    BuildContext context,
+    Rect globalEditableRegion,
+    double textLineHeight,
+    Offset selectionMidpoint,
+    List<TextSelectionPoint> endpoints,
+    TextSelectionDelegate delegate,
+    ValueListenable<ClipboardStatus>? clipboardStatus,
+    Offset? lastSecondaryTapDownPosition,
+  ) {
+    return const SizedBox.shrink();
+  }
 }
