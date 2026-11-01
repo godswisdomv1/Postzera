@@ -123,9 +123,8 @@ class _DateTimeBodyState extends State<_DateTimeBody> {
         onSelectedItemChanged: onChanged,
         childDelegate: ListWheelChildBuilderDelegate(
           childCount: count,
-          builder: (BuildContext context, int index) => Center(
-            child: Text(label(index), style: theme.text.body),
-          ),
+          builder: (BuildContext context, int index) =>
+              Center(child: Text(label(index), style: theme.text.body)),
         ),
       ),
     );

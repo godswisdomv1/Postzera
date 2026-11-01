@@ -57,7 +57,11 @@ class PzErrorView extends StatelessWidget {
                 color: theme.colors.error,
               ),
               const SizedBox(height: PzSpacing.md),
-              Text(title, textAlign: TextAlign.center, style: theme.text.title1),
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: theme.text.title1,
+              ),
               const SizedBox(height: PzSpacing.sm),
               Text(
                 message,
@@ -88,7 +92,10 @@ class PzErrorView extends StatelessWidget {
     content = DefaultTextStyle(style: theme.text.body, child: content);
     content = PzTheme(data: theme, child: content);
     if (Directionality.maybeOf(context) == null) {
-      content = Directionality(textDirection: TextDirection.ltr, child: content);
+      content = Directionality(
+        textDirection: TextDirection.ltr,
+        child: content,
+      );
     }
     return content;
   }

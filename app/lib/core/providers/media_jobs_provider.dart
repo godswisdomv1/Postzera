@@ -33,14 +33,13 @@ class MediaJob {
     double? progress,
     MediaResult? result,
     AppError? error,
-  }) =>
-      MediaJob(
-        cacheKey: cacheKey,
-        status: status ?? this.status,
-        progress: progress ?? this.progress,
-        result: result ?? this.result,
-        error: error ?? this.error,
-      );
+  }) => MediaJob(
+    cacheKey: cacheKey,
+    status: status ?? this.status,
+    progress: progress ?? this.progress,
+    result: result ?? this.result,
+    error: error ?? this.error,
+  );
 }
 
 @immutable
@@ -67,9 +66,9 @@ class MediaJobsProvider extends ValueNotifier<MediaJobsState> {
   MediaJobsProvider({
     required MediaPipeline pipeline,
     ErrorClassifier classifier = const ErrorClassifier(),
-  })  : _pipeline = pipeline,
-        _classifier = classifier,
-        super(const MediaJobsState());
+  }) : _pipeline = pipeline,
+       _classifier = classifier,
+       super(const MediaJobsState());
 
   final MediaPipeline _pipeline;
   final ErrorClassifier _classifier;
@@ -121,7 +120,10 @@ class MediaJobsProvider extends ValueNotifier<MediaJobsState> {
   void requestAll(String postId, List<Variant> variants) {
     for (final Variant v in variants) {
       unawaited(
-        produce(postId, v).then<void>((MediaResult _) {}, onError: (Object _) {}),
+        produce(
+          postId,
+          v,
+        ).then<void>((MediaResult _) {}, onError: (Object _) {}),
       );
     }
   }
@@ -186,10 +188,13 @@ class MediaJobsProvider extends ValueNotifier<MediaJobsState> {
 
   Future<void> _run(_Entry entry) async {
     final String key = keyFor(entry.postId, entry.variant.platformId);
-    _set(key, MediaJob(
-      cacheKey: entry.variant.mediaPlan.cacheKey,
-      status: MediaJobStatus.rendering,
-    ));
+    _set(
+      key,
+      MediaJob(
+        cacheKey: entry.variant.mediaPlan.cacheKey,
+        status: MediaJobStatus.rendering,
+      ),
+    );
     try {
       final MediaResult result = await _pipeline.produce(
         entry.variant,
@@ -204,12 +209,15 @@ class MediaJobsProvider extends ValueNotifier<MediaJobsState> {
         },
       );
       if (identical(_byKey[key], entry)) {
-        _set(key, MediaJob(
-          cacheKey: entry.variant.mediaPlan.cacheKey,
-          status: MediaJobStatus.ready,
-          progress: 1,
-          result: result,
-        ));
+        _set(
+          key,
+          MediaJob(
+            cacheKey: entry.variant.mediaPlan.cacheKey,
+            status: MediaJobStatus.ready,
+            progress: 1,
+            result: result,
+          ),
+        );
       }
       entry.completer.complete(result);
     } on MediaCancelled {
@@ -219,14 +227,19 @@ class MediaJobsProvider extends ValueNotifier<MediaJobsState> {
       }
       entry.completer.completeError(const MediaCancelled());
     } catch (error) {
-      final AppError app =
-          _classifier.classify(error, fallback: AppErrorKind.renderFailed);
+      final AppError app = _classifier.classify(
+        error,
+        fallback: AppErrorKind.renderFailed,
+      );
       if (identical(_byKey[key], entry)) {
-        _set(key, MediaJob(
-          cacheKey: entry.variant.mediaPlan.cacheKey,
-          status: MediaJobStatus.failed,
-          error: app,
-        ));
+        _set(
+          key,
+          MediaJob(
+            cacheKey: entry.variant.mediaPlan.cacheKey,
+            status: MediaJobStatus.failed,
+            error: app,
+          ),
+        );
       }
       entry.completer.completeError(app);
     }

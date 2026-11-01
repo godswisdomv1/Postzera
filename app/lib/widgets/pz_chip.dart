@@ -104,10 +104,8 @@ class PzChip extends StatelessWidget {
       onTap: onTap,
       semanticLabel: semanticLabel,
       focusRadius: PzRadii.pill(PzSizes.chipHeight),
-      builder: (BuildContext context, PzPressState state) => _body(
-        context,
-        opacity: state.pressed ? PzMotion.pressedOpacity : 1,
-      ),
+      builder: (BuildContext context, PzPressState state) =>
+          _body(context, opacity: state.pressed ? PzMotion.pressedOpacity : 1),
     );
   }
 }

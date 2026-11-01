@@ -53,10 +53,10 @@ class ProfilesProvider extends ValueNotifier<ProfilesState> {
     required ProfileRepository profiles,
     required BannerProvider banners,
     ErrorClassifier classifier = const ErrorClassifier(),
-  })  : _profiles = profiles,
-        _banners = banners,
-        _classifier = classifier,
-        super(const ProfilesState());
+  }) : _profiles = profiles,
+       _banners = banners,
+       _classifier = classifier,
+       super(const ProfilesState());
 
   final ProfileRepository _profiles;
   final BannerProvider _banners;
@@ -71,7 +71,10 @@ class ProfilesProvider extends ValueNotifier<ProfilesState> {
       value = ProfilesState(
         profiles: value.profiles,
         loading: false,
-        error: _classifier.classify(error, fallback: AppErrorKind.dbUnavailable),
+        error: _classifier.classify(
+          error,
+          fallback: AppErrorKind.dbUnavailable,
+        ),
       );
     }
   }
@@ -86,8 +89,9 @@ class ProfilesProvider extends ValueNotifier<ProfilesState> {
 
   /// Moves a platform up (negative [delta]) or down in the order.
   Future<void> move(String id, int delta) async {
-    final List<String> ids =
-        value.profiles.map((PlatformProfile p) => p.id).toList();
+    final List<String> ids = value.profiles
+        .map((PlatformProfile p) => p.id)
+        .toList();
     final int from = ids.indexOf(id);
     final int to = from + delta;
     if (from < 0 || to < 0 || to >= ids.length) {
@@ -127,9 +131,9 @@ class ProfilesProvider extends ValueNotifier<ProfilesState> {
     final int order = value.profiles.isEmpty
         ? 0
         : value.profiles
-                .map((PlatformProfile p) => p.sortOrder)
-                .reduce((int a, int b) => a > b ? a : b) +
-            1;
+                  .map((PlatformProfile p) => p.sortOrder)
+                  .reduce((int a, int b) => a > b ? a : b) +
+              1;
     final PlatformProfile profile = PlatformProfile(
       id: 'custom-${newId()}',
       name: cleanName,

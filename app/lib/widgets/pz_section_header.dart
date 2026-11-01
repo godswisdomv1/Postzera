@@ -4,11 +4,7 @@ import 'package:postzera/theme/pz_theme.dart';
 
 /// A small uppercase, tracked heading for a group: 24 above and 8 below.
 class PzSectionHeader extends StatelessWidget {
-  const PzSectionHeader(
-    this.text, {
-    this.topSpacing = PzSpacing.lg,
-    super.key,
-  });
+  const PzSectionHeader(this.text, {this.topSpacing = PzSpacing.lg, super.key});
 
   final String text;
 

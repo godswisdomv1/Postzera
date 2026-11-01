@@ -7,10 +7,8 @@ import 'package:share_plus/share_plus.dart';
 
 /// The system share sheet, carrying the media file and the caption.
 class ShareService implements SharePort {
-  ShareService({
-    SharePlus? share,
-    this.classifier = const ErrorClassifier(),
-  }) : _share = share ?? SharePlus.instance;
+  ShareService({SharePlus? share, this.classifier = const ErrorClassifier()})
+    : _share = share ?? SharePlus.instance;
 
   final SharePlus _share;
   final ErrorClassifier classifier;
@@ -28,7 +26,12 @@ class ShareService implements SharePort {
           files: <XFile>[XFile(filePath, mimeType: mimeTypeOf(filePath))],
           sharePositionOrigin: origin == null
               ? null
-              : Rect.fromLTWH(origin.left, origin.top, origin.width, origin.height),
+              : Rect.fromLTWH(
+                  origin.left,
+                  origin.top,
+                  origin.width,
+                  origin.height,
+                ),
         ),
       );
       return switch (result.status) {

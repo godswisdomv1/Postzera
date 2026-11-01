@@ -43,12 +43,12 @@ class ConsentProvider extends ValueNotifier<AdsViewState> {
       Duration(seconds: 60),
       Duration(seconds: 120),
     ],
-  })  : _consent = consent,
-        _ads = ads,
-        _entitlement = entitlement,
-        _clock = clock,
-        _logic = logic,
-        super(const AdsViewState()) {
+  }) : _consent = consent,
+       _ads = ads,
+       _entitlement = entitlement,
+       _clock = clock,
+       _logic = logic,
+       super(const AdsViewState()) {
     _entitlement.addListener(_recompute);
   }
 

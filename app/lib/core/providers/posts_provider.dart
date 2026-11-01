@@ -44,15 +44,14 @@ class PostsState {
     PostStatus? status,
     bool clearStatus = false,
     PostSort? sort,
-  }) =>
-      PostsState(
-        posts: posts ?? this.posts,
-        loading: loading ?? this.loading,
-        error: clearError ? null : (error ?? this.error),
-        query: query ?? this.query,
-        status: clearStatus ? null : (status ?? this.status),
-        sort: sort ?? this.sort,
-      );
+  }) => PostsState(
+    posts: posts ?? this.posts,
+    loading: loading ?? this.loading,
+    error: clearError ? null : (error ?? this.error),
+    query: query ?? this.query,
+    status: clearStatus ? null : (status ?? this.status),
+    sort: sort ?? this.sort,
+  );
 }
 
 /// The library: every post, with search, filter and sort, plus save,
@@ -68,15 +67,15 @@ class PostsProvider extends ValueNotifier<PostsState> {
     required BannerProvider banners,
     this.onChanged,
     ErrorClassifier classifier = const ErrorClassifier(),
-  })  : _posts = posts,
-        _records = records,
-        _files = files,
-        _share = share,
-        _clock = clock,
-        _undo = undo,
-        _banners = banners,
-        _classifier = classifier,
-        super(const PostsState());
+  }) : _posts = posts,
+       _records = records,
+       _files = files,
+       _share = share,
+       _clock = clock,
+       _undo = undo,
+       _banners = banners,
+       _classifier = classifier,
+       super(const PostsState());
 
   final PostRepository _posts;
   final SendRecordRepository _records;
@@ -121,7 +120,9 @@ class PostsProvider extends ValueNotifier<PostsState> {
         _banners.success(announce);
       }
     } catch (error) {
-      _banners.failure(_classifier.classify(error, fallback: AppErrorKind.dbUnavailable));
+      _banners.failure(
+        _classifier.classify(error, fallback: AppErrorKind.dbUnavailable),
+      );
     }
   }
 
@@ -159,7 +160,9 @@ class PostsProvider extends ValueNotifier<PostsState> {
       await _reload();
       _banners.success(BannerMessage.postDuplicated);
     } catch (error) {
-      _banners.failure(_classifier.classify(error, fallback: AppErrorKind.dbUnavailable));
+      _banners.failure(
+        _classifier.classify(error, fallback: AppErrorKind.dbUnavailable),
+      );
     }
   }
 
@@ -191,7 +194,9 @@ class PostsProvider extends ValueNotifier<PostsState> {
         ),
       );
     } catch (error) {
-      _banners.failure(_classifier.classify(error, fallback: AppErrorKind.dbUnavailable));
+      _banners.failure(
+        _classifier.classify(error, fallback: AppErrorKind.dbUnavailable),
+      );
     }
   }
 
@@ -209,7 +214,9 @@ class PostsProvider extends ValueNotifier<PostsState> {
       }
       return outcome;
     } catch (error) {
-      _banners.failure(_classifier.classify(error, fallback: AppErrorKind.shareFailed));
+      _banners.failure(
+        _classifier.classify(error, fallback: AppErrorKind.shareFailed),
+      );
       return null;
     }
   }
@@ -233,7 +240,10 @@ class PostsProvider extends ValueNotifier<PostsState> {
       }
       value = value.copyWith(
         loading: false,
-        error: _classifier.classify(error, fallback: AppErrorKind.dbUnavailable),
+        error: _classifier.classify(
+          error,
+          fallback: AppErrorKind.dbUnavailable,
+        ),
       );
     }
   }

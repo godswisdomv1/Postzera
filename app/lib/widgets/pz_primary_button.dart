@@ -44,7 +44,9 @@ class PzPrimaryButton extends StatelessWidget {
             curve: PzMotion.easeOut,
             child: DecoratedBox(
               decoration: BoxDecoration(
-                color: state.pressed ? theme.colors.accentDim : theme.colors.accent,
+                color: state.pressed
+                    ? theme.colors.accentDim
+                    : theme.colors.accent,
                 borderRadius: PzRadii.buttonRadius,
               ),
               child: PzButtonContent(

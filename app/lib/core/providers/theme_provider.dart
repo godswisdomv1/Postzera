@@ -12,10 +12,10 @@ class ThemeProvider extends ValueNotifier<ThemeModeSetting> {
 
   /// Whether the dark theme applies, given whether the system is dark.
   bool isDark({required bool systemIsDark}) => switch (value) {
-        ThemeModeSetting.system => systemIsDark,
-        ThemeModeSetting.light => false,
-        ThemeModeSetting.dark => true,
-      };
+    ThemeModeSetting.system => systemIsDark,
+    ThemeModeSetting.light => false,
+    ThemeModeSetting.dark => true,
+  };
 
   Future<void> setMode(ThemeModeSetting mode) async {
     await _sync.update((AppSettings s) => s.copyWith(themeMode: mode));

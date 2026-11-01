@@ -10,7 +10,7 @@ import 'package:postzera/utils/log.dart';
 /// (Google Play Billing and StoreKit 2).
 class PurchaseService implements port.PurchasePort {
   PurchaseService({FlutterInappPurchase? plugin})
-      : _iap = plugin ?? FlutterInappPurchase.instance;
+    : _iap = plugin ?? FlutterInappPurchase.instance;
 
   final FlutterInappPurchase _iap;
   final StreamController<port.PurchaseEvent> _events =

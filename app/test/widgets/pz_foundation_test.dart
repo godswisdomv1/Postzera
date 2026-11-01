@@ -136,7 +136,10 @@ void main() {
         await t.pumpWidget(
           wrap(PzPrimaryButton(label: 'Send', onPressed: () => taps++)),
         );
-        expect(t.getSize(find.byType(PzPrimaryButton)).height, greaterThanOrEqualTo(48));
+        expect(
+          t.getSize(find.byType(PzPrimaryButton)).height,
+          greaterThanOrEqualTo(48),
+        );
         await t.tap(find.byType(PzPrimaryButton));
         expect(taps, 1);
       });
@@ -144,7 +147,9 @@ void main() {
       testWidgets('a disabled or busy primary button ignores taps', (t) async {
         int taps = 0;
         await t.pumpWidget(
-          wrap(PzPrimaryButton(label: 'Send', onPressed: () => taps++, busy: true)),
+          wrap(
+            PzPrimaryButton(label: 'Send', onPressed: () => taps++, busy: true),
+          ),
         );
         await t.tap(find.byType(PzPrimaryButton));
         await t.pumpWidget(
@@ -167,9 +172,18 @@ void main() {
       testWidgets('icon chip: target 48, label read aloud', (t) async {
         final SemanticsHandle handle = t.ensureSemantics();
         await t.pumpWidget(
-          wrap(PzIconChip(icon: PzIcons.settings, semanticLabel: 'Settings', onTap: () {})),
+          wrap(
+            PzIconChip(
+              icon: PzIcons.settings,
+              semanticLabel: 'Settings',
+              onTap: () {},
+            ),
+          ),
         );
-        expect(t.getSize(find.byType(PzPressable)).width, greaterThanOrEqualTo(48));
+        expect(
+          t.getSize(find.byType(PzPressable)).width,
+          greaterThanOrEqualTo(48),
+        );
         expect(find.bySemanticsLabel('Settings'), findsOneWidget);
         handle.dispose();
       });
@@ -177,7 +191,14 @@ void main() {
       testWidgets('card summary taps and shows label and value', (t) async {
         int taps = 0;
         await t.pumpWidget(
-          wrap(PzCard.summary(label: 'Theme', value: 'Light', icon: PzIcons.theme, onTap: () => taps++)),
+          wrap(
+            PzCard.summary(
+              label: 'Theme',
+              value: 'Light',
+              icon: PzIcons.theme,
+              onTap: () => taps++,
+            ),
+          ),
         );
         expect(find.text('Theme'), findsOneWidget);
         expect(find.text('Light'), findsOneWidget);
@@ -192,26 +213,35 @@ void main() {
 
       testWidgets('chips show icon plus label for status', (t) async {
         await t.pumpWidget(
-          wrap(const Column(children: <Widget>[
-            PzChip(label: 'Sent', tone: PzChipTone.success),
-            PzChip(label: 'Shortened', tone: PzChipTone.warning),
-            PzChip(label: 'Failed', tone: PzChipTone.error),
-            PzChip(label: 'Drafts', selected: true),
-          ])),
+          wrap(
+            const Column(
+              children: <Widget>[
+                PzChip(label: 'Sent', tone: PzChipTone.success),
+                PzChip(label: 'Shortened', tone: PzChipTone.warning),
+                PzChip(label: 'Failed', tone: PzChipTone.error),
+                PzChip(label: 'Drafts', selected: true),
+              ],
+            ),
+          ),
         );
         expect(find.text('Sent'), findsOneWidget);
         expect(find.text('Drafts'), findsOneWidget);
-        expect(t.getSize(find.byType(PzChip).first).height, greaterThanOrEqualTo(32));
+        expect(
+          t.getSize(find.byType(PzChip).first).height,
+          greaterThanOrEqualTo(32),
+        );
       });
 
       testWidgets('empty state shows its words and action', (t) async {
         await t.pumpWidget(
-          wrap(PzEmptyState(
-            icon: PzIcons.queue,
-            title: 'Nothing queued',
-            subtitle: 'Write a post',
-            action: PzPrimaryButton(label: 'New post', onPressed: () {}),
-          )),
+          wrap(
+            PzEmptyState(
+              icon: PzIcons.queue,
+              title: 'Nothing queued',
+              subtitle: 'Write a post',
+              action: PzPrimaryButton(label: 'New post', onPressed: () {}),
+            ),
+          ),
         );
         expect(find.text('Nothing queued'), findsOneWidget);
         expect(find.text('Write a post'), findsOneWidget);
@@ -222,14 +252,20 @@ void main() {
         int backs = 0;
         int acts = 0;
         await t.pumpWidget(
-          wrap(PzNavBar(
-            title: 'Library',
-            onBack: () => backs++,
-            backLabel: 'Back',
-            actions: <PzNavAction>[
-              PzNavAction(icon: PzIcons.add, label: 'Add', onTap: () => acts++),
-            ],
-          )),
+          wrap(
+            PzNavBar(
+              title: 'Library',
+              onBack: () => backs++,
+              backLabel: 'Back',
+              actions: <PzNavAction>[
+                PzNavAction(
+                  icon: PzIcons.add,
+                  label: 'Add',
+                  onTap: () => acts++,
+                ),
+              ],
+            ),
+          ),
         );
         expect(find.text('Library'), findsOneWidget);
         await t.tap(find.byType(PzIconChip).first);
@@ -240,10 +276,14 @@ void main() {
 
       testWidgets('platform mark and section header render', (t) async {
         await t.pumpWidget(
-          wrap(const Column(children: <Widget>[
-            PzPlatformMark(monogram: 'In', size: 40, name: 'Instagram'),
-            PzSectionHeader('Today'),
-          ])),
+          wrap(
+            const Column(
+              children: <Widget>[
+                PzPlatformMark(monogram: 'In', size: 40, name: 'Instagram'),
+                PzSectionHeader('Today'),
+              ],
+            ),
+          ),
         );
         expect(find.text('In'), findsOneWidget);
         expect(find.text('TODAY'), findsOneWidget);
@@ -252,26 +292,52 @@ void main() {
       testWidgets('nothing overflows at 2.0 text scale', (t) async {
         await t.pumpWidget(
           wrap(
-            SingleChildScrollView(child: Column(children: <Widget>[
-              PzNavBar(
-                title: 'A rather long screen title',
-                brand: null,
-                onBack: () {},
-                backLabel: 'Back',
-                actions: <PzNavAction>[
-                  PzNavAction(icon: PzIcons.add, label: 'Add', onTap: () {}),
+            SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  PzNavBar(
+                    title: 'A rather long screen title',
+                    brand: null,
+                    onBack: () {},
+                    backLabel: 'Back',
+                    actions: <PzNavAction>[
+                      PzNavAction(
+                        icon: PzIcons.add,
+                        label: 'Add',
+                        onTap: () {},
+                      ),
+                    ],
+                  ),
+                  PzCard.summary(
+                    label: 'Default card theme',
+                    value: 'Midnight',
+                    icon: PzIcons.theme,
+                    onTap: () {},
+                  ),
+                  PzRow(
+                    label: 'Notifications are off',
+                    subtitle: 'Turn them on in system settings',
+                    icon: PzIcons.bell,
+                    onTap: () {},
+                  ),
+                  const Wrap(
+                    children: <Widget>[
+                      PzChip(label: 'All'),
+                      PzChip(label: 'Scheduled', selected: true),
+                      PzChip(
+                        label: 'Caption shortened',
+                        tone: PzChipTone.warning,
+                      ),
+                    ],
+                  ),
+                  PzPrimaryButton(label: 'Preview variants', onPressed: () {}),
+                  PzSecondaryButton(
+                    label: 'Restore purchases',
+                    onPressed: () {},
+                  ),
                 ],
               ),
-              PzCard.summary(label: 'Default card theme', value: 'Midnight', icon: PzIcons.theme, onTap: () {}),
-              PzRow(label: 'Notifications are off', subtitle: 'Turn them on in system settings', icon: PzIcons.bell, onTap: () {}),
-              const Wrap(children: <Widget>[
-                PzChip(label: 'All'),
-                PzChip(label: 'Scheduled', selected: true),
-                PzChip(label: 'Caption shortened', tone: PzChipTone.warning),
-              ]),
-              PzPrimaryButton(label: 'Preview variants', onPressed: () {}),
-              PzSecondaryButton(label: 'Restore purchases', onPressed: () {}),
-            ])),
+            ),
             scale: 2,
           ),
         );
@@ -281,10 +347,12 @@ void main() {
       testWidgets('works right to left', (t) async {
         await t.pumpWidget(
           wrap(
-            Column(children: <Widget>[
-              PzRow(label: 'اللغة', onTap: () {}),
-              PzCard.summary(label: 'المظهر', value: 'فاتح', onTap: () {}),
-            ]),
+            Column(
+              children: <Widget>[
+                PzRow(label: 'اللغة', onTap: () {}),
+                PzCard.summary(label: 'المظهر', value: 'فاتح', onTap: () {}),
+              ],
+            ),
             dir: TextDirection.rtl,
           ),
         );
@@ -295,24 +363,28 @@ void main() {
       testWidgets('error view offers retry only when retriable', (t) async {
         int retries = 0;
         await t.pumpWidget(
-          wrap(PzErrorView(
-            error: AppError.of(AppErrorKind.renderFailed),
-            title: 'Could not render',
-            message: 'Try again.',
-            retryLabel: 'Try again',
-            onRetry: () => retries++,
-          )),
+          wrap(
+            PzErrorView(
+              error: AppError.of(AppErrorKind.renderFailed),
+              title: 'Could not render',
+              message: 'Try again.',
+              retryLabel: 'Try again',
+              onRetry: () => retries++,
+            ),
+          ),
         );
         await t.tap(find.text('Try again').last);
         expect(retries, 1);
         await t.pumpWidget(
-          wrap(PzErrorView(
-            error: AppError.of(AppErrorKind.dbDowngrade),
-            title: 'Update needed',
-            message: 'This data is from a newer version.',
-            retryLabel: 'Try again',
-            onRetry: () => retries++,
-          )),
+          wrap(
+            PzErrorView(
+              error: AppError.of(AppErrorKind.dbDowngrade),
+              title: 'Update needed',
+              message: 'This data is from a newer version.',
+              retryLabel: 'Try again',
+              onRetry: () => retries++,
+            ),
+          ),
         );
         expect(find.text('Try again'), findsNothing);
       });
@@ -356,11 +428,20 @@ void main() {
     }
 
     for (final Brightness brightness in Brightness.values) {
-      test('text on the selected-chip tint meets 4.5:1 in ${brightness.name}', () {
-        final PzThemeData theme = PzThemeData.of(brightness);
-        expect(ratio(theme.colors.textPrimary, theme.accentTint), greaterThanOrEqualTo(4.5));
-        expect(ratio(theme.colors.accent, theme.accentTint), greaterThanOrEqualTo(3));
-      });
+      test(
+        'text on the selected-chip tint meets 4.5:1 in ${brightness.name}',
+        () {
+          final PzThemeData theme = PzThemeData.of(brightness);
+          expect(
+            ratio(theme.colors.textPrimary, theme.accentTint),
+            greaterThanOrEqualTo(4.5),
+          );
+          expect(
+            ratio(theme.colors.accent, theme.accentTint),
+            greaterThanOrEqualTo(3),
+          );
+        },
+      );
     }
   });
 }

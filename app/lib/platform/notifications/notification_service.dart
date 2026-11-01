@@ -15,8 +15,8 @@ class NotificationService implements NotificationPort {
     FlutterLocalNotificationsPlugin? plugin,
     TimezoneService? zones,
     this.classifier = const ErrorClassifier(),
-  })  : _plugin = plugin ?? FlutterLocalNotificationsPlugin(),
-        _zones = zones ?? TimezoneService();
+  }) : _plugin = plugin ?? FlutterLocalNotificationsPlugin(),
+       _zones = zones ?? TimezoneService();
 
   static const String channelId = 'postzera_reminders';
   static const String iconName = 'ic_stat_postzera';
@@ -32,10 +32,13 @@ class NotificationService implements NotificationPort {
 
   AndroidFlutterLocalNotificationsPlugin? get _android => _plugin
       .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>();
+        AndroidFlutterLocalNotificationsPlugin
+      >();
 
   IOSFlutterLocalNotificationsPlugin? get _ios => _plugin
-      .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>();
+      .resolvePlatformSpecificImplementation<
+        IOSFlutterLocalNotificationsPlugin
+      >();
 
   @override
   Stream<NotificationTap> get taps => _taps.stream;
@@ -72,7 +75,8 @@ class NotificationService implements NotificationPort {
   @override
   Future<NotificationPermission> requestPermission() async {
     try {
-      final bool? granted = await _android?.requestNotificationsPermission() ??
+      final bool? granted =
+          await _android?.requestNotificationsPermission() ??
           await _ios?.requestPermissions(alert: true, badge: true, sound: true);
       return granted == true
           ? NotificationPermission.granted
@@ -93,7 +97,8 @@ class NotificationService implements NotificationPort {
             ? NotificationPermission.granted
             : NotificationPermission.denied;
       }
-      final NotificationsEnabledOptions? options = await _ios?.checkPermissions();
+      final NotificationsEnabledOptions? options = await _ios
+          ?.checkPermissions();
       if (options == null) {
         return NotificationPermission.unknown;
       }
@@ -123,7 +128,10 @@ class NotificationService implements NotificationPort {
       }
     }
     if (firstFailure != null) {
-      throw classifier.classify(firstFailure, fallback: AppErrorKind.scheduleFailed);
+      throw classifier.classify(
+        firstFailure,
+        fallback: AppErrorKind.scheduleFailed,
+      );
     }
   }
 
@@ -177,7 +185,7 @@ class NotificationService implements NotificationPort {
     try {
       final NotificationAppLaunchDetails? details =
           await _android?.getNotificationAppLaunchDetails() ??
-              await _ios?.getNotificationAppLaunchDetails();
+          await _ios?.getNotificationAppLaunchDetails();
       final int? id = details?.notificationResponse?.id;
       if (details == null || !details.didNotificationLaunchApp || id == null) {
         return null;

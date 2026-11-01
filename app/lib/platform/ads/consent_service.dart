@@ -47,14 +47,12 @@ class ConsentService implements ConsentPort {
 
   Future<bool> _requestUpdate() {
     final Completer<bool> done = Completer<bool>();
-    _info.requestConsentInfoUpdate(
-      _parameters(),
-      () => done.complete(true),
-      (ads.FormError error) {
-        Log.w('consent', 'update failed: ${error.errorCode}');
-        done.complete(false);
-      },
-    );
+    _info.requestConsentInfoUpdate(_parameters(), () => done.complete(true), (
+      ads.FormError error,
+    ) {
+      Log.w('consent', 'update failed: ${error.errorCode}');
+      done.complete(false);
+    });
     return done.future.timeout(timeout, onTimeout: () => false);
   }
 
@@ -72,8 +70,8 @@ class ConsentService implements ConsentPort {
   Future<ConsentRefreshResult> _read({required bool updateOk}) async {
     final bool canRequest = await _info.canRequestAds();
     final ads.ConsentStatus status = await _info.getConsentStatus();
-    final ads.PrivacyOptionsRequirementStatus privacy =
-        await _info.getPrivacyOptionsRequirementStatus();
+    final ads.PrivacyOptionsRequirementStatus privacy = await _info
+        .getPrivacyOptionsRequirementStatus();
     return ConsentRefreshResult(
       updateOk: updateOk,
       status: mapStatus(status),
@@ -94,16 +92,17 @@ class ConsentService implements ConsentPort {
         debugGeography: config.consentGeo == 'eea'
             ? ads.DebugGeography.debugGeographyEea
             : ads.DebugGeography.debugGeographyOther,
-        testIdentifiers:
-            config.testDeviceId.isEmpty ? null : <String>[config.testDeviceId],
+        testIdentifiers: config.testDeviceId.isEmpty
+            ? null
+            : <String>[config.testDeviceId],
       ),
     );
   }
 
   static ConsentStatus mapStatus(ads.ConsentStatus status) => switch (status) {
-        ads.ConsentStatus.notRequired => ConsentStatus.notRequired,
-        ads.ConsentStatus.required => ConsentStatus.required,
-        ads.ConsentStatus.obtained => ConsentStatus.obtained,
-        ads.ConsentStatus.unknown => ConsentStatus.unknown,
-      };
+    ads.ConsentStatus.notRequired => ConsentStatus.notRequired,
+    ads.ConsentStatus.required => ConsentStatus.required,
+    ads.ConsentStatus.obtained => ConsentStatus.obtained,
+    ads.ConsentStatus.unknown => ConsentStatus.unknown,
+  };
 }

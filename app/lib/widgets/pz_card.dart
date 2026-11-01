@@ -76,10 +76,8 @@ class PzCard extends StatelessWidget {
       onTap: onTap,
       semanticLabel: semanticLabel,
       focusRadius: PzRadii.cardRadius,
-      builder: (BuildContext context, PzPressState state) => _box(
-        context,
-        opacity: state.pressed ? PzMotion.pressedOpacity : 1,
-      ),
+      builder: (BuildContext context, PzPressState state) =>
+          _box(context, opacity: state.pressed ? PzMotion.pressedOpacity : 1),
     );
   }
 }

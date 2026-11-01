@@ -55,13 +55,12 @@ Future<bool> showPzDialog({
                   ),
                 );
               },
-          transitionBuilder:
-              (
-                BuildContext context,
-                Animation<double> animation,
-                Animation<double> secondaryAnimation,
-                Widget child,
-              ) => FadeTransition(opacity: animation, child: child),
+          transitionBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) => FadeTransition(opacity: animation, child: child),
         ),
       );
   return result ?? false;

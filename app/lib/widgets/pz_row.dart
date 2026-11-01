@@ -72,7 +72,10 @@ class PzRow extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(label, style: theme.text.title2.copyWith(color: labelColor)),
+                    Text(
+                      label,
+                      style: theme.text.title2.copyWith(color: labelColor),
+                    ),
                     if (shownSubtitle != null)
                       Text(
                         shownSubtitle,

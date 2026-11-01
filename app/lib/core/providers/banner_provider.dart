@@ -38,15 +38,19 @@ class BannerItem {
   });
 
   BannerItem.success(BannerMessage message, {int? count})
-      : this(
-          id: 'msg-${message.name}',
-          kind: BannerKind.success,
-          message: message,
-          count: count,
-        );
+    : this(
+        id: 'msg-${message.name}',
+        kind: BannerKind.success,
+        message: message,
+        count: count,
+      );
 
   BannerItem.failure(AppError error)
-      : this(id: 'err-${error.kind.name}', kind: BannerKind.failure, error: error);
+    : this(
+        id: 'err-${error.kind.name}',
+        kind: BannerKind.failure,
+        error: error,
+      );
 
   final String id;
   final BannerKind kind;
@@ -84,7 +88,7 @@ class BannerState {
 /// Feedback for every save, delete and send: explicit success or failure.
 class BannerProvider extends ValueNotifier<BannerState> {
   BannerProvider({this.autoDismiss = const Duration(seconds: 5)})
-      : super(const BannerState());
+    : super(const BannerState());
 
   final Duration autoDismiss;
   Timer? _timer;

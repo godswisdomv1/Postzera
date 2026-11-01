@@ -42,8 +42,9 @@ class LocaleProvider extends ValueNotifier<String?> {
       return;
     }
     await _sync.update(
-      (AppSettings s) =>
-          code == null ? s.copyWith(clearLocale: true) : s.copyWith(localeCode: code),
+      (AppSettings s) => code == null
+          ? s.copyWith(clearLocale: true)
+          : s.copyWith(localeCode: code),
     );
   }
 

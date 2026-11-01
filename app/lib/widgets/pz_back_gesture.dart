@@ -32,7 +32,10 @@ class PzBackGestureController {
       settleOpen = controller.value > 0.5;
     }
     if (settleOpen) {
-      final int ms = math.min(lerpDouble(800, 0, controller.value)!.floor(), 300);
+      final int ms = math.min(
+        lerpDouble(800, 0, controller.value)!.floor(),
+        300,
+      );
       controller.animateTo(
         1,
         duration: Duration(milliseconds: ms),
@@ -112,9 +115,7 @@ class _PzBackGestureState extends State<PzBackGesture> {
 
   void _onEnd(DragEndDetails details) {
     final double width = context.size?.width ?? 1;
-    _active?.dragEnd(
-      _logical(details.velocity.pixelsPerSecond.dx / width),
-    );
+    _active?.dragEnd(_logical(details.velocity.pixelsPerSecond.dx / width));
     _active = null;
   }
 

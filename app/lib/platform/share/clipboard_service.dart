@@ -6,5 +6,6 @@ class ClipboardService implements ClipboardPort {
   const ClipboardService();
 
   @override
-  Future<void> copy(String text) => Clipboard.setData(ClipboardData(text: text));
+  Future<void> copy(String text) =>
+      Clipboard.setData(ClipboardData(text: text));
 }

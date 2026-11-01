@@ -319,7 +319,8 @@ class FakeConsent implements ConsentPort {
   }
 
   @override
-  Future<ConsentRefreshResult> showPrivacyOptions() async => afterOptions ?? next;
+  Future<ConsentRefreshResult> showPrivacyOptions() async =>
+      afterOptions ?? next;
 }
 
 class FakeBanner implements BannerHandle {
@@ -365,7 +366,8 @@ class FakeAds implements AdsPort {
 class FakeShare implements SharePort {
   ShareOutcome outcome = ShareOutcome.opened;
   Object? failWith;
-  final List<({String path, String text})> shared = <({String path, String text})>[];
+  final List<({String path, String text})> shared =
+      <({String path, String text})>[];
 
   @override
   Future<ShareOutcome> share({
@@ -430,7 +432,7 @@ class FakeImport implements FileImportPort {
 }
 
 NotificationTexts testTexts(int platformCount) => NotificationTexts(
-      title: 'Time to post',
-      channelName: 'Reminders',
-      bodyFor: (int n) => '$n posts ready for $platformCount platforms',
-    );
+  title: 'Time to post',
+  channelName: 'Reminders',
+  bodyFor: (int n) => '$n posts ready for $platformCount platforms',
+);

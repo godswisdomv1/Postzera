@@ -17,8 +17,10 @@ class PzPressState {
   final bool focused;
 }
 
-typedef PzPressBuilder =
-    Widget Function(BuildContext context, PzPressState state);
+typedef PzPressBuilder = Widget Function(
+  BuildContext context,
+  PzPressState state,
+);
 
 /// The press primitive every tappable element is built on: a 48 dp minimum
 /// target, a semantic role and label, keyboard activation with a focus ring,

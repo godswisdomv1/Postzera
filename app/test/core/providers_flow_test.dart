@@ -36,10 +36,10 @@ void main() {
   const VariantBuilder builder = VariantBuilder();
 
   Variant variant(String platform, {String hook = 'Hook'}) => builder.build(
-        testPost(hook: hook, body: 'Body text', cta: 'Go'),
-        profileById(platform),
-        cardThemeById('paper'),
-      );
+    testPost(hook: hook, body: 'Body text', cta: 'Go'),
+    profileById(platform),
+    cardThemeById('paper'),
+  );
 
   group('MediaJobsProvider', () {
     late FakeFileStore files;
@@ -123,22 +123,25 @@ void main() {
         variant('pinterest'),
       ]);
       await wait(100);
-      expect(
-        <MediaJobStatus?>[
-          jobs.jobFor('p1', 'x')?.status,
-          jobs.jobFor('p1', 'instagram')?.status,
-          jobs.jobFor('p1', 'pinterest')?.status,
-        ],
-        everyElement(MediaJobStatus.ready),
-      );
+      expect(<MediaJobStatus?>[
+        jobs.jobFor('p1', 'x')?.status,
+        jobs.jobFor('p1', 'instagram')?.status,
+        jobs.jobFor('p1', 'pinterest')?.status,
+      ], everyElement(MediaJobStatus.ready));
       expect(renderer.images, 3);
     });
 
     test('a queued job can be cancelled before it starts', () async {
       renderer.gate = Completer<void>();
-      final Future<MediaResult> first = jobs.produce('p1', variant('instagram'));
+      final Future<MediaResult> first = jobs.produce(
+        'p1',
+        variant('instagram'),
+      );
       final Future<MediaResult> second = jobs.produce('p1', variant('x'));
-      final Future<void> check = expectLater(second, throwsA(isA<MediaCancelled>()));
+      final Future<void> check = expectLater(
+        second,
+        throwsA(isA<MediaCancelled>()),
+      );
       await jobs.cancel('p1', 'x');
       await check;
       expect(jobs.jobFor('p1', 'x'), isNull);
@@ -149,22 +152,37 @@ void main() {
 
     test('a running job can be cancelled', () async {
       renderer.gate = Completer<void>();
-      final Future<MediaResult> running = jobs.produce('p1', variant('instagram'));
-      final Future<void> check = expectLater(running, throwsA(isA<MediaCancelled>()));
+      final Future<MediaResult> running = jobs.produce(
+        'p1',
+        variant('instagram'),
+      );
+      final Future<void> check = expectLater(
+        running,
+        throwsA(isA<MediaCancelled>()),
+      );
       await wait(10);
       await jobs.cancel('p1', 'instagram');
       renderer.gate!.complete();
       await check;
       expect(jobs.jobFor('p1', 'instagram'), isNull);
-      expect(files.sizes.keys.where((String k) => k.startsWith('/out/')), isEmpty);
+      expect(
+        files.sizes.keys.where((String k) => k.startsWith('/out/')),
+        isEmpty,
+      );
     });
 
     test('cancelAll stops everything', () async {
       renderer.gate = Completer<void>();
       final Future<MediaResult> a = jobs.produce('p1', variant('instagram'));
       final Future<MediaResult> b = jobs.produce('p1', variant('x'));
-      final Future<void> checkA = expectLater(a, throwsA(isA<MediaCancelled>()));
-      final Future<void> checkB = expectLater(b, throwsA(isA<MediaCancelled>()));
+      final Future<void> checkA = expectLater(
+        a,
+        throwsA(isA<MediaCancelled>()),
+      );
+      final Future<void> checkB = expectLater(
+        b,
+        throwsA(isA<MediaCancelled>()),
+      );
       await wait(10);
       await jobs.cancelAll();
       renderer.gate!.complete();
@@ -192,7 +210,8 @@ void main() {
     late int changes;
     late QueueProvider queue;
 
-    Post scheduled(String id, {DateTime? at}) => testPost(
+    Post scheduled(String id, {DateTime? at}) =>
+        testPost(
           hook: 'Hook',
           body: 'Body text',
           cta: 'Go',
@@ -256,25 +275,33 @@ void main() {
       expect(queue.value.sections.today.single.platformCount, 9);
     });
 
-    test('send makes the media, copies the caption and opens the share sheet',
-        () async {
-      await posts.upsert(scheduled('p1'));
-      final ShareOutcome? outcome = await queue.send('p1', 'instagram');
-      expect(outcome, ShareOutcome.opened);
-      expect(share.shared.single.path, endsWith('.png'));
-      expect(clipboard.copied.single, share.shared.single.text);
-      expect(clipboard.copied.single, startsWith('Hook'));
-      expect(queue.value.confirmation, const SendConfirmation('p1', 'instagram'));
-      expect(queue.value.sending, isFalse);
-    });
+    test(
+      'send makes the media, copies the caption and opens the share sheet',
+      () async {
+        await posts.upsert(scheduled('p1'));
+        final ShareOutcome? outcome = await queue.send('p1', 'instagram');
+        expect(outcome, ShareOutcome.opened);
+        expect(share.shared.single.path, endsWith('.png'));
+        expect(clipboard.copied.single, share.shared.single.text);
+        expect(clipboard.copied.single, startsWith('Hook'));
+        expect(
+          queue.value.confirmation,
+          const SendConfirmation('p1', 'instagram'),
+        );
+        expect(queue.value.sending, isFalse);
+      },
+    );
 
-    test('an unavailable share sheet shows an error and no confirmation', () async {
-      await posts.upsert(scheduled('p1'));
-      share.outcome = ShareOutcome.unavailable;
-      await queue.send('p1', 'instagram');
-      expect(queue.value.confirmation, isNull);
-      expect(queue.value.error?.kind, AppErrorKind.shareUnavailable);
-    });
+    test(
+      'an unavailable share sheet shows an error and no confirmation',
+      () async {
+        await posts.upsert(scheduled('p1'));
+        share.outcome = ShareOutcome.unavailable;
+        await queue.send('p1', 'instagram');
+        expect(queue.value.confirmation, isNull);
+        expect(queue.value.error?.kind, AppErrorKind.shareUnavailable);
+      },
+    );
 
     test('a share failure is classified and retryable', () async {
       await posts.upsert(scheduled('p1'));
@@ -310,20 +337,23 @@ void main() {
       expect(await records.forPost('p1'), isEmpty);
     });
 
-    test('marking as posted records it, counts it, and can be undone', () async {
-      await posts.upsert(scheduled('p1'));
-      await queue.load();
-      await queue.markPosted('p1', 'instagram');
-      expect((await records.forPost('p1')).single.status, SendStatus.done);
-      expect(queue.value.sections.today.single.doneCount, 1);
-      expect(queue.value.statusOf('p1', 'instagram'), SendStatus.done);
-      expect(undo.value?.label, UndoLabel.markedPosted);
-      expect(changes, 1);
+    test(
+      'marking as posted records it, counts it, and can be undone',
+      () async {
+        await posts.upsert(scheduled('p1'));
+        await queue.load();
+        await queue.markPosted('p1', 'instagram');
+        expect((await records.forPost('p1')).single.status, SendStatus.done);
+        expect(queue.value.sections.today.single.doneCount, 1);
+        expect(queue.value.statusOf('p1', 'instagram'), SendStatus.done);
+        expect(undo.value?.label, UndoLabel.markedPosted);
+        expect(changes, 1);
 
-      await undo.undo();
-      expect(queue.value.statusOf('p1', 'instagram'), SendStatus.pending);
-      expect(queue.value.sections.today.single.doneCount, 0);
-    });
+        await undo.undo();
+        expect(queue.value.statusOf('p1', 'instagram'), SendStatus.pending);
+        expect(queue.value.sections.today.single.doneCount, 0);
+      },
+    );
 
     test('skipping records it as skipped', () async {
       await posts.upsert(scheduled('p1'));
@@ -333,12 +363,12 @@ void main() {
       expect(queue.value.sections.today.single.skippedCount, 1);
     });
 
-    test('when every platform is done or skipped the post is sent and leaves the queue',
-        () async {
+    test('when every platform is done or skipped the post is sent and leaves the queue', () async {
       await posts.upsert(scheduled('p1'));
       await queue.load();
-      final List<String> ids =
-          profiles.value.enabled.map((PlatformProfile p) => p.id).toList();
+      final List<String> ids = profiles.value.enabled
+          .map((PlatformProfile p) => p.id)
+          .toList();
       for (int i = 0; i < ids.length; i++) {
         if (i.isEven) {
           await queue.markPosted('p1', ids[i]);
@@ -444,18 +474,21 @@ void main() {
       expect(composer.value.isNew, isFalse);
     });
 
-    test('typing again resets the pause, so only the final text is saved', () async {
-      composer.startNew();
-      composer.setHook('a');
-      await wait(8);
-      composer.setHook('ab');
-      await wait(8);
-      composer.setHook('abc');
-      await wait(70);
-      final List<Post> all = await repo.all();
-      expect(all.length, 1);
-      expect(all.single.hook, 'abc');
-    });
+    test(
+      'typing again resets the pause, so only the final text is saved',
+      () async {
+        composer.startNew();
+        composer.setHook('a');
+        await wait(8);
+        composer.setHook('ab');
+        await wait(8);
+        composer.setHook('abc');
+        await wait(70);
+        final List<Post> all = await repo.all();
+        expect(all.length, 1);
+        expect(all.single.hook, 'abc');
+      },
+    );
 
     test('an empty form is never saved', () async {
       composer.startNew();
@@ -474,23 +507,27 @@ void main() {
       expect(await composer.buildVariants(), isTrue);
     });
 
-    test('building gives one variant per enabled platform, cleared by editing', () async {
-      composer.startNew();
-      composer.setHook('Hello');
-      composer.setBody('World');
-      await composer.buildVariants();
-      expect(composer.value.variants.length, 9);
-      composer.setBody('Changed');
-      expect(composer.value.variants, isEmpty);
-    });
+    test(
+      'building gives one variant per enabled platform, cleared by editing',
+      () async {
+        composer.startNew();
+        composer.setHook('Hello');
+        composer.setBody('World');
+        await composer.buildVariants();
+        expect(composer.value.variants.length, 9);
+        composer.setBody('Changed');
+        expect(composer.value.variants, isEmpty);
+      },
+    );
 
     test('hashtags are cleaned when the variants are built', () async {
       composer.startNew();
       composer.setHook('Hello');
       composer.setHashtagsText('one, #two  ONE');
       await composer.buildVariants();
-      final Variant instagram = composer.value.variants
-          .firstWhere((Variant v) => v.platformId == 'instagram');
+      final Variant instagram = composer.value.variants.firstWhere(
+        (Variant v) => v.platformId == 'instagram',
+      );
       expect(instagram.caption, endsWith('#one #two'));
     });
 
@@ -582,12 +619,15 @@ void main() {
       expect(files.deleted, contains(copy));
     });
 
-    test('a post that was never saved cleans up its files when abandoned', () async {
-      composer.startNew();
-      final String id = composer.value.postId;
-      await composer.discardIfUnsaved();
-      expect(files.deletedPostFiles, <String>[id]);
-    });
+    test(
+      'a post that was never saved cleans up its files when abandoned',
+      () async {
+        composer.startNew();
+        final String id = composer.value.postId;
+        await composer.discardIfUnsaved();
+        expect(files.deletedPostFiles, <String>[id]);
+      },
+    );
 
     test('a saved post keeps its files when the screen is left', () async {
       composer.startNew();
@@ -622,23 +662,27 @@ void main() {
       expect(composer.strictestCaptionLimit, 280);
     });
 
-    test('one platform can fall back to a plain card after its render failed',
-        () async {
-      picker.photo = const PickedMedia(path: '/gallery/a.jpg', sizeBytes: 5);
-      composer.startNew();
-      composer.setHook('Hello');
-      await composer.pickPhoto();
-      await composer.buildVariants();
-      final Variant before = composer.value.variants
-          .firstWhere((Variant v) => v.platformId == 'instagram');
-      expect(before.mediaPlan.sourceKind, MediaSourceKind.photo);
-      final Variant? plain = composer.variantWithAutoCard('instagram');
-      expect(plain!.mediaPlan.sourceKind, MediaSourceKind.auto);
-      expect(composer.value.variants.length, 9);
-      final Variant other = composer.value.variants
-          .firstWhere((Variant v) => v.platformId == 'x');
-      expect(other.mediaPlan.sourceKind, MediaSourceKind.photo);
-    });
+    test(
+      'one platform can fall back to a plain card after its render failed',
+      () async {
+        picker.photo = const PickedMedia(path: '/gallery/a.jpg', sizeBytes: 5);
+        composer.startNew();
+        composer.setHook('Hello');
+        await composer.pickPhoto();
+        await composer.buildVariants();
+        final Variant before = composer.value.variants.firstWhere(
+          (Variant v) => v.platformId == 'instagram',
+        );
+        expect(before.mediaPlan.sourceKind, MediaSourceKind.photo);
+        final Variant? plain = composer.variantWithAutoCard('instagram');
+        expect(plain!.mediaPlan.sourceKind, MediaSourceKind.auto);
+        expect(composer.value.variants.length, 9);
+        final Variant other = composer.value.variants.firstWhere(
+          (Variant v) => v.platformId == 'x',
+        );
+        expect(other.mediaPlan.sourceKind, MediaSourceKind.photo);
+      },
+    );
   });
 
   group('RemindersProvider', () {
@@ -652,10 +696,10 @@ void main() {
     late RemindersProvider reminders;
 
     Post scheduled(String id, DateTime at) => testPost().copyWith(
-          id: id,
-          status: PostStatus.scheduled,
-          scheduledAt: at,
-        );
+      id: id,
+      status: PostStatus.scheduled,
+      scheduledAt: at,
+    );
 
     setUp(() async {
       notifications = FakeNotifications();
@@ -705,18 +749,20 @@ void main() {
       expect(reminders.value.scheduledCount, 0);
     });
 
-    test('a scheduling failure is a retryable error and the next sync clears it',
-        () async {
-      await repo.upsert(scheduled('a', DateTime.utc(2026, 10, 19, 9)));
-      notifications.failReplace = StateError('os');
-      await reminders.sync();
-      expect(reminders.value.error?.kind, AppErrorKind.scheduleFailed);
-      expect(reminders.value.error?.retriable, isTrue);
-      notifications.failReplace = null;
-      await reminders.sync();
-      expect(reminders.value.error, isNull);
-      expect(notifications.replaced.length, 1);
-    });
+    test(
+      'a scheduling failure is a retryable error and the next sync clears it',
+      () async {
+        await repo.upsert(scheduled('a', DateTime.utc(2026, 10, 19, 9)));
+        notifications.failReplace = StateError('os');
+        await reminders.sync();
+        expect(reminders.value.error?.kind, AppErrorKind.scheduleFailed);
+        expect(reminders.value.error?.retriable, isTrue);
+        notifications.failReplace = null;
+        await reminders.sync();
+        expect(reminders.value.error, isNull);
+        expect(notifications.replaced.length, 1);
+      },
+    );
 
     test('granting permission schedules the reminders', () async {
       await repo.upsert(scheduled('a', DateTime.utc(2026, 10, 19, 9)));
@@ -734,20 +780,22 @@ void main() {
       expect(notifications.replaced, isEmpty);
     });
 
-    test('a change during a sync triggers one more sync, so the last change wins',
-        () async {
-      await repo.upsert(scheduled('a', DateTime.utc(2026, 10, 19, 9)));
-      notifications.gate = Completer<void>();
-      final Future<void> first = reminders.sync();
-      await wait(10);
-      await repo.upsert(scheduled('b', DateTime.utc(2026, 10, 20, 9)));
-      await reminders.sync();
-      notifications.gate!.complete();
-      await first;
-      expect(notifications.replaced.length, 2);
-      expect(notifications.replaced.first.length, 1);
-      expect(notifications.replaced.last.length, 2);
-    });
+    test(
+      'a change during a sync triggers one more sync, so the last change wins',
+      () async {
+        await repo.upsert(scheduled('a', DateTime.utc(2026, 10, 19, 9)));
+        notifications.gate = Completer<void>();
+        final Future<void> first = reminders.sync();
+        await wait(10);
+        await repo.upsert(scheduled('b', DateTime.utc(2026, 10, 20, 9)));
+        await reminders.sync();
+        notifications.gate!.complete();
+        await first;
+        expect(notifications.replaced.length, 2);
+        expect(notifications.replaced.first.length, 1);
+        expect(notifications.replaced.last.length, 2);
+      },
+    );
 
     test('taps and the launching tap come through', () async {
       notifications.launch = const NotificationTap(42);

@@ -37,8 +37,7 @@ class PzBannerHost extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double top =
-        MediaQuery.paddingOf(context).top + PzSizes.navBarHeight;
+    final double top = MediaQuery.paddingOf(context).top + PzSizes.navBarHeight;
     return Stack(
       children: <Widget>[
         child,
@@ -143,7 +142,8 @@ class _BannerCard extends StatelessWidget {
       BannerKind.warning => theme.colors.warning,
     };
     final AppLocalizations l10n = AppLocalizations.of(context);
-    final String? action = actionLabel ?? (retry != null ? l10n.common_retry : null);
+    final String? action =
+        actionLabel ?? (retry != null ? l10n.common_retry : null);
     final VoidCallback? onTap = onAction ?? retry;
     return Padding(
       padding: const EdgeInsets.only(top: PzSpacing.sm),
@@ -169,12 +169,13 @@ class _BannerCard extends StatelessWidget {
                 const SizedBox(width: PzSpacing.sm),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: PzSpacing.sm,
+                    padding: const EdgeInsets.symmetric(vertical: PzSpacing.sm),
+                    child: Text(
+                      text,
+                      style: theme.text.footnote.copyWith(
+                        color: theme.colors.textPrimary,
+                      ),
                     ),
-                    child: Text(text, style: theme.text.footnote.copyWith(
-                      color: theme.colors.textPrimary,
-                    )),
                   ),
                 ),
                 if (action != null && onTap != null)

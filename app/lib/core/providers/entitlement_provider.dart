@@ -37,13 +37,12 @@ class EntitlementViewState {
     PurchaseStatus? status,
     AppError? error,
     bool clearError = false,
-  }) =>
-      EntitlementViewState(
-        entitlement: entitlement ?? this.entitlement,
-        price: price ?? this.price,
-        status: status ?? this.status,
-        error: clearError ? null : (error ?? this.error),
-      );
+  }) => EntitlementViewState(
+    entitlement: entitlement ?? this.entitlement,
+    price: price ?? this.price,
+    status: status ?? this.status,
+    error: clearError ? null : (error ?? this.error),
+  );
 }
 
 /// Whether the ad-free upgrade is owned. Only [EntitlementReducer] changes the
@@ -55,12 +54,12 @@ class EntitlementProvider extends ValueNotifier<EntitlementViewState> {
     required Clock clock,
     required BannerProvider banners,
     EntitlementReducer reducer = const EntitlementReducer(),
-  })  : _purchases = purchases,
-        _store = store,
-        _clock = clock,
-        _banners = banners,
-        _reducer = reducer,
-        super(const EntitlementViewState());
+  }) : _purchases = purchases,
+       _store = store,
+       _clock = clock,
+       _banners = banners,
+       _reducer = reducer,
+       super(const EntitlementViewState());
 
   final PurchasePort _purchases;
   final SettingsStore _store;
@@ -120,7 +119,9 @@ class EntitlementProvider extends ValueNotifier<EntitlementViewState> {
       case PurchaseOwnershipReported(:final bool owned):
         if (before == PurchaseStatus.restoring) {
           _banners.success(
-            owned ? BannerMessage.purchaseRestored : BannerMessage.nothingToRestore,
+            owned
+                ? BannerMessage.purchaseRestored
+                : BannerMessage.nothingToRestore,
           );
         }
         value = value.copyWith(status: PurchaseStatus.idle);
@@ -134,8 +135,11 @@ class EntitlementProvider extends ValueNotifier<EntitlementViewState> {
   }
 
   void _apply(PurchaseEvent event) {
-    final Entitlement next =
-        _reducer.reduce(value.entitlement, event, now: _clock.now());
+    final Entitlement next = _reducer.reduce(
+      value.entitlement,
+      event,
+      now: _clock.now(),
+    );
     if (next != value.entitlement) {
       value = value.copyWith(entitlement: next);
       unawaited(_save(next));

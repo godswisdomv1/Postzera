@@ -28,12 +28,11 @@ class SettingsViewState {
     AppSettings? settings,
     bool? loaded,
     bool? deleting,
-  }) =>
-      SettingsViewState(
-        settings: settings ?? this.settings,
-        loaded: loaded ?? this.loaded,
-        deleting: deleting ?? this.deleting,
-      );
+  }) => SettingsViewState(
+    settings: settings ?? this.settings,
+    loaded: loaded ?? this.loaded,
+    deleting: deleting ?? this.deleting,
+  );
 }
 
 /// Reminder settings, the default card theme, the onboarding flag, and
@@ -49,15 +48,15 @@ class SettingsProvider extends ValueNotifier<SettingsViewState> {
     required BannerProvider banners,
     this.onChanged,
     ErrorClassifier classifier = const ErrorClassifier(),
-  })  : _sync = sync,
-        _posts = posts,
-        _profiles = profiles,
-        _records = records,
-        _files = files,
-        _notifications = notifications,
-        _banners = banners,
-        _classifier = classifier,
-        super(SettingsViewState(settings: sync.current, loaded: sync.loaded)) {
+  }) : _sync = sync,
+       _posts = posts,
+       _profiles = profiles,
+       _records = records,
+       _files = files,
+       _notifications = notifications,
+       _banners = banners,
+       _classifier = classifier,
+       super(SettingsViewState(settings: sync.current, loaded: sync.loaded)) {
     _sync.addListener(_onSync);
   }
 
@@ -78,15 +77,15 @@ class SettingsProvider extends ValueNotifier<SettingsViewState> {
   }
 
   Future<void> setRemindersEnabled({required bool enabled}) => _change(
-        (AppSettings s) => s.copyWith(remindersEnabled: enabled),
-        affectsReminders: true,
-      );
+    (AppSettings s) => s.copyWith(remindersEnabled: enabled),
+    affectsReminders: true,
+  );
 
   /// Minutes from midnight, 0 to 1439.
   Future<void> setReminderMinutes(int minutes) => _change(
-        (AppSettings s) => s.copyWith(reminderMinutes: minutes.clamp(0, 1439)),
-        affectsReminders: true,
-      );
+    (AppSettings s) => s.copyWith(reminderMinutes: minutes.clamp(0, 1439)),
+    affectsReminders: true,
+  );
 
   Future<void> setDefaultCardTheme(String id) =>
       _change((AppSettings s) => s.copyWith(defaultCardThemeId: id));

@@ -34,8 +34,11 @@ void main() {
     late int changes;
     late PostsProvider provider;
 
-    Post post(String id, {String hook = 'Hook', PostStatus status = PostStatus.draft}) =>
-        testPost(hook: hook).copyWith(id: id, status: status);
+    Post post(
+      String id, {
+      String hook = 'Hook',
+      PostStatus status = PostStatus.draft,
+    }) => testPost(hook: hook).copyWith(id: id, status: status);
 
     setUp(() {
       repo = InMemoryPostRepository();
@@ -68,26 +71,30 @@ void main() {
       expect(provider.value.posts, isEmpty);
     });
 
-    test('save stamps the update time, tells reminders and can announce', () async {
-      await provider.save(
-        post('a'),
-        announce: BannerMessage.postSaved,
-      );
-      final Post stored = (await repo.byId('a'))!;
-      expect(stored.updatedAt, DateTime.utc(2026, 10, 18, 8));
-      expect(provider.value.posts.single.id, 'a');
-      expect(changes, 1);
-      expect(banners.value.transient?.message, BannerMessage.postSaved);
-    });
+    test(
+      'save stamps the update time, tells reminders and can announce',
+      () async {
+        await provider.save(post('a'), announce: BannerMessage.postSaved);
+        final Post stored = (await repo.byId('a'))!;
+        expect(stored.updatedAt, DateTime.utc(2026, 10, 18, 8));
+        expect(provider.value.posts.single.id, 'a');
+        expect(changes, 1);
+        expect(banners.value.transient?.message, BannerMessage.postSaved);
+      },
+    );
 
     test('search, status filter and sort reload the list', () async {
       await provider.save(post('a', hook: 'Apple'));
       await provider.save(post('b', hook: 'Banana', status: PostStatus.sent));
       await provider.setQuery('app');
-      expect(provider.value.posts.map((Post p) => p.id).toList(), <String>['a']);
+      expect(provider.value.posts.map((Post p) => p.id).toList(), <String>[
+        'a',
+      ]);
       await provider.setQuery('');
       await provider.setStatus(PostStatus.sent);
-      expect(provider.value.posts.map((Post p) => p.id).toList(), <String>['b']);
+      expect(provider.value.posts.map((Post p) => p.id).toList(), <String>[
+        'b',
+      ]);
       await provider.setStatus(null);
       expect(provider.value.posts.length, 2);
       await provider.setSort(PostSort.oldest);
@@ -162,7 +169,10 @@ void main() {
       final ShareOutcome? outcome = await provider.exportCsv();
       expect(outcome, ShareOutcome.opened);
       expect(share.shared.single.path, '/exports/postzera-posts.csv');
-      expect(files.exports['/exports/postzera-posts.csv'], contains('"First, post"'));
+      expect(
+        files.exports['/exports/postzera-posts.csv'],
+        contains('"First, post"'),
+      );
       expect(banners.value.transient?.message, BannerMessage.exported);
     });
 
@@ -216,31 +226,35 @@ void main() {
       expect(provider.value.profiles.last.id, 'quora');
     });
 
-    test('a custom platform gets the default blocks and the end of the list', () async {
-      final AppError? error = await provider.addCustom(
-        name: ' My site ',
-        monogram: 'MS',
-        captionLimit: 400,
-        aspect: MediaAspect.ratio2x3,
-        maxHashtags: 4,
-      );
-      expect(error, isNull);
-      final PlatformProfile custom = provider.value.profiles.last;
-      expect(custom.name, 'My site');
-      expect(custom.isCustom, isTrue);
-      expect(custom.id, startsWith('custom-'));
-      expect(custom.template.blocks.length, 5);
-      expect(custom.media.widthPx, 1000);
-      expect(custom.sortOrder, 9);
-    });
+    test(
+      'a custom platform gets the default blocks and the end of the list',
+      () async {
+        final AppError? error = await provider.addCustom(
+          name: ' My site ',
+          monogram: 'MS',
+          captionLimit: 400,
+          aspect: MediaAspect.ratio2x3,
+          maxHashtags: 4,
+        );
+        expect(error, isNull);
+        final PlatformProfile custom = provider.value.profiles.last;
+        expect(custom.name, 'My site');
+        expect(custom.isCustom, isTrue);
+        expect(custom.id, startsWith('custom-'));
+        expect(custom.template.blocks.length, 5);
+        expect(custom.media.widthPx, 1000);
+        expect(custom.sortOrder, 9);
+      },
+    );
 
     test('bad custom platform input is rejected without a change', () async {
-      for (final ({String name, String mono, int limit}) bad in <({String name, String mono, int limit})>[
-        (name: '', mono: 'A', limit: 100),
-        (name: 'Ok', mono: '', limit: 100),
-        (name: 'Ok', mono: 'ABC', limit: 100),
-        (name: 'Ok', mono: 'A', limit: 0),
-      ]) {
+      for (final ({String name, String mono, int limit}) bad
+          in <({String name, String mono, int limit})>[
+            (name: '', mono: 'A', limit: 100),
+            (name: 'Ok', mono: '', limit: 100),
+            (name: 'Ok', mono: 'ABC', limit: 100),
+            (name: 'Ok', mono: 'A', limit: 0),
+          ]) {
         final AppError? error = await provider.addCustom(
           name: bad.name,
           monogram: bad.mono,
@@ -294,7 +308,10 @@ void main() {
       provider = ImportProvider(
         picker: picker,
         posts: repo,
-        importer: CsvImporter(clock: clock, idGenerator: () => 'id${counter++}'),
+        importer: CsvImporter(
+          clock: clock,
+          idGenerator: () => 'id${counter++}',
+        ),
         banners: banners,
         onChanged: () => changes++,
       );
@@ -350,11 +367,14 @@ void main() {
       expect(provider.value.status, ImportStatus.idle);
     });
 
-    test('a file with no hook column previews with nothing to import', () async {
-      picker.file = const ImportedFile(name: 'p.csv', text: 'body\nx\n');
-      await provider.pick();
-      expect(provider.value.result!.hookColumnMissing, isTrue);
-      expect(provider.value.result!.valid, isEmpty);
-    });
+    test(
+      'a file with no hook column previews with nothing to import',
+      () async {
+        picker.file = const ImportedFile(name: 'p.csv', text: 'body\nx\n');
+        await provider.pick();
+        expect(provider.value.result!.hookColumnMissing, isTrue);
+        expect(provider.value.result!.valid, isEmpty);
+      },
+    );
   });
 }

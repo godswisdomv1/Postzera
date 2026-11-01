@@ -67,7 +67,8 @@ class AdsService implements AdsPort {
       // slot is designed for. Google now steers to a taller "large" adaptive
       // banner; moving to it changes the slot height, so it is a product
       // decision, not a quiet swap.
-      final AnchoredAdaptiveBannerAdSize? size = await AdSize
+      final AnchoredAdaptiveBannerAdSize? size =
+          await AdSize
           // ignore: deprecated_member_use
           .getCurrentOrientationAnchoredAdaptiveBannerAdSize(widthDp);
       if (size == null) {
@@ -81,7 +82,9 @@ class AdsService implements AdsPort {
         listener: BannerAdListener(
           onAdLoaded: (Ad ad) {
             if (!done.isCompleted) {
-              done.complete(BannerAdHandle(ad as BannerAd, size.height.toDouble()));
+              done.complete(
+                BannerAdHandle(ad as BannerAd, size.height.toDouble()),
+              );
             }
           },
           onAdFailedToLoad: (Ad ad, LoadAdError error) {

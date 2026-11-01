@@ -13,17 +13,27 @@ class AdConfig {
     this.productionIosBanner = _iosBanner,
   });
 
-  static const String _mode = String.fromEnvironment('AD_MODE', defaultValue: 'test');
-  static const String _consentGeo =
-      String.fromEnvironment('CONSENT_DEBUG_GEO', defaultValue: 'none');
-  static const String _testDeviceId = String.fromEnvironment('AD_TEST_DEVICE_ID');
-  static const String _androidBanner = String.fromEnvironment('ADMOB_ANDROID_BANNER');
+  static const String _mode = String.fromEnvironment(
+    'AD_MODE',
+    defaultValue: 'test',
+  );
+  static const String _consentGeo = String.fromEnvironment(
+    'CONSENT_DEBUG_GEO',
+    defaultValue: 'none',
+  );
+  static const String _testDeviceId = String.fromEnvironment(
+    'AD_TEST_DEVICE_ID',
+  );
+  static const String _androidBanner = String.fromEnvironment(
+    'ADMOB_ANDROID_BANNER',
+  );
   static const String _iosBanner = String.fromEnvironment('ADMOB_IOS_BANNER');
 
   /// Google's sample adaptive-banner ids.
   static const String sampleAndroidBanner =
       'ca-app-pub-3940256099942544/9214589741';
-  static const String sampleIosBanner = 'ca-app-pub-3940256099942544/2435281174';
+  static const String sampleIosBanner =
+      'ca-app-pub-3940256099942544/2435281174';
 
   final String mode;
 

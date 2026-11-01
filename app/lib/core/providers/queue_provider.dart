@@ -69,16 +69,16 @@ class QueueState {
     SendConfirmation? confirmation,
     bool clearConfirmation = false,
     bool? sending,
-  }) =>
-      QueueState(
-        sections: sections ?? this.sections,
-        records: records ?? this.records,
-        loading: loading ?? this.loading,
-        error: clearError ? null : (error ?? this.error),
-        confirmation:
-            clearConfirmation ? null : (confirmation ?? this.confirmation),
-        sending: sending ?? this.sending,
-      );
+  }) => QueueState(
+    sections: sections ?? this.sections,
+    records: records ?? this.records,
+    loading: loading ?? this.loading,
+    error: clearError ? null : (error ?? this.error),
+    confirmation: clearConfirmation
+        ? null
+        : (confirmation ?? this.confirmation),
+    sending: sending ?? this.sending,
+  );
 
   /// The send status of one platform for one post.
   SendStatus statusOf(String postId, String platformId) {
@@ -111,20 +111,20 @@ class QueueProvider extends ValueNotifier<QueueState> {
     VariantBuilder builder = const VariantBuilder(),
     QueueService service = const QueueService(),
     ErrorClassifier classifier = const ErrorClassifier(),
-  })  : _posts = posts,
-        _records = records,
-        _profiles = profiles,
-        _jobs = jobs,
-        _files = files,
-        _clipboard = clipboard,
-        _share = share,
-        _clock = clock,
-        _undo = undo,
-        _banners = banners,
-        _builder = builder,
-        _service = service,
-        _classifier = classifier,
-        super(const QueueState());
+  }) : _posts = posts,
+       _records = records,
+       _profiles = profiles,
+       _jobs = jobs,
+       _files = files,
+       _clipboard = clipboard,
+       _share = share,
+       _clock = clock,
+       _undo = undo,
+       _banners = banners,
+       _builder = builder,
+       _service = service,
+       _classifier = classifier,
+       super(const QueueState());
 
   final PostRepository _posts;
   final SendRecordRepository _records;
@@ -145,8 +145,9 @@ class QueueProvider extends ValueNotifier<QueueState> {
 
   Future<void> load() async {
     try {
-      final List<Post> scheduled =
-          await _posts.search(status: PostStatus.scheduled);
+      final List<Post> scheduled = await _posts.search(
+        status: PostStatus.scheduled,
+      );
       final Map<String, List<SendRecord>> records = await _records.forPosts(
         scheduled.map((Post p) => p.id).toList(),
       );
@@ -164,7 +165,10 @@ class QueueProvider extends ValueNotifier<QueueState> {
     } catch (error) {
       value = value.copyWith(
         loading: false,
-        error: _classifier.classify(error, fallback: AppErrorKind.dbUnavailable),
+        error: _classifier.classify(
+          error,
+          fallback: AppErrorKind.dbUnavailable,
+        ),
       );
     }
   }
@@ -200,7 +204,10 @@ class QueueProvider extends ValueNotifier<QueueState> {
     try {
       final Variant? variant = await variantFor(postId, platformId);
       if (variant == null) {
-        throw AppError.of(AppErrorKind.unexpected, details: 'post or platform missing');
+        throw AppError.of(
+          AppErrorKind.unexpected,
+          details: 'post or platform missing',
+        );
       }
       final MediaResult media = await _jobs.produce(postId, variant);
       await _clipboard.copy(variant.caption);
@@ -242,7 +249,9 @@ class QueueProvider extends ValueNotifier<QueueState> {
       await _clipboard.copy(title);
       _banners.success(BannerMessage.titleCopied);
     } catch (error) {
-      _banners.failure(_classifier.classify(error, fallback: AppErrorKind.unexpected));
+      _banners.failure(
+        _classifier.classify(error, fallback: AppErrorKind.unexpected),
+      );
     }
   }
 
@@ -256,18 +265,29 @@ class QueueProvider extends ValueNotifier<QueueState> {
       await _clipboard.copy(variant.caption);
       _banners.success(BannerMessage.captionCopied);
     } catch (error) {
-      _banners.failure(_classifier.classify(error, fallback: AppErrorKind.unexpected));
+      _banners.failure(
+        _classifier.classify(error, fallback: AppErrorKind.unexpected),
+      );
     }
   }
 
-  Future<void> markPosted(String postId, String platformId) =>
-      _record(postId, platformId, SendStatus.done, BannerMessage.markedPosted, UndoLabel.markedPosted);
+  Future<void> markPosted(String postId, String platformId) => _record(
+    postId,
+    platformId,
+    SendStatus.done,
+    BannerMessage.markedPosted,
+    UndoLabel.markedPosted,
+  );
 
-  Future<void> skip(String postId, String platformId) =>
-      _record(postId, platformId, SendStatus.skipped, BannerMessage.skipped, UndoLabel.skipped);
+  Future<void> skip(String postId, String platformId) => _record(
+    postId,
+    platformId,
+    SendStatus.skipped,
+    BannerMessage.skipped,
+    UndoLabel.skipped,
+  );
 
-  void dismissConfirmation() =>
-      value = value.copyWith(clearConfirmation: true);
+  void dismissConfirmation() => value = value.copyWith(clearConfirmation: true);
 
   void clearError() => value = value.copyWith(clearError: true);
 
@@ -327,15 +347,18 @@ class QueueProvider extends ValueNotifier<QueueState> {
         ),
       );
     } catch (error) {
-      _banners.failure(_classifier.classify(error, fallback: AppErrorKind.dbUnavailable));
+      _banners.failure(
+        _classifier.classify(error, fallback: AppErrorKind.dbUnavailable),
+      );
     }
   }
 
   /// When every enabled platform is done or skipped, the post becomes sent and
   /// leaves the queue.
   Future<void> _finishPostIfComplete(Post post) async {
-    final List<String> enabled =
-        _profiles.value.enabled.map((PlatformProfile p) => p.id).toList();
+    final List<String> enabled = _profiles.value.enabled
+        .map((PlatformProfile p) => p.id)
+        .toList();
     if (enabled.isEmpty) {
       return;
     }

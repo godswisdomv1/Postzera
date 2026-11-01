@@ -98,25 +98,24 @@ class ComposerState {
     bool clearError = false,
     bool? pickingMedia,
     List<Variant>? variants,
-  }) =>
-      ComposerState(
-        postId: postId ?? this.postId,
-        isNew: isNew ?? this.isNew,
-        hook: hook ?? this.hook,
-        body: body ?? this.body,
-        cta: cta ?? this.cta,
-        link: link ?? this.link,
-        hashtagsText: hashtagsText ?? this.hashtagsText,
-        media: media ?? this.media,
-        cardThemeId: cardThemeId ?? this.cardThemeId,
-        scheduledAt: clearScheduledAt ? null : (scheduledAt ?? this.scheduledAt),
-        status: status ?? this.status,
-        createdAt: createdAt ?? this.createdAt,
-        hookError: clearHookError ? null : (hookError ?? this.hookError),
-        error: clearError ? null : (error ?? this.error),
-        pickingMedia: pickingMedia ?? this.pickingMedia,
-        variants: variants ?? this.variants,
-      );
+  }) => ComposerState(
+    postId: postId ?? this.postId,
+    isNew: isNew ?? this.isNew,
+    hook: hook ?? this.hook,
+    body: body ?? this.body,
+    cta: cta ?? this.cta,
+    link: link ?? this.link,
+    hashtagsText: hashtagsText ?? this.hashtagsText,
+    media: media ?? this.media,
+    cardThemeId: cardThemeId ?? this.cardThemeId,
+    scheduledAt: clearScheduledAt ? null : (scheduledAt ?? this.scheduledAt),
+    status: status ?? this.status,
+    createdAt: createdAt ?? this.createdAt,
+    hookError: clearHookError ? null : (hookError ?? this.hookError),
+    error: clearError ? null : (error ?? this.error),
+    pickingMedia: pickingMedia ?? this.pickingMedia,
+    variants: variants ?? this.variants,
+  );
 }
 
 /// The master post being written. Autosaves a draft after 800 ms without
@@ -134,17 +133,17 @@ class ComposerProvider extends ValueNotifier<ComposerState> {
     VariantBuilder builder = const VariantBuilder(),
     HashtagService hashtags = const HashtagService(),
     ErrorClassifier classifier = const ErrorClassifier(),
-  })  : _posts = posts,
-        _profiles = profiles,
-        _settings = settings,
-        _picker = picker,
-        _files = files,
-        _clock = clock,
-        _banners = banners,
-        _builder = builder,
-        _hashtags = hashtags,
-        _classifier = classifier,
-        super(const ComposerState());
+  }) : _posts = posts,
+       _profiles = profiles,
+       _settings = settings,
+       _picker = picker,
+       _files = files,
+       _clock = clock,
+       _banners = banners,
+       _builder = builder,
+       _hashtags = hashtags,
+       _classifier = classifier,
+       super(const ComposerState());
 
   final PostsProvider _posts;
   final ProfilesProvider _profiles;
@@ -170,11 +169,22 @@ class ComposerProvider extends ValueNotifier<ComposerState> {
   DateTime suggestedSchedule() {
     final DateTime now = _clock.now().toLocal();
     final int minutes = _settings.current.reminderMinutes;
-    final DateTime today =
-        DateTime(now.year, now.month, now.day, minutes ~/ 60, minutes % 60);
+    final DateTime today = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      minutes ~/ 60,
+      minutes % 60,
+    );
     return today.isAfter(now)
         ? today
-        : DateTime(now.year, now.month, now.day + 1, minutes ~/ 60, minutes % 60);
+        : DateTime(
+            now.year,
+            now.month,
+            now.day + 1,
+            minutes ~/ 60,
+            minutes % 60,
+          );
   }
 
   /// Starts an empty post.
@@ -205,8 +215,9 @@ class ComposerProvider extends ValueNotifier<ComposerState> {
     );
   }
 
-  void setHook(String text) =>
-      _edited(value.copyWith(hook: text, clearHookError: text.trim().isNotEmpty));
+  void setHook(String text) => _edited(
+    value.copyWith(hook: text, clearHookError: text.trim().isNotEmpty),
+  );
   void setBody(String text) => _edited(value.copyWith(body: text));
   void setCta(String text) => _edited(value.copyWith(cta: text));
   void setLink(String text) => _edited(value.copyWith(link: text));
@@ -216,10 +227,10 @@ class ComposerProvider extends ValueNotifier<ComposerState> {
 
   /// Sets or clears the planned time (local or UTC; stored as UTC).
   void setSchedule(DateTime? when) => _edited(
-        when == null
-            ? value.copyWith(clearScheduledAt: true)
-            : value.copyWith(scheduledAt: when.toUtc()),
-      );
+    when == null
+        ? value.copyWith(clearScheduledAt: true)
+        : value.copyWith(scheduledAt: when.toUtc()),
+  );
 
   Future<void> pickPhoto() => _pick(_picker.pickPhoto, MediaSourceKind.photo);
 
@@ -267,7 +278,9 @@ class ComposerProvider extends ValueNotifier<ComposerState> {
       value = value.copyWith(variants: variants);
       return true;
     } catch (error) {
-      _banners.failure(_classifier.classify(error, fallback: AppErrorKind.unexpected));
+      _banners.failure(
+        _classifier.classify(error, fallback: AppErrorKind.unexpected),
+      );
       return false;
     }
   }
@@ -279,7 +292,9 @@ class ComposerProvider extends ValueNotifier<ComposerState> {
     if (profile == null || !validate()) {
       return null;
     }
-    final Post plain = _toPost().copyWith(mediaSource: const MediaSource.auto());
+    final Post plain = _toPost().copyWith(
+      mediaSource: const MediaSource.auto(),
+    );
     final Variant variant = _builder.build(
       plain,
       profile,
@@ -415,13 +430,20 @@ class ComposerProvider extends ValueNotifier<ComposerState> {
       _edited(
         value.copyWith(
           pickingMedia: false,
-          media: MediaSource(kind: kind, path: copy, durationMs: picked.durationMs),
+          media: MediaSource(
+            kind: kind,
+            path: copy,
+            durationMs: picked.durationMs,
+          ),
         ),
       );
     } catch (error) {
       value = value.copyWith(
         pickingMedia: false,
-        error: _classifier.classify(error, fallback: AppErrorKind.sourceUnreadable),
+        error: _classifier.classify(
+          error,
+          fallback: AppErrorKind.sourceUnreadable,
+        ),
       );
     }
   }

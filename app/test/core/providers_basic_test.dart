@@ -83,7 +83,9 @@ void main() {
     });
 
     test('the action becomes final after the window', () async {
-      final UndoProvider u = UndoProvider(window: const Duration(milliseconds: 20));
+      final UndoProvider u = UndoProvider(
+        window: const Duration(milliseconds: 20),
+      );
       bool expired = false;
       await u.register(
         UndoAction(
@@ -180,15 +182,18 @@ void main() {
       expect(LocaleProvider.isRtl('en'), isFalse);
     });
 
-    test('a failed save keeps the value in memory and raises dbUnavailable', () async {
-      final FakeSettingsStore store = FakeSettingsStore()..failSave = true;
-      final SettingsSync sync = SettingsSync(store);
-      await expectLater(
-        sync.update((AppSettings s) => s.copyWith(onboardingDone: true)),
-        throwsA(isA<AppError>()),
-      );
-      expect(sync.current.onboardingDone, isTrue);
-    });
+    test(
+      'a failed save keeps the value in memory and raises dbUnavailable',
+      () async {
+        final FakeSettingsStore store = FakeSettingsStore()..failSave = true;
+        final SettingsSync sync = SettingsSync(store);
+        await expectLater(
+          sync.update((AppSettings s) => s.copyWith(onboardingDone: true)),
+          throwsA(isA<AppError>()),
+        );
+        expect(sync.current.onboardingDone, isTrue);
+      },
+    );
   });
 
   group('SettingsProvider', () {

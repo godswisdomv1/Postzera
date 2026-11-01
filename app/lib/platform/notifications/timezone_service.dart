@@ -7,7 +7,7 @@ import 'package:timezone/timezone.dart' as tz;
 /// so a daylight-saving change can never shift a reminder.
 class TimezoneService {
   TimezoneService({Future<String> Function()? zoneNameReader})
-      : _readName = zoneNameReader ?? _readDeviceZone;
+    : _readName = zoneNameReader ?? _readDeviceZone;
 
   final Future<String> Function() _readName;
 

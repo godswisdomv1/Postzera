@@ -36,13 +36,12 @@ class RemindersState {
     AppError? error,
     bool clearError = false,
     int? scheduledCount,
-  }) =>
-      RemindersState(
-        permission: permission ?? this.permission,
-        syncing: syncing ?? this.syncing,
-        error: clearError ? null : (error ?? this.error),
-        scheduledCount: scheduledCount ?? this.scheduledCount,
-      );
+  }) => RemindersState(
+    permission: permission ?? this.permission,
+    syncing: syncing ?? this.syncing,
+    error: clearError ? null : (error ?? this.error),
+    scheduledCount: scheduledCount ?? this.scheduledCount,
+  );
 }
 
 /// Keeps the phone's reminders in step with the scheduled posts. A sync cancels
@@ -60,14 +59,14 @@ class RemindersProvider extends ValueNotifier<RemindersState> {
     required this.texts,
     ReminderPlanner planner = const ReminderPlanner(),
     ErrorClassifier classifier = const ErrorClassifier(),
-  })  : _notifications = notifications,
-        _posts = posts,
-        _profiles = profiles,
-        _settings = settings,
-        _clock = clock,
-        _planner = planner,
-        _classifier = classifier,
-        super(const RemindersState());
+  }) : _notifications = notifications,
+       _posts = posts,
+       _profiles = profiles,
+       _settings = settings,
+       _clock = clock,
+       _planner = planner,
+       _classifier = classifier,
+       super(const RemindersState());
 
   final NotificationPort _notifications;
   final PostRepository _posts;
@@ -99,7 +98,10 @@ class RemindersProvider extends ValueNotifier<RemindersState> {
       );
     } catch (error) {
       value = value.copyWith(
-        error: _classifier.classify(error, fallback: AppErrorKind.scheduleFailed),
+        error: _classifier.classify(
+          error,
+          fallback: AppErrorKind.scheduleFailed,
+        ),
       );
     }
   }
@@ -107,7 +109,8 @@ class RemindersProvider extends ValueNotifier<RemindersState> {
   /// Asks the system for permission, then syncs. Call only after explaining
   /// why (the end of onboarding).
   Future<NotificationPermission> requestPermission() async {
-    final NotificationPermission result = await _notifications.requestPermission();
+    final NotificationPermission result = await _notifications
+        .requestPermission();
     value = value.copyWith(permission: result);
     if (result == NotificationPermission.granted) {
       await sync();
@@ -145,8 +148,9 @@ class RemindersProvider extends ValueNotifier<RemindersState> {
         value = value.copyWith(scheduledCount: 0, clearError: true);
         return;
       }
-      final List<Post> scheduled =
-          await _posts.search(status: PostStatus.scheduled);
+      final List<Post> scheduled = await _posts.search(
+        status: PostStatus.scheduled,
+      );
       final List<ReminderSlot> slots = _planner.plan(scheduled, _clock);
       await _notifications.replaceAll(
         slots,
@@ -155,7 +159,10 @@ class RemindersProvider extends ValueNotifier<RemindersState> {
       value = value.copyWith(scheduledCount: slots.length, clearError: true);
     } catch (error) {
       value = value.copyWith(
-        error: _classifier.classify(error, fallback: AppErrorKind.scheduleFailed),
+        error: _classifier.classify(
+          error,
+          fallback: AppErrorKind.scheduleFailed,
+        ),
       );
     }
   }

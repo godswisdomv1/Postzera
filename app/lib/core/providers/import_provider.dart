@@ -34,14 +34,13 @@ class ImportState {
     int? importedCount,
     AppError? error,
     bool clearError = false,
-  }) =>
-      ImportState(
-        status: status ?? this.status,
-        fileName: fileName ?? this.fileName,
-        result: result ?? this.result,
-        importedCount: importedCount ?? this.importedCount,
-        error: clearError ? null : (error ?? this.error),
-      );
+  }) => ImportState(
+    status: status ?? this.status,
+    fileName: fileName ?? this.fileName,
+    result: result ?? this.result,
+    importedCount: importedCount ?? this.importedCount,
+    error: clearError ? null : (error ?? this.error),
+  );
 }
 
 /// CSV import: choose a file, preview every valid and invalid row, then import
@@ -54,12 +53,12 @@ class ImportProvider extends ValueNotifier<ImportState> {
     required BannerProvider banners,
     this.onChanged,
     ErrorClassifier classifier = const ErrorClassifier(),
-  })  : _picker = picker,
-        _posts = posts,
-        _importer = importer,
-        _banners = banners,
-        _classifier = classifier,
-        super(const ImportState());
+  }) : _picker = picker,
+       _posts = posts,
+       _importer = importer,
+       _banners = banners,
+       _classifier = classifier,
+       super(const ImportState());
 
   final FileImportPort _picker;
   final PostRepository _posts;
@@ -91,7 +90,10 @@ class ImportProvider extends ValueNotifier<ImportState> {
     } catch (error) {
       value = ImportState(
         status: ImportStatus.failed,
-        error: _classifier.classify(error, fallback: AppErrorKind.importUnreadable),
+        error: _classifier.classify(
+          error,
+          fallback: AppErrorKind.importUnreadable,
+        ),
       );
     }
   }
@@ -116,7 +118,10 @@ class ImportProvider extends ValueNotifier<ImportState> {
     } catch (error) {
       value = value.copyWith(
         status: ImportStatus.failed,
-        error: _classifier.classify(error, fallback: AppErrorKind.dbUnavailable),
+        error: _classifier.classify(
+          error,
+          fallback: AppErrorKind.dbUnavailable,
+        ),
       );
     }
   }

@@ -66,8 +66,8 @@ abstract class AppLocalizations {
 
   final String localeName;
 
-  static AppLocalizations? of(BuildContext context) {
-    return Localizations.of<AppLocalizations>(context, AppLocalizations);
+  static AppLocalizations of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
   }
 
   static const LocalizationsDelegate<AppLocalizations> delegate =
@@ -279,6 +279,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Contact support'**
   String get fatal_support;
+
+  /// Text selection toolbar: cuts the selected text.
+  ///
+  /// In en, this message translates to:
+  /// **'Cut'**
+  String get field_cut;
+
+  /// Text selection toolbar: pastes from the clipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste'**
+  String get field_paste;
+
+  /// Text selection toolbar: selects all the text in the field.
+  ///
+  /// In en, this message translates to:
+  /// **'Select all'**
+  String get field_selectAll;
+
+  /// Banner after saving a post.
+  ///
+  /// In en, this message translates to:
+  /// **'Post saved'**
+  String get banner_postSaved;
+
+  /// Banner after scheduling a post.
+  ///
+  /// In en, this message translates to:
+  /// **'Post scheduled'**
+  String get banner_postScheduled;
+
+  /// Banner after deleting a post.
+  ///
+  /// In en, this message translates to:
+  /// **'Post deleted'**
+  String get banner_postDeleted;
+
+  /// Banner after duplicating a post.
+  ///
+  /// In en, this message translates to:
+  /// **'Post duplicated'**
+  String get banner_postDuplicated;
+
+  /// Banner after the user confirms a post was sent.
+  ///
+  /// In en, this message translates to:
+  /// **'Marked as posted'**
+  String get banner_markedPosted;
+
+  /// Banner after the user skips a platform.
+  ///
+  /// In en, this message translates to:
+  /// **'Skipped'**
+  String get banner_skipped;
+
+  /// Banner after copying a caption to the clipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Caption copied'**
+  String get banner_captionCopied;
+
+  /// Banner after copying a title to the clipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Title copied'**
+  String get banner_titleCopied;
+
+  /// Banner after a CSV export file was created.
+  ///
+  /// In en, this message translates to:
+  /// **'Export ready'**
+  String get banner_exported;
+
+  /// Banner after the user deletes all app data.
+  ///
+  /// In en, this message translates to:
+  /// **'All data deleted'**
+  String get banner_dataDeleted;
+
+  /// Banner after the ad-removal purchase succeeds.
+  ///
+  /// In en, this message translates to:
+  /// **'Ads removed'**
+  String get banner_adsRemoved;
+
+  /// Banner after a purchase was restored.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase restored'**
+  String get banner_purchaseRestored;
+
+  /// Banner when a restore finds no purchase.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to restore'**
+  String get banner_nothingToRestore;
+
+  /// Banner after the database file was damaged and a fresh one was created.
+  ///
+  /// In en, this message translates to:
+  /// **'A damaged data file was replaced. A backup copy was kept.'**
+  String get banner_databaseRecovered;
+
+  /// Permanent banner when the app cannot use its database.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes cannot be saved right now and will be lost when the app closes.'**
+  String get banner_storageFallback;
+
+  /// Banner when scheduling reminder notifications failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders could not be scheduled.'**
+  String get banner_schedulingFailed;
+
+  /// Banner after a CSV import. The count is the number of posts added.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 post imported} other{{count} posts imported}}'**
+  String banner_imported(int count);
+
+  /// Undo banner text after deleting a post.
+  ///
+  /// In en, this message translates to:
+  /// **'Post deleted'**
+  String get undo_postDeleted;
+
+  /// Undo banner text after marking a post as posted.
+  ///
+  /// In en, this message translates to:
+  /// **'Marked as posted'**
+  String get undo_markedPosted;
+
+  /// Undo banner text after skipping a platform.
+  ///
+  /// In en, this message translates to:
+  /// **'Skipped'**
+  String get undo_skipped;
 }
 
 class _AppLocalizationsDelegate

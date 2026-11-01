@@ -58,11 +58,7 @@ void main() {
   setUpAll(initializeDateFormatting);
 
   group('PzTextField', () {
-    Widget field(
-      TextEditingController c, {
-      FocusNode? node,
-      String? error,
-    }) {
+    Widget field(TextEditingController c, {FocusNode? node, String? error}) {
       return app(
         Center(
           child: SizedBox(
@@ -81,7 +77,9 @@ void main() {
       );
     }
 
-    testWidgets('typing fills the controller and updates the counter', (t) async {
+    testWidgets('typing fills the controller and updates the counter', (
+      t,
+    ) async {
       final TextEditingController c = TextEditingController();
       addTearDown(c.dispose);
       await t.pumpWidget(field(c));
@@ -95,7 +93,9 @@ void main() {
       expect(find.text('Write a headline'), findsNothing);
     });
 
-    testWidgets('over the limit the counter turns to the error color', (t) async {
+    testWidgets('over the limit the counter turns to the error color', (
+      t,
+    ) async {
       final TextEditingController c = TextEditingController();
       addTearDown(c.dispose);
       await t.pumpWidget(field(c));
@@ -146,7 +146,9 @@ void main() {
       );
     });
 
-    testWidgets('selecting text offers cut, copy, paste and select all', (t) async {
+    testWidgets('selecting text offers cut, copy, paste and select all', (
+      t,
+    ) async {
       final TextEditingController c = TextEditingController();
       addTearDown(c.dispose);
       await t.pumpWidget(field(c));
@@ -272,12 +274,17 @@ void main() {
       await t.tap(find.text('Open'));
       await t.pumpAndSettle();
       final Offset content = t.getCenter(find.text('Sheet content'));
-      await t.dragFrom(Offset(content.dx, content.dy - 34), const Offset(0, 400));
+      await t.dragFrom(
+        Offset(content.dx, content.dy - 34),
+        const Offset(0, 400),
+      );
       await t.pumpAndSettle();
       expect(find.text('Sheet content'), findsNothing);
     });
 
-    testWidgets('a dialog resolves true on confirm and false on cancel', (t) async {
+    testWidgets('a dialog resolves true on confirm and false on cancel', (
+      t,
+    ) async {
       bool? result;
       await t.pumpWidget(
         app(
@@ -376,7 +383,11 @@ void main() {
     });
 
     Widget host() => app(
-      PzBannerHost(banners: banners, undo: undo, child: const SizedBox.expand()),
+      PzBannerHost(
+        banners: banners,
+        undo: undo,
+        child: const SizedBox.expand(),
+      ),
     );
 
     testWidgets('shows a success banner and a counted one', (t) async {

@@ -111,4 +111,83 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fatal_support => 'Contact support';
+
+  @override
+  String get field_cut => 'Cut';
+
+  @override
+  String get field_paste => 'Paste';
+
+  @override
+  String get field_selectAll => 'Select all';
+
+  @override
+  String get banner_postSaved => 'Post saved';
+
+  @override
+  String get banner_postScheduled => 'Post scheduled';
+
+  @override
+  String get banner_postDeleted => 'Post deleted';
+
+  @override
+  String get banner_postDuplicated => 'Post duplicated';
+
+  @override
+  String get banner_markedPosted => 'Marked as posted';
+
+  @override
+  String get banner_skipped => 'Skipped';
+
+  @override
+  String get banner_captionCopied => 'Caption copied';
+
+  @override
+  String get banner_titleCopied => 'Title copied';
+
+  @override
+  String get banner_exported => 'Export ready';
+
+  @override
+  String get banner_dataDeleted => 'All data deleted';
+
+  @override
+  String get banner_adsRemoved => 'Ads removed';
+
+  @override
+  String get banner_purchaseRestored => 'Purchase restored';
+
+  @override
+  String get banner_nothingToRestore => 'Nothing to restore';
+
+  @override
+  String get banner_databaseRecovered =>
+      'A damaged data file was replaced. A backup copy was kept.';
+
+  @override
+  String get banner_storageFallback =>
+      'Changes cannot be saved right now and will be lost when the app closes.';
+
+  @override
+  String get banner_schedulingFailed => 'Reminders could not be scheduled.';
+
+  @override
+  String banner_imported(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count posts imported',
+      one: '1 post imported',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get undo_postDeleted => 'Post deleted';
+
+  @override
+  String get undo_markedPosted => 'Marked as posted';
+
+  @override
+  String get undo_skipped => 'Skipped';
 }

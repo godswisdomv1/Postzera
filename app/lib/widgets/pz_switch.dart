@@ -48,7 +48,9 @@ class PzSwitch extends StatelessWidget {
                 color: value ? theme.colors.accent : theme.colors.bgTertiary,
                 borderRadius: PzRadii.pill(PzSizes.switchHeight),
                 border: Border.all(
-                  color: value ? theme.colors.accent : theme.colors.borderSubtle,
+                  color: value
+                      ? theme.colors.accent
+                      : theme.colors.borderSubtle,
                   width: PzSizes.hairline,
                 ),
               ),

@@ -52,18 +52,21 @@ void main() {
       expect(provider.entitlement.source, EntitlementSource.cache);
     });
 
-    test('a connected store saying not owned clears a cached Pro (refund)', () async {
-      store.cache = const Entitlement(
-        state: EntitlementState.pro,
-        source: EntitlementSource.store,
-      );
-      await provider.init();
-      purchases.owned = false;
-      await provider.connect();
-      await wait();
-      expect(provider.entitlement.state, EntitlementState.free);
-      expect(store.cache!.state, EntitlementState.free);
-    });
+    test(
+      'a connected store saying not owned clears a cached Pro (refund)',
+      () async {
+        store.cache = const Entitlement(
+          state: EntitlementState.pro,
+          source: EntitlementSource.store,
+        );
+        await provider.init();
+        purchases.owned = false;
+        await provider.connect();
+        await wait();
+        expect(provider.entitlement.state, EntitlementState.free);
+        expect(store.cache!.state, EntitlementState.free);
+      },
+    );
 
     test('the store saying owned gives Pro and caches it', () async {
       await provider.init();
@@ -110,16 +113,21 @@ void main() {
       expect(banners.value.transient, isNull);
     });
 
-    test('a failed purchase shows a retryable error that can be cleared', () async {
-      await provider.init();
-      purchases.onBuy = PurchaseFailed(AppError.of(AppErrorKind.purchaseFailed));
-      await provider.buy();
-      await wait();
-      expect(provider.value.error?.kind, AppErrorKind.purchaseFailed);
-      expect(provider.value.status, PurchaseStatus.idle);
-      provider.clearError();
-      expect(provider.value.error, isNull);
-    });
+    test(
+      'a failed purchase shows a retryable error that can be cleared',
+      () async {
+        await provider.init();
+        purchases.onBuy = PurchaseFailed(
+          AppError.of(AppErrorKind.purchaseFailed),
+        );
+        await provider.buy();
+        await wait();
+        expect(provider.value.error?.kind, AppErrorKind.purchaseFailed);
+        expect(provider.value.status, PurchaseStatus.idle);
+        provider.clearError();
+        expect(provider.value.error, isNull);
+      },
+    );
 
     test('restore that finds the purchase says so', () async {
       await provider.init();
@@ -154,14 +162,13 @@ void main() {
         Duration(milliseconds: 5),
         Duration(milliseconds: 5),
       ],
-    }) =>
-        ConsentProvider(
-          consent: consent,
-          ads: ads,
-          entitlement: entitlement,
-          clock: clock,
-          retryDelays: delays,
-        );
+    }) => ConsentProvider(
+      consent: consent,
+      ads: ads,
+      entitlement: entitlement,
+      clock: clock,
+      retryDelays: delays,
+    );
 
     const ConsentRefreshResult allowed = ConsentRefreshResult(
       updateOk: true,

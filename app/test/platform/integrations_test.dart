@@ -47,20 +47,29 @@ void main() {
   });
 
   group('TimezoneService', () {
-    test('converts an instant to the device zone, with daylight saving', () async {
-      final TimezoneService berlin =
-          TimezoneService(zoneNameReader: () async => 'Europe/Berlin');
-      expect(await berlin.init(), 'Europe/Berlin');
-      final tz.TZDateTime summer = berlin.toLocal(DateTime.utc(2026, 7, 1, 12));
-      final tz.TZDateTime winter = berlin.toLocal(DateTime.utc(2026, 1, 1, 12));
-      expect(summer.hour, 14);
-      expect(winter.hour, 13);
-      expect(summer.isAtSameMomentAs(DateTime.utc(2026, 7, 1, 12)), isTrue);
-    });
+    test(
+      'converts an instant to the device zone, with daylight saving',
+      () async {
+        final TimezoneService berlin = TimezoneService(
+          zoneNameReader: () async => 'Europe/Berlin',
+        );
+        expect(await berlin.init(), 'Europe/Berlin');
+        final tz.TZDateTime summer = berlin.toLocal(
+          DateTime.utc(2026, 7, 1, 12),
+        );
+        final tz.TZDateTime winter = berlin.toLocal(
+          DateTime.utc(2026, 1, 1, 12),
+        );
+        expect(summer.hour, 14);
+        expect(winter.hour, 13);
+        expect(summer.isAtSameMomentAs(DateTime.utc(2026, 7, 1, 12)), isTrue);
+      },
+    );
 
     test('an unknown zone falls back to UTC', () async {
-      final TimezoneService service =
-          TimezoneService(zoneNameReader: () async => 'Mars/Olympus');
+      final TimezoneService service = TimezoneService(
+        zoneNameReader: () async => 'Mars/Olympus',
+      );
       expect(await service.init(), 'UTC');
       expect(service.toLocal(DateTime.utc(2026, 1, 1, 9)).hour, 9);
     });
@@ -74,8 +83,9 @@ void main() {
 
     test('refresh follows a changed zone', () async {
       String name = 'America/New_York';
-      final TimezoneService service =
-          TimezoneService(zoneNameReader: () async => name);
+      final TimezoneService service = TimezoneService(
+        zoneNameReader: () async => name,
+      );
       await service.init();
       expect(service.zoneName, 'America/New_York');
       name = 'Asia/Tokyo';
@@ -155,8 +165,9 @@ void main() {
     });
 
     test('an already-owned error means the user owns it', () {
-      final PurchaseEvent e =
-          PurchaseService.eventForError(error(iap.ErrorCode.AlreadyOwned));
+      final PurchaseEvent e = PurchaseService.eventForError(
+        error(iap.ErrorCode.AlreadyOwned),
+      );
       expect(e, isA<PurchaseOwnershipReported>());
       expect((e as PurchaseOwnershipReported).owned, isTrue);
     });
@@ -173,15 +184,19 @@ void main() {
     });
 
     test('any other error is a failed purchase', () {
-      final PurchaseEvent e =
-          PurchaseService.eventForError(error(iap.ErrorCode.Unknown));
+      final PurchaseEvent e = PurchaseService.eventForError(
+        error(iap.ErrorCode.Unknown),
+      );
       expect((e as PurchaseFailed).error.kind, AppErrorKind.purchaseFailed);
     });
   });
 
   group('FileImportService.decodeCsvBytes', () {
     test('decodes UTF-8 and removes a byte-order mark', () {
-      expect(FileImportService.decodeCsvBytes(<int>[0xEF, 0xBB, 0xBF, 0x68, 0x69]), 'hi');
+      expect(
+        FileImportService.decodeCsvBytes(<int>[0xEF, 0xBB, 0xBF, 0x68, 0x69]),
+        'hi',
+      );
       expect(FileImportService.decodeCsvBytes(<int>[0x68, 0xC3, 0xA9]), 'hé');
     });
 
