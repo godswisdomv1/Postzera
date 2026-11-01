@@ -27,6 +27,7 @@ double interOpticalSize(double fontSize) {
 class PzTypography {
   const PzTypography._({
     required this.display,
+    required this.wordmark,
     required this.headline,
     required this.title1,
     required this.title2,
@@ -44,6 +45,12 @@ class PzTypography {
         size: 34,
         weight: 600,
         height: 1.1,
+        color: colors.textPrimary,
+      ),
+      wordmark: _newsreader(
+        size: 24,
+        weight: 600,
+        height: 1.2,
         color: colors.textPrimary,
       ),
       headline: _inter(
@@ -109,6 +116,9 @@ class PzTypography {
   /// Screen hero titles and the card hook. Newsreader, with Inter as the
   /// fallback family for Greek and Cyrillic.
   final TextStyle display;
+
+  /// The brand name in the navigation bar of the queue screen. Newsreader.
+  final TextStyle wordmark;
 
   /// Empty-state and paywall headlines.
   final TextStyle headline;

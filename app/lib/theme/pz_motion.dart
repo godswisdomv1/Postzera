@@ -13,6 +13,12 @@ abstract final class PzMotion {
   /// Horizontal slide distance of a pushed screen.
   static const double pushSlide = 20;
 
+  /// Opacity of a pressed card or chip.
+  static const double pressedOpacity = 0.72;
+
+  /// Opacity of a disabled control.
+  static const double disabledOpacity = 0.4;
+
   /// Scale of a pressed button.
   static const double pressScale = 0.97;
 
@@ -23,6 +29,8 @@ abstract final class PzMotion {
   /// Returns [duration], or zero when Reduce Motion is on, so every animation
   /// becomes an instant change.
   static Duration resolve(BuildContext context, Duration duration) {
-    return MediaQuery.disableAnimationsOf(context) ? Duration.zero : duration;
+    return (MediaQuery.maybeDisableAnimationsOf(context) ?? false)
+        ? Duration.zero
+        : duration;
   }
 }

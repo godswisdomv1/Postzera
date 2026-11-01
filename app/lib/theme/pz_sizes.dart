@@ -3,6 +3,9 @@ abstract final class PzSizes {
   static const double iconNav = 24;
   static const double iconRow = 22;
   static const double iconChevron = 18;
+
+  /// Icons inside chips and buttons.
+  static const double iconInline = 16;
   static const double iconHero = 40;
 
   static const double strokeNav = 2.25;

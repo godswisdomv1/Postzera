@@ -28,6 +28,12 @@ class PzThemeData {
 
   bool get isDark => brightness == Brightness.dark;
 
+  /// Fill of a selected chip: the accent laid softly over the card color.
+  Color get accentTint => Color.alphaBlend(
+    colors.accent.withValues(alpha: 0.14),
+    colors.bgSecondary,
+  );
+
   @override
   bool operator ==(Object other) =>
       other is PzThemeData && other.brightness == brightness;
