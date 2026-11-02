@@ -29,7 +29,12 @@ if [ "$code" -ne 0 ]; then
   echo "::error title=${title} failed::${tail_text}"
   # The exception text of a failed test sits just before its [E] line, so keep
   # the lines before it, and drop the app's own log chatter.
-  details="$(clean | grep -v -E ' (INFO|WARNING|ERROR) \[' | grep -n -B32 -A4 -E '\[E\]|Error:' | head -n 200 | escape)"
+  details="$({
+    clean | grep -v -E ' (INFO|WARNING|ERROR) \[' | grep -n -B32 -A4 -E '\[E\]|Error:' | head -n 200
+    # Gradle: the cause of a failed build is under "What went wrong", and a
+    # dependency that needs a newer compile SDK names itself there.
+    clean | grep -n -B3 -A14 -E 'What went wrong|Execution failed for task|requires libraries and applications|Could not resolve' | head -n 120
+  } | escape)"
   echo "::error title=${title} details::${details}"
 else
   echo "::notice title=${title} output::${tail_text}"
