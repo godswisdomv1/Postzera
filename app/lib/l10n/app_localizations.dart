@@ -417,6 +417,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Skipped'**
   String get undo_skipped;
+
+  /// Small badge shown once the ad-removal purchase is owned.
+  ///
+  /// In en, this message translates to:
+  /// **'Ad-free'**
+  String get entitlement_adFree;
+
+  /// Warning chip: the caption was cut to fit the platform limit.
+  ///
+  /// In en, this message translates to:
+  /// **'Caption shortened'**
+  String get variant_warning_captionTruncated;
+
+  /// Warning chip: some hashtags were left out to fit the platform.
+  ///
+  /// In en, this message translates to:
+  /// **'Hashtags removed'**
+  String get variant_warning_hashtagsDropped;
+
+  /// Warning chip: this platform uses a link but the post has none.
+  ///
+  /// In en, this message translates to:
+  /// **'Link missing'**
+  String get variant_warning_linkMissing;
+
+  /// Warning chip: the text printed on the image was cut to fit.
+  ///
+  /// In en, this message translates to:
+  /// **'Card text shortened'**
+  String get variant_warning_cardTextShortened;
+
+  /// Status chip on a platform that was marked as posted.
+  ///
+  /// In en, this message translates to:
+  /// **'Posted'**
+  String get variant_posted;
+
+  /// Shown while the image or video for a platform is being made.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing'**
+  String get variant_rendering;
+
+  /// Button that replaces a failed photo or video with a plain text card.
+  ///
+  /// In en, this message translates to:
+  /// **'Use auto card'**
+  String get variant_useAutoCard;
+
+  /// Screen reader label of the page dots under the platform cards.
+  ///
+  /// In en, this message translates to:
+  /// **'Platform {page} of {total}'**
+  String variant_pageOf(int page, int total);
 }
 
 class _AppLocalizationsDelegate

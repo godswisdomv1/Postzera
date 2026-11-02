@@ -288,9 +288,17 @@ class _ComponentGalleryState extends State<ComponentGallery> {
           semanticLabel: 'On or off',
         ),
         const SizedBox(width: PzSpacing.md),
-        const PzSwitch(value: true, onChanged: null, semanticLabel: 'Disabled on'),
+        const PzSwitch(
+          value: true,
+          onChanged: null,
+          semanticLabel: 'Disabled on',
+        ),
         const SizedBox(width: PzSpacing.md),
-        const PzSwitch(value: false, onChanged: null, semanticLabel: 'Disabled off'),
+        const PzSwitch(
+          value: false,
+          onChanged: null,
+          semanticLabel: 'Disabled off',
+        ),
       ],
     ),
     _gap(),
@@ -361,8 +369,16 @@ class _ComponentGalleryState extends State<ComponentGallery> {
             PzNavBar(
               brand: 'Postzera',
               actions: <PzNavAction>[
-                PzNavAction(icon: PzIcons.library, label: 'Library', onTap: () {}),
-                PzNavAction(icon: PzIcons.settings, label: 'Settings', onTap: () {}),
+                PzNavAction(
+                  icon: PzIcons.library,
+                  label: 'Library',
+                  onTap: () {},
+                ),
+                PzNavAction(
+                  icon: PzIcons.settings,
+                  label: 'Settings',
+                  onTap: () {},
+                ),
               ],
             ),
           ),
@@ -486,9 +502,8 @@ class _ComponentGalleryState extends State<ComponentGallery> {
     _gap(PzSpacing.sm),
     PzSecondaryButton(
       label: 'Banner: failure with retry',
-      onPressed: () => widget.banners.failure(
-        AppError.of(AppErrorKind.scheduleFailed),
-      ),
+      onPressed: () =>
+          widget.banners.failure(AppError.of(AppErrorKind.scheduleFailed)),
     ),
     _gap(PzSpacing.sm),
     PzSecondaryButton(
@@ -536,13 +551,34 @@ class _ComponentGalleryState extends State<ComponentGallery> {
       runSpacing: PzSpacing.sm,
       children: <Widget>[
         for (final PzIconData icon in <PzIconData>[
-          PzIcons.queue, PzIcons.library, PzIcons.settings, PzIcons.add,
-          PzIcons.check, PzIcons.checkCircle, PzIcons.close, PzIcons.copy,
-          PzIcons.share, PzIcons.calendar, PzIcons.clock, PzIcons.image,
-          PzIcons.video, PzIcons.trash, PzIcons.undo, PzIcons.warning,
-          PzIcons.error, PzIcons.lock, PzIcons.restore, PzIcons.language,
-          PzIcons.theme, PzIcons.bell, PzIcons.import, PzIcons.export,
-          PzIcons.edit, PzIcons.moveUp, PzIcons.moveDown, PzIcons.platforms,
+          PzIcons.queue,
+          PzIcons.library,
+          PzIcons.settings,
+          PzIcons.add,
+          PzIcons.check,
+          PzIcons.checkCircle,
+          PzIcons.close,
+          PzIcons.copy,
+          PzIcons.share,
+          PzIcons.calendar,
+          PzIcons.clock,
+          PzIcons.image,
+          PzIcons.video,
+          PzIcons.trash,
+          PzIcons.undo,
+          PzIcons.warning,
+          PzIcons.error,
+          PzIcons.lock,
+          PzIcons.restore,
+          PzIcons.language,
+          PzIcons.theme,
+          PzIcons.bell,
+          PzIcons.import,
+          PzIcons.export,
+          PzIcons.edit,
+          PzIcons.moveUp,
+          PzIcons.moveDown,
+          PzIcons.platforms,
         ])
           PzIconChip(icon: icon),
       ],
@@ -618,10 +654,7 @@ class _ComponentGalleryState extends State<ComponentGallery> {
               state: _ads,
               requestBanner: (int w) async {},
               bannerBuilder: (BuildContext c, BannerHandle b) => Center(
-                child: Text(
-                  'Test banner',
-                  style: PzTheme.of(c).text.callout,
-                ),
+                child: Text('Test banner', style: PzTheme.of(c).text.callout),
               ),
             ),
           ],
@@ -644,7 +677,12 @@ class _ComponentGalleryState extends State<ComponentGallery> {
             onTap: () {},
           ),
           _gap(PzSpacing.sm),
-          PzRow(label: 'اللغة', subtitle: 'العربية', icon: PzIcons.language, onTap: () {}),
+          PzRow(
+            label: 'اللغة',
+            subtitle: 'العربية',
+            icon: PzIcons.language,
+            onTap: () {},
+          ),
           _gap(PzSpacing.sm),
           Row(
             children: <Widget>[

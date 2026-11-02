@@ -52,8 +52,9 @@ void main() {
     }
 
     testWidgets('takes no room while consent blocks ads', (t) async {
-      final ValueNotifier<AdsViewState> state =
-          ValueNotifier<AdsViewState>(const AdsViewState());
+      final ValueNotifier<AdsViewState> state = ValueNotifier<AdsViewState>(
+        const AdsViewState(),
+      );
       addTearDown(state.dispose);
       final List<int> asked = <int>[];
       await t.pumpWidget(slot(state, asked));
@@ -62,9 +63,12 @@ void main() {
       expect(asked, isEmpty);
     });
 
-    testWidgets('asks for a banner once ads are allowed, then shows it', (t) async {
-      final ValueNotifier<AdsViewState> state =
-          ValueNotifier<AdsViewState>(const AdsViewState(canShowAds: true));
+    testWidgets('asks for a banner once ads are allowed, then shows it', (
+      t,
+    ) async {
+      final ValueNotifier<AdsViewState> state = ValueNotifier<AdsViewState>(
+        const AdsViewState(canShowAds: true),
+      );
       addTearDown(state.dispose);
       final List<int> asked = <int>[];
       await t.pumpWidget(slot(state, asked));
@@ -109,7 +113,14 @@ void main() {
 
   group('small widgets', () {
     testWidgets('the Ad-free badge says so', (t) async {
-      await t.pumpWidget(app(const Align(alignment: Alignment.topLeft, child: PzEntitlementBadge())));
+      await t.pumpWidget(
+        app(
+          const Align(
+            alignment: Alignment.topLeft,
+            child: PzEntitlementBadge(),
+          ),
+        ),
+      );
       await t.pumpAndSettle();
       expect(find.text('Ad-free'), findsOneWidget);
     });
@@ -129,15 +140,16 @@ void main() {
         ),
       );
       await t.pumpAndSettle();
-      expect(t.getSize(find.byType(PzThemeSwatch)).height, greaterThanOrEqualTo(48));
+      expect(
+        t.getSize(find.byType(PzThemeSwatch)).height,
+        greaterThanOrEqualTo(48),
+      );
       await t.tap(find.byType(PzThemeSwatch));
       expect(taps, 1);
     });
 
     testWidgets('the progress bar fills in proportion', (t) async {
-      await t.pumpWidget(
-        harness(const PzProgressBar(value: 0.25), width: 200),
-      );
+      await t.pumpWidget(harness(const PzProgressBar(value: 0.25), width: 200));
       final Size bar = t.getSize(find.byType(PzProgressBar));
       expect(bar.width, 200);
       final Size fill = t.getSize(find.byType(FractionallySizedBox));
@@ -167,7 +179,9 @@ void main() {
       ),
     );
 
-    testWidgets('shows the platform, the hook preview and the caption', (t) async {
+    testWidgets('shows the platform, the hook preview and the caption', (
+      t,
+    ) async {
       final Variant v = variantFor('instagram', body: 'A longer body.');
       await t.pumpWidget(card(v));
       await t.pumpAndSettle();
@@ -253,7 +267,11 @@ void main() {
       );
       await t.pumpAndSettle();
       expect(find.text('Page 0'), findsOneWidget);
-      expect(find.text('Page 1'), findsOneWidget, reason: 'the next page peeks');
+      expect(
+        find.text('Page 1'),
+        findsOneWidget,
+        reason: 'the next page peeks',
+      );
       await t.drag(find.byType(PageView), const Offset(-450, 0));
       await t.pumpAndSettle();
       expect(seen, <int>[1]);

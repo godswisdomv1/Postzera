@@ -170,7 +170,8 @@ class _MediaLabState extends State<MediaLab> {
         ? await _imageSize(out.path)
         : await _videoSize(out.path);
     final bool sizeOk = got.$1 == want.w && got.$2 == want.h;
-    final bool timeOk = targetMs == null || watch.elapsedMilliseconds <= targetMs;
+    final bool timeOk =
+        targetMs == null || watch.elapsedMilliseconds <= targetMs;
     final FileStat stat = await File(out.path).stat();
     final String time = targetMs == null
         ? '${watch.elapsedMilliseconds} ms'
@@ -203,11 +204,7 @@ class _MediaLabState extends State<MediaLab> {
         setState(
           () => _results.insert(
             0,
-            _Result(
-              title: name,
-              lines: <String>['FAILED: $error'],
-              ok: false,
-            ),
+            _Result(title: name, lines: <String>['FAILED: $error'], ok: false),
           ),
         );
       }
@@ -428,7 +425,10 @@ class _MediaLabState extends State<MediaLab> {
             horizontal: PzSpacing.screenPadding,
           ),
           children: <Widget>[
-            const PzSectionHeader('Targets (blueprint section 16)', topSpacing: 0),
+            const PzSectionHeader(
+              'Targets (blueprint section 16)',
+              topSpacing: 0,
+            ),
             Text(
               'Auto card under 150 ms. Photo card under 400 ms. Five-slide '
               'video under 15 s. A clip reframe no slower than the clip. '
@@ -474,9 +474,7 @@ class _MediaLabState extends State<MediaLab> {
               label: 'Choose a clip, reframe to 4:5',
               onPressed: busy
                   ? null
-                  : () => unawaited(
-                      _run('Clip 4:5', () => _clip('instagram')),
-                    ),
+                  : () => unawaited(_run('Clip 4:5', () => _clip('instagram'))),
             ),
             _gap(),
             PzSecondaryButton(

@@ -11,8 +11,10 @@ import 'package:postzera/theme/pz_theme.dart';
 
 /// Draws a loaded banner. The shell supplies it, so widgets never import the
 /// ad plugin.
-typedef PzBannerBuilder =
-    Widget Function(BuildContext context, BannerHandle banner);
+typedef PzBannerBuilder = Widget Function(
+  BuildContext context,
+  BannerHandle banner,
+);
 
 /// The one banner of the app, at the bottom of the queue screen.
 ///

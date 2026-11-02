@@ -60,9 +60,7 @@ class PzThemeSwatch extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       _specimen,
-                      style: app.text.title1.copyWith(
-                        color: Color(theme.text),
-                      ),
+                      style: app.text.title1.copyWith(color: Color(theme.text)),
                     ),
                     const SizedBox(width: PzSpacing.xs),
                     if (selected)

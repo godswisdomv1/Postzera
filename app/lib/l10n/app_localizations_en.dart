@@ -190,4 +190,33 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get undo_skipped => 'Skipped';
+
+  @override
+  String get entitlement_adFree => 'Ad-free';
+
+  @override
+  String get variant_warning_captionTruncated => 'Caption shortened';
+
+  @override
+  String get variant_warning_hashtagsDropped => 'Hashtags removed';
+
+  @override
+  String get variant_warning_linkMissing => 'Link missing';
+
+  @override
+  String get variant_warning_cardTextShortened => 'Card text shortened';
+
+  @override
+  String get variant_posted => 'Posted';
+
+  @override
+  String get variant_rendering => 'Preparing';
+
+  @override
+  String get variant_useAutoCard => 'Use auto card';
+
+  @override
+  String variant_pageOf(int page, int total) {
+    return 'Platform $page of $total';
+  }
 }

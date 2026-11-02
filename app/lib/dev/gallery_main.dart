@@ -59,9 +59,8 @@ class _GalleryAppState extends State<GalleryApp> {
             PzPageRoute<T>(settings: settings, builder: builder),
         builder: (BuildContext context, Widget? child) {
           return MediaQuery(
-            data: MediaQuery.of(
-              context,
-            ).copyWith(textScaler: TextScaler.linear(_scale)),
+            data: MediaQuery.of(context)
+                .copyWith(textScaler: TextScaler.linear(_scale)),
             child: ColoredBox(
               color: theme.colors.bgPrimary,
               child: DefaultTextStyle(
@@ -118,9 +117,8 @@ class _Shell extends StatelessWidget {
           const PzNavBar(title: 'Postzera gallery'),
           // The controls keep their size so they stay usable at 2.0 scale.
           MediaQuery(
-            data: MediaQuery.of(
-              context,
-            ).copyWith(textScaler: TextScaler.noScaling),
+            data: MediaQuery.of(context)
+                .copyWith(textScaler: TextScaler.noScaling),
             child: Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: PzSpacing.screenPadding,

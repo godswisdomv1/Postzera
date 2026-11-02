@@ -138,10 +138,7 @@ class PzVariantCard extends StatelessWidget {
                 const SizedBox(width: PzSpacing.md),
                 Expanded(child: Text(platformName, style: theme.text.title2)),
                 if (sent)
-                  PzChip(
-                    label: l10n.variant_posted,
-                    tone: PzChipTone.success,
-                  ),
+                  PzChip(label: l10n.variant_posted, tone: PzChipTone.success),
               ],
             ),
             const SizedBox(height: PzSpacing.md),
@@ -233,9 +230,11 @@ class _Media extends StatelessWidget {
           fit: BoxFit.cover,
           gaplessPlayback: true,
           cacheWidth: (constraints.maxWidth * pixelRatio).round(),
-          errorBuilder:
-              (BuildContext context, Object error, StackTrace? stack) =>
-                  preview,
+          errorBuilder: (
+            BuildContext context,
+            Object error,
+            StackTrace? stack,
+          ) => preview,
         );
       },
     );
