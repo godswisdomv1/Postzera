@@ -75,13 +75,22 @@ class PzNavBar extends StatelessWidget {
                     onTap: back,
                   ),
                   const SizedBox(width: PzSpacing.sm),
-                ] else if (shownBrand != null)
-                  Semantics(
-                    header: true,
-                    child: Text(shownBrand, style: theme.text.wordmark),
-                  ),
+                ],
+                // The wordmark stands in for the title on the queue screen,
+                // where there is no back button. Either one gives way (and is
+                // cut with an ellipsis) before the buttons do.
                 Expanded(
-                  child: shownTitle == null
+                  child: back == null && shownBrand != null
+                      ? Semantics(
+                          header: true,
+                          child: Text(
+                            shownBrand,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: theme.text.wordmark,
+                          ),
+                        )
+                      : shownTitle == null
                       ? const SizedBox.shrink()
                       : Semantics(
                           header: true,
