@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:postzera/core/data/builtin_card_themes.dart';
@@ -8,7 +7,6 @@ import 'package:postzera/core/ports/ads_port.dart';
 import 'package:postzera/core/providers/consent_provider.dart';
 import 'package:postzera/core/providers/media_jobs_provider.dart';
 import 'package:postzera/core/services/variant_builder.dart';
-import 'package:postzera/theme/pz_theme.dart';
 import 'package:postzera/widgets/pz_ad_slot.dart';
 import 'package:postzera/widgets/pz_entitlement_badge.dart';
 import 'package:postzera/widgets/pz_progress_bar.dart';
