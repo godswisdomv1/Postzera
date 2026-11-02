@@ -12,43 +12,46 @@ void main() {
       t.view.physicalSize = const Size(390, 844);
       t.view.devicePixelRatio = 1;
       addTearDown(t.view.reset);
-      final List<String> reports = <String>[];
-      final void Function(FlutterErrorDetails)? previous = FlutterError.onError;
+      final Set<String> reports = <String>{};
+      String where = 'start';
+      final void Function(FlutterErrorDetails)? previous =
+          FlutterError.onError;
       FlutterError.onError = (FlutterErrorDetails d) {
-        reports.add(d.toString().split('\n').take(14).join(' | '));
+        reports.add(
+          '[$where] ${d.toString().split('\n').take(12).join(' | ')}',
+        );
       };
-      addTearDown(() => FlutterError.onError = previous);
-      await t.pumpWidget(const GalleryApp());
-      await t.pump(const Duration(milliseconds: 100));
+      try {
+        await t.pumpWidget(const GalleryApp());
+        await t.pump(const Duration(milliseconds: 100));
 
-      Future<void> sweep(String label) async {
-        final Finder list = find.byType(ListView).first;
-        for (int i = 0; i < 45; i++) {
-          await t.drag(list, const Offset(0, -450));
-          await t.pump(const Duration(milliseconds: 30));
-          expect(
-            reports,
-            isEmpty,
-            reason: '$label, after $i drags: ${reports.take(2).join(' ### ')}',
-          );
+        Future<void> sweep(String label) async {
+          where = label;
+          final Finder list = find.byType(ListView).first;
+          for (int i = 0; i < 45; i++) {
+            await t.drag(list, const Offset(0, -450));
+            await t.pump(const Duration(milliseconds: 30));
+          }
+          for (int i = 0; i < 45; i++) {
+            await t.drag(list, const Offset(0, 450));
+            await t.pump(const Duration(milliseconds: 30));
+          }
         }
-        for (int i = 0; i < 45; i++) {
-          await t.drag(list, const Offset(0, 450));
-          await t.pump(const Duration(milliseconds: 30));
-        }
-        expect(reports, isEmpty, reason: '$label, scrolling back: $reports');
+
+        await sweep('light 1.0x');
+        await t.tap(find.text('Dark'));
+        await t.pump(const Duration(milliseconds: 100));
+        await sweep('dark 1.0x');
+        await t.tap(find.text('2.0x'));
+        await t.pump(const Duration(milliseconds: 100));
+        await sweep('dark 2.0x');
+        await t.tap(find.text('Light'));
+        await t.pump(const Duration(milliseconds: 100));
+        await sweep('light 2.0x');
+      } finally {
+        FlutterError.onError = previous;
       }
-
-      await sweep('light 1.0x');
-      await t.tap(find.text('Dark'));
-      await t.pump(const Duration(milliseconds: 100));
-      await sweep('dark 1.0x');
-      await t.tap(find.text('2.0x'));
-      await t.pump(const Duration(milliseconds: 100));
-      await sweep('dark 2.0x');
-      await t.tap(find.text('Light'));
-      await t.pump(const Duration(milliseconds: 100));
-      await sweep('light 2.0x');
+      expect(reports, isEmpty, reason: reports.take(3).join('\n###\n'));
     },
   );
 
