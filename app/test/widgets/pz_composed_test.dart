@@ -146,19 +146,22 @@ void main() {
   });
 
   group('PzVariantCard', () {
+    // As in the strip, a page scrolls when its card is taller than the screen.
     Widget card(Variant v, {MediaJob? job, bool sent = false}) => app(
-      Align(
-        alignment: Alignment.topCenter,
-        child: SizedBox(
-          width: 340,
-          child: PzVariantCard(
-            variant: v,
-            platformName: 'Instagram',
-            monogram: 'In',
-            job: job,
-            sent: sent,
-            onRetry: () {},
-            onUseAutoCard: () {},
+      SingleChildScrollView(
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: SizedBox(
+            width: 340,
+            child: PzVariantCard(
+              variant: v,
+              platformName: 'Instagram',
+              monogram: 'In',
+              job: job,
+              sent: sent,
+              onRetry: () {},
+              onUseAutoCard: () {},
+            ),
           ),
         ),
       ),
