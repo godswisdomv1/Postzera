@@ -15,7 +15,6 @@ import 'package:postzera/core/services/variant_builder.dart';
 import 'package:postzera/theme/pz_spacing.dart';
 import 'package:postzera/theme/pz_theme.dart';
 import 'package:postzera/utils/number_format.dart';
-import 'package:postzera/widgets/foundation/pz_icon.dart';
 import 'package:postzera/widgets/foundation/pz_icon_chip.dart';
 import 'package:postzera/widgets/foundation/pz_icons.dart';
 import 'package:postzera/widgets/pz_ad_slot.dart';
