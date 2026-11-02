@@ -12,6 +12,12 @@ void main() {
       t.view.physicalSize = const Size(390, 844);
       t.view.devicePixelRatio = 1;
       addTearDown(t.view.reset);
+      final List<String> reports = <String>[];
+      final FlutterExceptionHandler? previous = FlutterError.onError;
+      FlutterError.onError = (FlutterErrorDetails d) {
+        reports.add(d.toString().split('\n').take(14).join(' | '));
+      };
+      addTearDown(() => FlutterError.onError = previous);
       await t.pumpWidget(const GalleryApp());
       await t.pump(const Duration(milliseconds: 100));
 
@@ -20,14 +26,17 @@ void main() {
         for (int i = 0; i < 45; i++) {
           await t.drag(list, const Offset(0, -450));
           await t.pump(const Duration(milliseconds: 30));
-          final Object? error = t.takeException();
-          expect(error, isNull, reason: '$label, after $i drags: $error');
+          expect(
+            reports,
+            isEmpty,
+            reason: '$label, after $i drags: ${reports.take(2).join(' ### ')}',
+          );
         }
         for (int i = 0; i < 45; i++) {
           await t.drag(list, const Offset(0, 450));
           await t.pump(const Duration(milliseconds: 30));
         }
-        expect(t.takeException(), isNull, reason: '$label, scrolling back');
+        expect(reports, isEmpty, reason: '$label, scrolling back: $reports');
       }
 
       await sweep('light 1.0x');
