@@ -254,7 +254,7 @@ void main() {
       await t.pumpAndSettle();
       expect(find.text('Page 0'), findsOneWidget);
       expect(find.text('Page 1'), findsOneWidget, reason: 'the next page peeks');
-      await t.drag(find.byType(PageView), const Offset(-300, 0));
+      await t.drag(find.byType(PageView), const Offset(-450, 0));
       await t.pumpAndSettle();
       expect(seen, <int>[1]);
     });
