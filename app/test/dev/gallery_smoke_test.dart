@@ -13,7 +13,7 @@ void main() {
       t.view.devicePixelRatio = 1;
       addTearDown(t.view.reset);
       final List<String> reports = <String>[];
-      final FlutterExceptionHandler? previous = FlutterError.onError;
+      final void Function(FlutterErrorDetails)? previous = FlutterError.onError;
       FlutterError.onError = (FlutterErrorDetails d) {
         reports.add(d.toString().split('\n').take(14).join(' | '));
       };
