@@ -220,5 +220,49 @@
   "undo_skipped": "Skipped",
   "@undo_skipped": {
     "description": "Undo banner text after skipping a platform."
+  },
+  "entitlement_adFree": "Ad-free",
+  "@entitlement_adFree": {
+    "description": "Small badge shown once the ad-removal purchase is owned."
+  },
+  "variant_warning_captionTruncated": "Caption shortened",
+  "@variant_warning_captionTruncated": {
+    "description": "Warning chip: the caption was cut to fit the platform limit."
+  },
+  "variant_warning_hashtagsDropped": "Hashtags removed",
+  "@variant_warning_hashtagsDropped": {
+    "description": "Warning chip: some hashtags were left out to fit the platform."
+  },
+  "variant_warning_linkMissing": "Link missing",
+  "@variant_warning_linkMissing": {
+    "description": "Warning chip: this platform uses a link but the post has none."
+  },
+  "variant_warning_cardTextShortened": "Card text shortened",
+  "@variant_warning_cardTextShortened": {
+    "description": "Warning chip: the text printed on the image was cut to fit."
+  },
+  "variant_posted": "Posted",
+  "@variant_posted": {
+    "description": "Status chip on a platform that was marked as posted."
+  },
+  "variant_rendering": "Preparing",
+  "@variant_rendering": {
+    "description": "Shown while the image or video for a platform is being made."
+  },
+  "variant_useAutoCard": "Use auto card",
+  "@variant_useAutoCard": {
+    "description": "Button that replaces a failed photo or video with a plain text card."
+  },
+  "variant_pageOf": "Platform {page} of {total}",
+  "@variant_pageOf": {
+    "description": "Screen reader label of the page dots under the platform cards.",
+    "placeholders": {
+      "page": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
   }
 }

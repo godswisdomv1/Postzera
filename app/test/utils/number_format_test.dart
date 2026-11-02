@@ -17,4 +17,12 @@ void main() {
     expect(formatBytes(1536, locale: 'en'), '1.5 KB');
     expect(formatBytes(5 * 1024 * 1024, locale: 'en'), '5 MB');
   });
+
+  test('formatClock shows minutes and padded seconds', () {
+    expect(formatClock(0), '0:00');
+    expect(formatClock(12000), '0:12');
+    expect(formatClock(59999), '0:59');
+    expect(formatClock(60000), '1:00');
+    expect(formatClock(-5), '0:00');
+  });
 }

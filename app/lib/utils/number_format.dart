@@ -24,3 +24,11 @@ String formatBytes(int bytes, {String? locale}) {
   }
   return '${NumberFormat('0.#', locale).format(value)} ${units[unit]}';
 }
+
+/// A duration in milliseconds as "m:ss", for example 12 000 gives "0:12".
+String formatClock(int milliseconds) {
+  final int total = milliseconds < 0 ? 0 : milliseconds ~/ 1000;
+  final int minutes = total ~/ 60;
+  final int seconds = total % 60;
+  return '$minutes:${seconds.toString().padLeft(2, '0')}';
+}

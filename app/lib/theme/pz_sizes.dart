@@ -41,6 +41,22 @@ abstract final class PzSizes {
   static const double wheelItemExtent = 44;
   static const double wheelHeight = 176;
 
+  /// The card-theme swatch.
+  static const double swatchWidth = 72;
+  static const double swatchHeight = 64;
+  static const double swatchDot = 10;
+
+  /// The thin determinate progress bar and the page dots.
+  static const double progressHeight = 4;
+  static const double pageDot = 8;
+
+  /// The ad slot never grows past the smaller of these.
+  static const double adMaxHeight = 90;
+  static const double adMaxScreenFraction = 0.15;
+
+  /// How much of the screen width a variant card takes, so the next one peeks.
+  static const double stripViewportFraction = 0.88;
+
   /// Border width of cards and dividers.
   static const double hairline = 0.5;
 }
