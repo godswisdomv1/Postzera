@@ -47,34 +47,42 @@ class PzThemeSwatch extends StatelessWidget {
                 width: selected ? PzSizes.stroke : PzSizes.hairline,
               ),
             ),
-            child: SizedBox(
-              width: PzSizes.swatchWidth,
-              height: PzSizes.swatchHeight,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    _specimen,
-                    style: app.text.title1.copyWith(color: Color(theme.text)),
-                  ),
-                  const SizedBox(width: PzSpacing.xs),
-                  if (selected)
-                    PzIcon(
-                      PzIcons.check,
-                      size: PzSizes.iconInline,
-                      color: accent,
-                    )
-                  else
-                    DecoratedBox(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: accent,
-                      ),
-                      child: const SizedBox.square(
-                        dimension: PzSizes.swatchDot,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                minWidth: PzSizes.swatchWidth,
+                minHeight: PzSizes.swatchHeight,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: PzSpacing.sm),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      _specimen,
+                      style: app.text.title1.copyWith(
+                        color: Color(theme.text),
                       ),
                     ),
-                ],
+                    const SizedBox(width: PzSpacing.xs),
+                    if (selected)
+                      PzIcon(
+                        PzIcons.check,
+                        size: PzSizes.iconInline,
+                        color: accent,
+                      )
+                    else
+                      DecoratedBox(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: accent,
+                        ),
+                        child: const SizedBox.square(
+                          dimension: PzSizes.swatchDot,
+                        ),
+                      ),
+                  ],
+                ),
               ),
             ),
           );

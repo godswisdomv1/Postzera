@@ -29,43 +29,60 @@ class PzEmptyState extends StatelessWidget {
     final PzThemeData theme = PzTheme.of(context);
     final String? shownSubtitle = subtitle;
     final Widget? shownAction = action;
-    return Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: PzSpacing.contentMaxWidth),
-        child: Padding(
-          padding: const EdgeInsets.all(PzSpacing.lg),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              PzIcon(
-                icon,
-                size: PzSizes.iconHero,
-                color: theme.colors.textTertiary,
-              ),
-              const SizedBox(height: PzSpacing.md),
-              Text(
-                title,
-                textAlign: TextAlign.center,
-                style: theme.text.title1,
-              ),
-              if (shownSubtitle != null) ...<Widget>[
-                const SizedBox(height: PzSpacing.sm),
-                Text(
-                  shownSubtitle,
-                  textAlign: TextAlign.center,
-                  style: theme.text.footnote.copyWith(
-                    color: theme.colors.textSecondary,
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        // Centered when there is room; scrolls when large text or a short
+        // space leaves none, so nothing is ever cut off.
+        return SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: constraints.hasBoundedHeight
+                  ? constraints.maxHeight
+                  : 0,
+            ),
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxWidth: PzSpacing.contentMaxWidth,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(PzSpacing.lg),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      PzIcon(
+                        icon,
+                        size: PzSizes.iconHero,
+                        color: theme.colors.textTertiary,
+                      ),
+                      const SizedBox(height: PzSpacing.md),
+                      Text(
+                        title,
+                        textAlign: TextAlign.center,
+                        style: theme.text.title1,
+                      ),
+                      if (shownSubtitle != null) ...<Widget>[
+                        const SizedBox(height: PzSpacing.sm),
+                        Text(
+                          shownSubtitle,
+                          textAlign: TextAlign.center,
+                          style: theme.text.footnote.copyWith(
+                            color: theme.colors.textSecondary,
+                          ),
+                        ),
+                      ],
+                      if (shownAction != null) ...<Widget>[
+                        const SizedBox(height: PzSpacing.lg),
+                        shownAction,
+                      ],
+                    ],
                   ),
                 ),
-              ],
-              if (shownAction != null) ...<Widget>[
-                const SizedBox(height: PzSpacing.lg),
-                shownAction,
-              ],
-            ],
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
