@@ -29,7 +29,9 @@ echo "state: $state"
 crash="$(adb logcat -d -b crash 2>&1)"
 app="$(adb logcat -d 2>&1 | grep -E "AndroidRuntime|FATAL EXCEPTION|flutter|Flutter|DEBUG|libc|ActivityManager.*($pkg)|Process: $pkg|NoClassDefFound|ClassNotFound|UnsatisfiedLink|IllegalState|SIGSEGV|Abort" | tail -n 120)"
 
+causes="$(printf '%s\n' "$crash" | grep -E "Caused by|FATAL|Process:|ClassNotFound|NoSuchMethod|NoClassDef" | cut -c1-260 | sed -E 's/^[0-9-]+ [0-9:.]+ +[0-9]+ +[0-9]+ [A-Z] [A-Za-z]+: //' | awk '!seen[$0]++' | head -n 25)"
 echo "::notice title=smoke state::$state"
+echo "::error title=smoke causes::$(printf '%s\n' "$causes" | escape)"
 echo "::error title=smoke crash buffer::$(printf '%s\n' "$crash" | escape)"
 echo "::error title=smoke app log::$(printf '%s\n' "$app" | escape)"
 adb exec-out screencap -p > screen.png 2>/dev/null || true
