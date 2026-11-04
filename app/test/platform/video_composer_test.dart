@@ -58,7 +58,10 @@ void main() {
         expect(data.resolution!.width, 1080);
         expect(data.resolution!.height, 1920);
         expect(data.fit, StopMotionFit.cover);
-        expect(data.bitrate, 8000000);
+        // Still slides: 24 fps and 4 Mbps, lighter than the 30 fps / 8 Mbps
+        // used for clips.
+        expect(data.bitrate, 4000000);
+        expect(data.frameRate, 24);
       },
     );
   });
