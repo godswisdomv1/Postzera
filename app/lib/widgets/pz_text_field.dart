@@ -314,7 +314,6 @@ class _PzGestures extends TextSelectionGestureDetectorBuilder {
       final bool has = delegate.editableTextKey.currentState != null;
       final bool shown = has && editableText.showToolbar();
       debugPrint('PZDBG post-frame has=$has showToolbar=$shown '
-          'visible=${has ? editableText.selectionOverlay?.toolbarIsVisible : null} '
           'sel=${has ? editableText.textEditingValue.selection : null}');
     });
   }
