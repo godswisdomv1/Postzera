@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart' show TapDragDownDetails;
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart' show Bidi;
