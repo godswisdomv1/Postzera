@@ -1,4 +1,5 @@
-import 'package:flutter/gestures.dart' show TapDragDownDetails;
+import 'package:flutter/gestures.dart'
+    show LongPressEndDetails, LongPressStartDetails, TapDragDownDetails;
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart' show Bidi;
@@ -308,17 +309,27 @@ class _PzGestures extends TextSelectionGestureDetectorBuilder {
   _PzGestures({required super.delegate});
 
   void _showToolbarSoon() {
+    debugPrint('PZDBG showToolbarSoon scheduled');
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (delegate.editableTextKey.currentState != null) {
-        editableText.showToolbar();
-      }
+      final bool has = delegate.editableTextKey.currentState != null;
+      final bool shown = has && editableText.showToolbar();
+      debugPrint('PZDBG post-frame has=$has showToolbar=$shown '
+          'visible=${has ? editableText.selectionOverlay?.toolbarIsVisible : null} '
+          'sel=${has ? editableText.textEditingValue.selection : null}');
     });
   }
 
   @override
   void onSingleLongTapEnd(LongPressEndDetails details) {
+    debugPrint('PZDBG onSingleLongTapEnd');
     super.onSingleLongTapEnd(details);
     _showToolbarSoon();
+  }
+
+  @override
+  void onSingleLongTapStart(LongPressStartDetails details) {
+    debugPrint('PZDBG onSingleLongTapStart');
+    super.onSingleLongTapStart(details);
   }
 
   @override
