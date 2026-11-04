@@ -26,9 +26,15 @@ class VideoComposer implements VideoComposerPort {
   final ProVideoEditor _editor;
   final ErrorClassifier classifier;
 
-  /// 8 Mbps, the plugin's 1080p preset, for every canvas.
+  /// 8 Mbps, the plugin's 1080p preset, for clips on every canvas.
   static const int bitrate = 8000000;
   static const double frameRate = 30;
+
+  /// Slide videos show still pictures, so they are encoded at 24 frames per
+  /// second and 4 Mbps. That is less work for the encoder, which matters on
+  /// the cheapest phones, and still above the 23 fps some platforms require.
+  static const int slideBitrate = 4000000;
+  static const double slideFrameRate = 24;
 
   String? _activeId;
 
@@ -108,10 +114,10 @@ class VideoComposer implements VideoComposerPort {
             duration: Duration(milliseconds: s.durationMs),
           ),
       ],
-      frameRate: frameRate,
+      frameRate: slideFrameRate,
       resolution: Size(spec.widthPx.toDouble(), spec.heightPx.toDouble()),
       fit: StopMotionFit.cover,
-      bitrate: bitrate,
+      bitrate: slideBitrate,
     );
   }
 

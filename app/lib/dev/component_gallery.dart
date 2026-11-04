@@ -141,6 +141,12 @@ class _ComponentGalleryState extends State<ComponentGallery> {
     super.dispose();
   }
 
+  /// A row inside a card has no side padding of its own, because the card
+  /// already pads it.
+  static const EdgeInsets _rowInCard = EdgeInsets.symmetric(
+    vertical: PzSpacing.sm,
+  );
+
   PzCounter _counter(String text) =>
       (text: formatCount(text.length, 10), over: text.length > 10);
 
@@ -251,22 +257,30 @@ class _ComponentGalleryState extends State<ComponentGallery> {
     PzCard(
       child: Column(
         children: <Widget>[
-          PzRow(label: 'Row inside a card', icon: PzIcons.queue, onTap: () {}),
+          PzRow(
+            label: 'Row inside a card',
+            icon: PzIcons.queue,
+            padding: _rowInCard,
+            onTap: () {},
+          ),
           PzRow(
             label: 'With a second line',
             subtitle: 'Footnote under the label',
             icon: PzIcons.bell,
+            padding: _rowInCard,
             onTap: () {},
           ),
           PzRow(
             label: 'Delete all data',
             icon: PzIcons.trash,
             destructive: true,
+            padding: _rowInCard,
             onTap: () {},
           ),
           PzRow(
             label: 'With a switch',
             icon: PzIcons.clock,
+            padding: _rowInCard,
             trailing: PzSwitch(
               value: _switchOn,
               onChanged: (bool v) => setState(() => _switchOn = v),

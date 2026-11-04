@@ -72,8 +72,9 @@ class _PzTextFieldState extends State<PzTextField>
   final PzSelectionHandles _handles = PzSelectionHandles();
   final GlobalKey<EditableTextState> _editableKey =
       GlobalKey<EditableTextState>();
-  late final TextSelectionGestureDetectorBuilder _gestures =
-      TextSelectionGestureDetectorBuilder(delegate: this);
+  late final TextSelectionGestureDetectorBuilder _gestures = _PzGestures(
+    delegate: this,
+  );
 
   // Taps, double taps, long presses and drags place the cursor, select words
   // and show the toolbar. A bare EditableText does none of that by itself.
@@ -296,5 +297,32 @@ class _PzTextFieldState extends State<PzTextField>
         ],
       ),
     );
+  }
+}
+
+/// The framework's gesture builder selects the word on a long press or a
+/// double tap, but on this text field it did not ask for the toolbar. This
+/// asks for it once the selection is in place, so Cut, Copy and Paste appear.
+class _PzGestures extends TextSelectionGestureDetectorBuilder {
+  _PzGestures({required super.delegate});
+
+  void _showToolbarSoon() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (delegate.editableTextKey.currentState != null) {
+        editableText.showToolbar();
+      }
+    });
+  }
+
+  @override
+  void onSingleLongTapEnd(LongPressEndDetails details) {
+    super.onSingleLongTapEnd(details);
+    _showToolbarSoon();
+  }
+
+  @override
+  void onDoubleTapDown(TapDragDownDetails details) {
+    super.onDoubleTapDown(details);
+    _showToolbarSoon();
   }
 }

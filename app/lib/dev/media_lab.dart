@@ -37,6 +37,7 @@ class _Result {
     required this.title,
     required this.lines,
     required this.ok,
+    this.info = false,
     this.paths = const <String>[],
     this.imagePath,
   });
@@ -46,6 +47,9 @@ class _Result {
 
   /// Every target of this task was met.
   final bool ok;
+
+  /// A note, not a measurement (for example, no clip was chosen).
+  final bool info;
 
   /// Output files, offered through the share sheet so they can be watched.
   final List<String> paths;
@@ -69,6 +73,11 @@ class _MediaLabState extends State<MediaLab> {
   bool _warm = false;
   int _serial = 0;
 
+  /// Output ids are unique to this page instance, so a result is never an
+  /// earlier run's file found again.
+  final String _session = DateTime.now().microsecondsSinceEpoch.toRadixString(36);
+  FileStore? _files;
+
   static const int _autoTargetMs = 150;
   static const int _photoTargetMs = 400;
   static const int _slides5TargetMs = 15000;
@@ -81,8 +90,9 @@ class _MediaLabState extends State<MediaLab> {
     final Directory dir = Directory(p.join(temp.path, 'media_lab'));
     await dir.create(recursive: true);
     _dir = dir;
+    _files = FileStore(dir);
     _pipeline = MediaPipeline(
-      files: FileStore(dir),
+      files: _files!,
       renderer: CardRenderer(),
       video: VideoComposer(),
     );
@@ -130,11 +140,16 @@ class _MediaLabState extends State<MediaLab> {
     return size;
   }
 
-  Future<(int, int)> _videoSize(String path) async {
+  /// Width and height as a player shows them, and the rotation flag stored in
+  /// the file. A phone clip is often stored sideways with a rotate flag.
+  Future<((int, int), int)> _videoInfo(String path) async {
     final VideoMetadata meta = await ProVideoEditor.instance.getMetadata(
       EditorVideo.file(path),
     );
-    return (meta.resolution.width.round(), meta.resolution.height.round());
+    return (
+      (meta.resolution.width.round(), meta.resolution.height.round()),
+      meta.rotation,
+    );
   }
 
   /// Renders [variant] once, untimed, so fonts and codecs are loaded.
@@ -144,7 +159,7 @@ class _MediaLabState extends State<MediaLab> {
     }
     await _pipeline!.produce(
       _variant('instagram', _post(body: 'Warm up')),
-      postId: 'warm${_serial++}',
+      postId: 'warm${_session}_${_serial++}',
     );
     _warm = true;
   }
@@ -159,16 +174,22 @@ class _MediaLabState extends State<MediaLab> {
     final Stopwatch watch = Stopwatch()..start();
     final MediaResult out = await _pipeline!.produce(
       variant,
-      postId: 'lab${_serial++}',
+      postId: 'lab${_session}_${_serial++}',
     );
     watch.stop();
     final MediaSpecSize want = MediaSpecSize(
       variant.mediaPlan.spec.widthPx,
       variant.mediaPlan.spec.heightPx,
     );
-    final (int, int) got = out.kind == MediaOutputKind.image
-        ? await _imageSize(out.path)
-        : await _videoSize(out.path);
+    int rotation = 0;
+    final (int, int) got;
+    if (out.kind == MediaOutputKind.image) {
+      got = await _imageSize(out.path);
+    } else {
+      final ((int, int), int) info = await _videoInfo(out.path);
+      got = info.$1;
+      rotation = info.$2;
+    }
     final bool sizeOk = got.$1 == want.w && got.$2 == want.h;
     final bool timeOk =
         targetMs == null || watch.elapsedMilliseconds <= targetMs;
@@ -181,7 +202,7 @@ class _MediaLabState extends State<MediaLab> {
         : 'SIZE ${got.$1}x${got.$2}, wanted ${want.w}x${want.h}';
     return (
       '$label: $time, $size, ${formatBytes(stat.size)}'
-          '${out.kind == MediaOutputKind.video ? ', ${formatClock(out.durationMs)}' : ''}',
+          '${out.kind == MediaOutputKind.video ? ', ${formatClock(out.durationMs)}, rotate flag $rotation' : ''}',
       sizeOk && timeOk,
       out,
     );
@@ -194,6 +215,8 @@ class _MediaLabState extends State<MediaLab> {
     setState(() => _running = name);
     try {
       await _setup();
+      // Start from an empty output folder, so nothing is ever a cache hit.
+      await _files!.deleteAllMedia();
       await _warmUp();
       final _Result result = await body();
       if (mounted) {
@@ -314,10 +337,11 @@ class _MediaLabState extends State<MediaLab> {
   Future<_Result> _clip(String platformId) async {
     final PickedMedia? picked = await MediaPickerService().pickVideo();
     if (picked == null) {
-      return _Result(
+      return const _Result(
         title: 'Clip reframe',
-        lines: const <String>['No clip chosen.'],
-        ok: false,
+        lines: <String>['No clip was chosen.'],
+        ok: true,
+        info: true,
       );
     }
     final int clipMs = picked.durationMs ?? 0;
@@ -370,8 +394,10 @@ class _MediaLabState extends State<MediaLab> {
               children: <Widget>[
                 Expanded(child: Text(r.title, style: t.text.title2)),
                 PzChip(
-                  label: r.ok ? 'PASS' : 'CHECK',
-                  tone: r.ok ? PzChipTone.success : PzChipTone.warning,
+                  label: r.info ? 'NOTE' : (r.ok ? 'PASS' : 'CHECK'),
+                  tone: r.info
+                      ? PzChipTone.neutral
+                      : (r.ok ? PzChipTone.success : PzChipTone.warning),
                 ),
               ],
             ),

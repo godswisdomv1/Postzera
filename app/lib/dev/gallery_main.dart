@@ -11,6 +11,7 @@ import 'package:postzera/widgets/pz_banner.dart';
 import 'package:postzera/widgets/pz_nav_bar.dart';
 import 'package:postzera/widgets/pz_page_route.dart';
 import 'package:postzera/widgets/pz_segmented_control.dart';
+import 'package:postzera/widgets/pz_system_ui.dart';
 
 /// Checkpoint 1 entry point: the component gallery and the media lab, with
 /// switches for light and dark and for 1.0 and 2.0 text scale. It starts no
@@ -63,9 +64,11 @@ class _GalleryAppState extends State<GalleryApp> {
                 .copyWith(textScaler: TextScaler.linear(_scale)),
             child: ColoredBox(
               color: theme.colors.bgPrimary,
-              child: DefaultTextStyle(
-                style: theme.text.body,
-                child: child ?? const SizedBox.shrink(),
+              child: PzSystemUi(
+                child: DefaultTextStyle(
+                  style: theme.text.body,
+                  child: child ?? const SizedBox.shrink(),
+                ),
               ),
             ),
           );
@@ -172,9 +175,15 @@ class _Shell extends StatelessWidget {
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(bottom: bottom),
-              child: page == 0
-                  ? ComponentGallery(banners: banners, undo: undo)
-                  : const MediaLab(),
+              // Both pages stay alive, so switching tabs keeps the media lab's
+              // results and its running work.
+              child: IndexedStack(
+                index: page,
+                children: <Widget>[
+                  ComponentGallery(banners: banners, undo: undo),
+                  const MediaLab(),
+                ],
+              ),
             ),
           ),
         ],

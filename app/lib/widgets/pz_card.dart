@@ -110,19 +110,27 @@ class _Summary extends StatelessWidget {
           ),
           const SizedBox(width: PzSpacing.md),
         ],
-        Expanded(child: Text(label, style: theme.text.title2)),
-        if (shownValue != null) ...<Widget>[
-          const SizedBox(width: PzSpacing.sm),
-          Flexible(
-            child: Text(
-              shownValue,
-              textAlign: TextAlign.end,
-              style: theme.text.footnote.copyWith(
-                color: theme.colors.textSecondary,
-              ),
-            ),
+        // The label and the value share a line when they fit. When they do not
+        // (large text, long words) the value drops under the label instead of
+        // squeezing the label until it breaks in the middle of a word.
+        Expanded(
+          child: Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: PzSpacing.sm,
+            runSpacing: PzSpacing.xs,
+            children: <Widget>[
+              Text(label, style: theme.text.title2),
+              if (shownValue != null)
+                Text(
+                  shownValue,
+                  style: theme.text.footnote.copyWith(
+                    color: theme.colors.textSecondary,
+                  ),
+                ),
+            ],
           ),
-        ],
+        ),
         if (showChevron) ...<Widget>[
           const SizedBox(width: PzSpacing.sm),
           PzIcon(

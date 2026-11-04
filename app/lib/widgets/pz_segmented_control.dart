@@ -75,31 +75,36 @@ class PzSegmentedControl<T> extends StatelessWidget {
                                 horizontal: PzSpacing.sm,
                                 vertical: PzSpacing.xs,
                               ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  if (icon != null) ...<Widget>[
-                                    PzIcon(
-                                      icon,
-                                      size: PzSizes.iconInline,
-                                      color: on
-                                          ? theme.colors.textPrimary
-                                          : theme.colors.textSecondary,
-                                    ),
-                                    const SizedBox(width: PzSpacing.xs),
-                                  ],
-                                  Flexible(
-                                    child: Text(
+                              // One line per label. A label that does not fit
+                              // at large text sizes is scaled down, never broken
+                              // in the middle of a word.
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    if (icon != null) ...<Widget>[
+                                      PzIcon(
+                                        icon,
+                                        size: PzSizes.iconInline,
+                                        color: on
+                                            ? theme.colors.textPrimary
+                                            : theme.colors.textSecondary,
+                                      ),
+                                      const SizedBox(width: PzSpacing.xs),
+                                    ],
+                                    Text(
                                       segment.label,
-                                      textAlign: TextAlign.center,
+                                      maxLines: 1,
+                                      softWrap: false,
                                       style: theme.text.callout.copyWith(
                                         color: on
                                             ? theme.colors.textPrimary
                                             : theme.colors.textSecondary,
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
