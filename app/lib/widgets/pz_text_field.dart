@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:flutter/gestures.dart'
     show LongPressEndDetails, LongPressStartDetails, TapDragDownDetails;
 import 'package:flutter/services.dart';
@@ -302,6 +303,9 @@ class _PzTextFieldState extends State<PzTextField>
   }
 }
 
+@visibleForTesting
+final List<String> pzGestureTrace = <String>[];
+
 /// The framework's gesture builder selects the word on a long press or a
 /// double tap, but on this text field it did not ask for the toolbar. This
 /// asks for it once the selection is in place, so Cut, Copy and Paste appear.
@@ -309,25 +313,24 @@ class _PzGestures extends TextSelectionGestureDetectorBuilder {
   _PzGestures({required super.delegate});
 
   void _showToolbarSoon() {
-    debugPrint('PZDBG showToolbarSoon scheduled');
+    pzGestureTrace.add('scheduled');
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final bool has = delegate.editableTextKey.currentState != null;
       final bool shown = has && editableText.showToolbar();
-      debugPrint('PZDBG post-frame has=$has showToolbar=$shown '
-          'sel=${has ? editableText.textEditingValue.selection : null}');
+      pzGestureTrace.add('post-frame has=$has shown=$shown');
     });
   }
 
   @override
   void onSingleLongTapEnd(LongPressEndDetails details) {
-    debugPrint('PZDBG onSingleLongTapEnd');
+    pzGestureTrace.add('longTapEnd');
     super.onSingleLongTapEnd(details);
     _showToolbarSoon();
   }
 
   @override
   void onSingleLongTapStart(LongPressStartDetails details) {
-    debugPrint('PZDBG onSingleLongTapStart');
+    pzGestureTrace.add('longTapStart');
     super.onSingleLongTapStart(details);
   }
 
