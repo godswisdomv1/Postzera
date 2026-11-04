@@ -162,6 +162,10 @@ class _PzTextFieldState extends State<PzTextField>
 
     final Widget editable = EditableText(
       key: _editableKey,
+      // The gesture builder below owns taps, double taps, long presses and
+      // drags. Without this, EditableText's own handlers compete with it and
+      // win, selecting a word with no toolbar.
+      rendererIgnoresPointer: true,
       controller: widget.controller,
       focusNode: _node,
       style: theme.text.body,
