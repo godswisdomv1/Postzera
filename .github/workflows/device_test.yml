@@ -1,0 +1,50 @@
+name: device_test
+# Manual only. Runs the app's real screens on an Android emulator: the
+# long-press toolbar and the media lab (image sizes, slide videos). It builds
+# a debug app, signs nothing and publishes nothing.
+on:
+  workflow_dispatch:
+    inputs:
+      api_level:
+        description: Android API level of the emulator
+        type: choice
+        default: '34'
+        options: ['34', '36', '30']
+permissions:
+  contents: read
+jobs:
+  device:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v7
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.47.7'
+          channel: stable
+          cache: true
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Dependencies and localization
+        working-directory: app
+        run: |
+          flutter pub get
+          flutter gen-l10n
+      - name: Allow the emulator to use hardware acceleration
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Run the integration test on an emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ inputs.api_level }}
+          arch: x86_64
+          target: google_apis
+          profile: pixel_6
+          ram-size: 3072M
+          heap-size: 512M
+          disable-animations: true
+          script: bash app/tool/device_test.sh
