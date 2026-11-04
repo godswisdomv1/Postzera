@@ -163,10 +163,9 @@ void main() {
       final EditableTextState editable = t.state<EditableTextState>(
         find.byType(EditableText),
       );
-      // A long press selects the word. Asking for the toolbar then shows our
-      // chips through contextMenuBuilder.
-      expect(editable.showToolbar(), isTrue);
+      // The long press alone must bring up the toolbar, with no further call.
       await t.pumpAndSettle();
+      expect(editable.selectionOverlay?.toolbarIsVisible, isTrue);
       expect(find.text('Cut'), findsOneWidget);
       expect(find.text('Copy'), findsOneWidget);
     });

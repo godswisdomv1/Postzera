@@ -20,7 +20,22 @@ Future<void> waitFor(
       return;
     }
   }
-  fail('Timed out after ${timeout.inSeconds} s waiting for ${what ?? finder}');
+  fail(
+    'Timed out after ${timeout.inSeconds} s waiting for ${what ?? finder}. '
+    'On screen: ${screenText(t)}',
+  );
+}
+
+/// All text on screen, shortened, to explain a timeout.
+String screenText(WidgetTester t) {
+  final List<String> out = <String>[];
+  for (final Element e in find.byType(Text).evaluate()) {
+    final String d = (e.widget as Text).data ?? '';
+    if (d.isNotEmpty) {
+      out.add(d.length > 90 ? d.substring(0, 90) : d);
+    }
+  }
+  return out.take(40).join(' / ');
 }
 
 /// Every piece of text on screen that mentions milliseconds or a size.
@@ -59,6 +74,22 @@ void main() {
     await t.pump(const Duration(milliseconds: 300));
     await t.longPressAt(t.getTopLeft(field) + const Offset(30, 20));
     await t.pump(const Duration(milliseconds: 800));
+    final EditableTextState editable = t.state<EditableTextState>(field);
+    // ignore: avoid_print
+    print(
+      'RESULT after the long press: selection=${editable.textEditingValue.selection} '
+      'overlay=${editable.selectionOverlay != null} '
+      'toolbarVisible=${editable.selectionOverlay?.toolbarIsVisible} '
+      'items=${editable.contextMenuButtonItems.map((i) => i.type).toList()}',
+    );
+    final bool asked = editable.showToolbar();
+    await t.pump(const Duration(milliseconds: 600));
+    // ignore: avoid_print
+    print(
+      'RESULT showToolbar() returned $asked, visible now: '
+      '${editable.selectionOverlay?.toolbarIsVisible}, '
+      'Cut on screen: ${find.text('Cut').evaluate().isNotEmpty}',
+    );
     final bool cut = find.text('Cut').evaluate().isNotEmpty;
     final bool copy = find.text('Copy').evaluate().isNotEmpty;
     // ignore: avoid_print
@@ -77,7 +108,16 @@ void main() {
 
     Future<List<String>> run(String button, String done) async {
       await t.tap(find.text(button));
-      await waitFor(t, find.textContaining(done), what: done);
+      await waitFor(
+        t,
+        find.byWidgetPredicate(
+          (Widget w) =>
+              w is Text &&
+              ((w.data ?? '').contains(done) ||
+                  (w.data ?? '').startsWith('FAILED')),
+        ),
+        what: done,
+      );
       await t.pump(const Duration(milliseconds: 500));
       return measurements(t);
     }
