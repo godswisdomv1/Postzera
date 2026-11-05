@@ -168,8 +168,6 @@ void main() {
       expect(
         editable.selectionOverlay?.toolbarIsVisible,
         isTrue,
-        reason: 'trace: $pzGestureTrace; sel=${c.selection}; '
-            'items=${editable.contextMenuButtonItems.map((i) => i.type).toList()}',
       );
       expect(find.text('Cut'), findsOneWidget);
       expect(find.text('Copy'), findsOneWidget);

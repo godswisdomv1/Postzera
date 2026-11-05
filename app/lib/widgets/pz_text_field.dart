@@ -1,6 +1,3 @@
-import 'package:flutter/foundation.dart' show visibleForTesting;
-import 'package:flutter/gestures.dart'
-    show LongPressEndDetails, LongPressStartDetails, TapDragDownDetails;
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart' show Bidi;
@@ -75,9 +72,8 @@ class _PzTextFieldState extends State<PzTextField>
   final PzSelectionHandles _handles = PzSelectionHandles();
   final GlobalKey<EditableTextState> _editableKey =
       GlobalKey<EditableTextState>();
-  late final TextSelectionGestureDetectorBuilder _gestures = _PzGestures(
-    delegate: this,
-  );
+  late final TextSelectionGestureDetectorBuilder _gestures =
+      TextSelectionGestureDetectorBuilder(delegate: this);
 
   // Taps, double taps, long presses and drags place the cursor, select words
   // and show the toolbar. A bare EditableText does none of that by itself.
@@ -304,43 +300,5 @@ class _PzTextFieldState extends State<PzTextField>
         ],
       ),
     );
-  }
-}
-
-@visibleForTesting
-final List<String> pzGestureTrace = <String>[];
-
-/// The framework's gesture builder selects the word on a long press or a
-/// double tap, but on this text field it did not ask for the toolbar. This
-/// asks for it once the selection is in place, so Cut, Copy and Paste appear.
-class _PzGestures extends TextSelectionGestureDetectorBuilder {
-  _PzGestures({required super.delegate});
-
-  void _showToolbarSoon() {
-    pzGestureTrace.add('scheduled');
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final bool has = delegate.editableTextKey.currentState != null;
-      final bool shown = has && editableText.showToolbar();
-      pzGestureTrace.add('post-frame has=$has shown=$shown');
-    });
-  }
-
-  @override
-  void onSingleLongTapEnd(LongPressEndDetails details) {
-    pzGestureTrace.add('longTapEnd');
-    super.onSingleLongTapEnd(details);
-    _showToolbarSoon();
-  }
-
-  @override
-  void onSingleLongTapStart(LongPressStartDetails details) {
-    pzGestureTrace.add('longTapStart');
-    super.onSingleLongTapStart(details);
-  }
-
-  @override
-  void onDoubleTapDown(TapDragDownDetails details) {
-    super.onDoubleTapDown(details);
-    _showToolbarSoon();
   }
 }
