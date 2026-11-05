@@ -277,6 +277,7 @@ class _MediaLabState extends State<MediaLab> {
           ui.Color(0xFFF2C94C),
           ui.Color(0xFFB42318),
         ],
+        const <double>[0, 0.5, 1],
       );
     canvas.drawRect(const ui.Rect.fromLTWH(0, 0, w, h), paint);
     final ui.Image img = await recorder.endRecording().toImage(
