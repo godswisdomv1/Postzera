@@ -28,12 +28,14 @@ Test phone: Redmi A5 (arm64). User works on a phone only. No security lectures. 
 
 Tests: ~370 unit/widget tests, gallery smoke sweep (light, dark, 1.0x, 2.0x), emulator `device_test`.
 
-## Checkpoint 1 (in progress)
-- Phone (Redmi A5) works: fonts, components, dark theme, sheets, dialogs, date wheels, exact image sizes, clip reframe verified frame by frame (overlay timing, 9:16 crop, audio kept).
-- Fixed after phone feedback: long-press toolbar, segmented and card text breaking mid-word at 2.0x, system-bar colors (`PzSystemUi`), lab cache false results, slide video 24 fps.
-- Pending verification: latest `device_test` run and APK run (see below), then user retest on phone.
-- Open measurements: real auto/photo timings on the phone; 5-slide video was 16.6 s at 30 fps (target 15 s), re-measure at 24 fps; photo card in the lab timed out on the emulator (diagnose).
-- Note: clip output is stored 1920x1080 with rotate -90 flag (displays 1080x1920). Consider forcing upright.
+## Checkpoint 1 (waiting for the user's phone retest)
+- Latest phone APK: Actions run 42139201636 (`postzera-android-apk`, install `app-arm64-v8a-release.apk`, uninstall the old one first). Entry point is the gallery, not the app.
+- Phone (Redmi A5), earlier build: fonts, components, dark theme, sheets, dialogs, date wheels, exact sizes OK; clip reframe verified frame by frame (hook 0-4 s, CTA last 3 s, 9:16 cover crop, audio kept, 20.7 s for a 23 s clip); 5-slide video 16.6 s at 30 fps.
+- Fixed since: long-press toolbar (verified on emulator runtime), mid-word breaks at 2.0x, system-bar colors, lab cache false results, lab photo gradient, slide video 24 fps / 4 Mbps.
+- Emulator `device_test` (run 42139198646, x86 software, debug, slower than a phone): x 62 ms, instagram 99 ms, pinterest 70 ms (target 150); photo card 522 ms (target 400); 3 slides 10.2 s; 5 slides 18.3 s (target 15 s). Sizes all exact.
+- Ask the user for phone numbers from the new APK: auto cards, photo card, 3 and 5 slides, both clips, light-theme status bar, long press chips.
+- If 5-slide stays over 15 s on the phone: drop slide fps to 15 or resolution on slow devices (blueprint section 16 fallback), or cap slides.
+- Generated slide videos and clips carry a rotate flag of 90 (stored landscape, shown upright). Decide whether to force upright files.
 
 ## Remaining batches (file ids from blueprint 19E/19F)
 | Batch | Files |
