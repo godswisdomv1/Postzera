@@ -36,6 +36,8 @@ abstract final class PzIcons {
   static const PzIconData moveUp = HugeIcons.strokeRoundedArrowUp01;
   static const PzIconData moveDown = HugeIcons.strokeRoundedArrowDown01;
   static const PzIconData platforms = HugeIcons.strokeRoundedLayers01;
+  static const PzIconData more = HugeIcons.strokeRoundedMoreVertical;
+  static const PzIconData search = HugeIcons.strokeRoundedSearch01;
 
   /// The arrow that points forward in reading order, so it flips in
   /// right-to-left languages.

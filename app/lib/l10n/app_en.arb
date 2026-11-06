@@ -264,5 +264,340 @@
         "type": "int"
       }
     }
+  },
+  "common_back": "Back",
+  "@common_back": {
+    "description": "Label of the back button, read by screen readers."
+  },
+  "queue_overdue": "Overdue",
+  "@queue_overdue": {
+    "description": "Queue section: posts whose time has passed and are not fully sent."
+  },
+  "queue_today": "Today",
+  "@queue_today": {
+    "description": "Queue section: posts planned for later today."
+  },
+  "queue_upcoming": "Upcoming",
+  "@queue_upcoming": {
+    "description": "Queue section: posts planned in the next seven days."
+  },
+  "queue_newPost": "New post",
+  "@queue_newPost": {
+    "description": "Primary button on the queue screen."
+  },
+  "queue_emptyTitle": "Nothing queued",
+  "@queue_emptyTitle": {
+    "description": "Title of the empty queue."
+  },
+  "queue_emptyBody": "Write a post, or import a CSV file.",
+  "@queue_emptyBody": {
+    "description": "Text of the empty queue."
+  },
+  "queue_import": "Import a CSV file",
+  "@queue_import": {
+    "description": "Button on the empty queue that opens the import screen."
+  },
+  "queue_library": "Library",
+  "@queue_library": {
+    "description": "Read aloud for the button that opens the library."
+  },
+  "queue_settings": "Settings",
+  "@queue_settings": {
+    "description": "Read aloud for the button that opens settings."
+  },
+  "queue_removeAds": "Remove ads",
+  "@queue_removeAds": {
+    "description": "Quiet row under the banner that opens the paywall."
+  },
+  "queue_sentOf": "{done} of {total} sent",
+  "@queue_sentOf": {
+    "description": "Progress of a post across its platforms.",
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "queue_skipped": "Skipped",
+  "@queue_skipped": {
+    "description": "Status of a platform the user skipped."
+  },
+  "composer_titleNew": "New post",
+  "@composer_titleNew": {
+    "description": "Title of the composer for a new post."
+  },
+  "composer_titleEdit": "Edit post",
+  "@composer_titleEdit": {
+    "description": "Title of the composer for an existing post."
+  },
+  "composer_hookLabel": "Hook",
+  "@composer_hookLabel": {
+    "description": "Label of the headline field."
+  },
+  "composer_hookHint": "The headline of your post",
+  "@composer_hookHint": {
+    "description": "Hint of the headline field."
+  },
+  "composer_bodyLabel": "Body",
+  "@composer_bodyLabel": {
+    "description": "Label of the body field."
+  },
+  "composer_bodyHint": "Say a little more",
+  "@composer_bodyHint": {
+    "description": "Hint of the body field."
+  },
+  "composer_ctaLabel": "Call to action",
+  "@composer_ctaLabel": {
+    "description": "Label of the call-to-action field."
+  },
+  "composer_ctaHint": "Read more, sign up, learn how",
+  "@composer_ctaHint": {
+    "description": "Hint of the call-to-action field."
+  },
+  "composer_linkLabel": "Link",
+  "@composer_linkLabel": {
+    "description": "Label of the link field."
+  },
+  "composer_linkHint": "https://",
+  "@composer_linkHint": {
+    "description": "Hint of the link field."
+  },
+  "composer_hashtagsLabel": "Hashtags",
+  "@composer_hashtagsLabel": {
+    "description": "Label of the hashtags field."
+  },
+  "composer_hashtagsHint": "#one #two",
+  "@composer_hashtagsHint": {
+    "description": "Hint of the hashtags field."
+  },
+  "composer_limitHint": "The shortest platform limit is {count} characters.",
+  "@composer_limitHint": {
+    "description": "Hint under the form about the strictest caption limit.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "composer_mediaSection": "Image or video",
+  "@composer_mediaSection": {
+    "description": "Section heading of the media choice."
+  },
+  "composer_mediaAuto": "Auto card",
+  "@composer_mediaAuto": {
+    "description": "Media choice: a text card made by Postzera."
+  },
+  "composer_mediaPhoto": "Photo",
+  "@composer_mediaPhoto": {
+    "description": "Media choice: the user's photo."
+  },
+  "composer_mediaVideo": "Video",
+  "@composer_mediaVideo": {
+    "description": "Media choice: the user's video."
+  },
+  "composer_mediaPhotoChosen": "Photo chosen",
+  "@composer_mediaPhotoChosen": {
+    "description": "Shown after a photo was picked."
+  },
+  "composer_mediaVideoChosen": "Video chosen, {duration}",
+  "@composer_mediaVideoChosen": {
+    "description": "Shown after a video was picked.",
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "composer_mediaChange": "Choose another",
+  "@composer_mediaChange": {
+    "description": "Button to pick a different photo or video."
+  },
+  "composer_themeSection": "Card style",
+  "@composer_themeSection": {
+    "description": "Section heading of the card theme swatches."
+  },
+  "composer_schedule": "Schedule",
+  "@composer_schedule": {
+    "description": "Label of the schedule row."
+  },
+  "composer_notScheduled": "Not scheduled, saved as a draft",
+  "@composer_notScheduled": {
+    "description": "Value of the schedule row without a time."
+  },
+  "composer_clearSchedule": "Make it a draft",
+  "@composer_clearSchedule": {
+    "description": "Row that removes the planned time."
+  },
+  "composer_scheduleTitle": "Schedule",
+  "@composer_scheduleTitle": {
+    "description": "Title of the date and time sheet."
+  },
+  "composer_scheduleConfirm": "Set time",
+  "@composer_scheduleConfirm": {
+    "description": "Confirm button of the date and time sheet."
+  },
+  "composer_preview": "Preview variants",
+  "@composer_preview": {
+    "description": "Primary button of the composer."
+  },
+  "variants_title": "Variants",
+  "@variants_title": {
+    "description": "Title of the variants screen."
+  },
+  "variants_regenerate": "Regenerate",
+  "@variants_regenerate": {
+    "description": "Read aloud for the button that rebuilds every variant."
+  },
+  "variants_schedule": "Schedule",
+  "@variants_schedule": {
+    "description": "Primary button on the variants screen for a draft."
+  },
+  "variants_sendNow": "Send now",
+  "@variants_sendNow": {
+    "description": "Button that puts the post in today's queue to send straight away."
+  },
+  "send_copyTitle": "Copy title",
+  "@send_copyTitle": {
+    "description": "Button that copies the platform title."
+  },
+  "send_copyCaption": "Copy caption",
+  "@send_copyCaption": {
+    "description": "Button that copies the platform caption."
+  },
+  "send_send": "Send",
+  "@send_send": {
+    "description": "Primary button that opens the share sheet."
+  },
+  "send_open": "Open {name}",
+  "@send_open": {
+    "description": "Button that opens a platform's website.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "send_skip": "Skip this platform",
+  "@send_skip": {
+    "description": "Button that skips a platform for this post."
+  },
+  "send_pasteHint": "After the share sheet opens, pick the app and paste the caption there. Some apps ignore a caption sent from another app, so it is already on your clipboard.",
+  "@send_pasteHint": {
+    "description": "Hint explaining the paste step of sending."
+  },
+  "send_cancelRender": "Cancel",
+  "@send_cancelRender": {
+    "description": "Button that stops preparing the image or video."
+  },
+  "send_captionLabel": "Caption",
+  "@send_captionLabel": {
+    "description": "Heading above the caption text."
+  },
+  "send_titleLabel": "Title",
+  "@send_titleLabel": {
+    "description": "Heading above the title text."
+  },
+  "send_confirmTitle": "Mark as posted?",
+  "@send_confirmTitle": {
+    "description": "Title of the sheet after the share sheet closes."
+  },
+  "send_confirmBody": "Only you know whether it was posted. Postzera never marks it by itself.",
+  "@send_confirmBody": {
+    "description": "Text of the mark-as-posted sheet."
+  },
+  "send_notYet": "Not yet",
+  "@send_notYet": {
+    "description": "Button of the mark-as-posted sheet."
+  },
+  "library_title": "Library",
+  "@library_title": {
+    "description": "Title of the library screen."
+  },
+  "library_searchLabel": "Search",
+  "@library_searchLabel": {
+    "description": "Label of the library search field."
+  },
+  "library_searchHint": "Search your posts",
+  "@library_searchHint": {
+    "description": "Hint of the library search field."
+  },
+  "library_all": "All",
+  "@library_all": {
+    "description": "Library filter: every post."
+  },
+  "library_drafts": "Drafts",
+  "@library_drafts": {
+    "description": "Library filter: posts without a time."
+  },
+  "library_scheduled": "Scheduled",
+  "@library_scheduled": {
+    "description": "Library filter: posts with a time."
+  },
+  "library_sent": "Sent",
+  "@library_sent": {
+    "description": "Library filter: fully sent posts."
+  },
+  "library_emptyTitle": "No posts yet",
+  "@library_emptyTitle": {
+    "description": "Title of an empty library."
+  },
+  "library_emptyBody": "The posts you write appear here.",
+  "@library_emptyBody": {
+    "description": "Text of an empty library."
+  },
+  "library_noMatches": "No posts match",
+  "@library_noMatches": {
+    "description": "Title when a search or filter finds nothing."
+  },
+  "library_noMatchesBody": "Try another word or filter.",
+  "@library_noMatchesBody": {
+    "description": "Text when a search or filter finds nothing."
+  },
+  "library_more": "More actions",
+  "@library_more": {
+    "description": "Read aloud for the button that opens a post's menu."
+  },
+  "library_edit": "Edit",
+  "@library_edit": {
+    "description": "Menu action: open the post in the composer."
+  },
+  "library_preview": "Preview and send",
+  "@library_preview": {
+    "description": "Menu action: open the variants of the post."
+  },
+  "library_duplicate": "Duplicate",
+  "@library_duplicate": {
+    "description": "Menu action: make a copy of the post."
+  },
+  "library_delete": "Delete",
+  "@library_delete": {
+    "description": "Menu action: delete the post."
+  },
+  "library_deleteTitle": "Delete this post?",
+  "@library_deleteTitle": {
+    "description": "Title of the delete confirmation."
+  },
+  "library_deleteBody": "Its images and videos are removed too. You can undo for a few seconds.",
+  "@library_deleteBody": {
+    "description": "Text of the delete confirmation."
+  },
+  "library_statusDraft": "Draft",
+  "@library_statusDraft": {
+    "description": "Status of a post without a time."
+  },
+  "library_statusScheduled": "Scheduled",
+  "@library_statusScheduled": {
+    "description": "Status of a post with a time."
+  },
+  "library_statusSent": "Sent",
+  "@library_statusSent": {
+    "description": "Status of a fully sent post."
+  },
+  "library_statusArchived": "Archived",
+  "@library_statusArchived": {
+    "description": "Status of an archived post."
   }
 }

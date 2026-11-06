@@ -14,6 +14,7 @@ class PzRow extends StatelessWidget {
     required this.label,
     this.subtitle,
     this.icon,
+    this.leading,
     this.trailing,
     this.showChevron,
     this.onTap,
@@ -29,6 +30,9 @@ class PzRow extends StatelessWidget {
   final String label;
   final String? subtitle;
   final PzIconData? icon;
+
+  /// A widget in place of the icon, for example a platform mark.
+  final Widget? leading;
 
   /// Replaces the chevron.
   final Widget? trailing;
@@ -48,6 +52,7 @@ class PzRow extends StatelessWidget {
         ? theme.colors.error
         : theme.colors.textPrimary;
     final PzIconData? shownIcon = icon;
+    final Widget? shownLeading = leading;
     final String? shownSubtitle = subtitle;
     final Widget? shownTrailing = trailing;
     final bool chevron =
@@ -63,7 +68,10 @@ class PzRow extends StatelessWidget {
           padding: padding,
           child: Row(
             children: <Widget>[
-              if (shownIcon != null) ...<Widget>[
+              if (shownLeading != null) ...<Widget>[
+                shownLeading,
+                const SizedBox(width: PzSpacing.md),
+              ] else if (shownIcon != null) ...<Widget>[
                 PzIcon(shownIcon, color: labelColor),
                 const SizedBox(width: PzSpacing.md),
               ],
