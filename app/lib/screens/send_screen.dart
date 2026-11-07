@@ -296,7 +296,7 @@ class _SendScreenState extends State<SendScreen> {
         ],
         if (title != null && title.isNotEmpty) ...<Widget>[
           PzSectionHeader(l10n.send_titleLabel),
-          PzCard(child: SelectableText(title, style: theme.text.body)),
+          PzCard(child: Text(title, style: theme.text.body)),
           const SizedBox(height: PzSpacing.sm),
           PzSecondaryButton(
             label: l10n.send_copyTitle,
@@ -307,7 +307,7 @@ class _SendScreenState extends State<SendScreen> {
           ),
         ],
         PzSectionHeader(l10n.send_captionLabel),
-        PzCard(child: SelectableText(v.caption, style: theme.text.body)),
+        PzCard(child: Text(v.caption, style: theme.text.body)),
         const SizedBox(height: PzSpacing.sm),
         PzSecondaryButton(
           label: l10n.send_copyCaption,
