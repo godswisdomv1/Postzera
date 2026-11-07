@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:characters/characters.dart';
-import 'package:flutter/services.dart' show TextInputAction, TextInputType;
+import 'package:flutter/services.dart'
+    show TextCapitalization, TextInputAction, TextInputType;
 import 'package:flutter/widgets.dart';
 import 'package:postzera/core/data/builtin_card_themes.dart';
 import 'package:postzera/core/models/app_error.dart';
