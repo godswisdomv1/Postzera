@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/services.dart' show TextInputAction;
 import 'package:flutter/widgets.dart';
 import 'package:postzera/core/models/app_error.dart';
 import 'package:postzera/core/models/post.dart';

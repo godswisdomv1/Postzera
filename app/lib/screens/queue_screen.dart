@@ -218,7 +218,7 @@ class _PostCard extends StatelessWidget {
             ListenableBuilder(
               listenable: services.queue,
               builder: (BuildContext context, Widget? _) {
-                final SendStatus status = services.queue.statusOf(
+                final SendStatus status = services.queue.value.statusOf(
                   post.id,
                   platform.id,
                 );
