@@ -16,7 +16,7 @@ dependencies:
   characters: any
   hugeicons: ^1.2.0
   google_mobile_ads: ^9.2.0
-  flutter_inapp_purchase: ^11.0.3
+  flutter_inapp_purchase: ^11.3.1
   flutter_local_notifications: ^22.3.3
   timezone: any
   flutter_timezone: any
