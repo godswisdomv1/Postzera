@@ -11,6 +11,7 @@ class PzScreen extends StatelessWidget {
     required this.navBar,
     required this.body,
     this.bottom,
+    this.bottomSafeArea = true,
     super.key,
   });
 
@@ -18,14 +19,21 @@ class PzScreen extends StatelessWidget {
   final Widget body;
   final Widget? bottom;
 
+  /// Whether this frame keeps [bottom] clear of the bottom safe area and the
+  /// keyboard. A screen that sits something on the safe area itself, such as
+  /// the queue's ad slot, turns it off.
+  final bool bottomSafeArea;
+
   @override
   Widget build(BuildContext context) {
     final PzThemeData theme = PzTheme.of(context);
     final MediaQueryData media = MediaQuery.of(context);
     final Widget? fixed = bottom;
-    final double inset = media.viewInsets.bottom > media.padding.bottom
-        ? media.viewInsets.bottom
-        : media.padding.bottom;
+    final double inset = !bottomSafeArea
+        ? 0
+        : (media.viewInsets.bottom > media.padding.bottom
+              ? media.viewInsets.bottom
+              : media.padding.bottom);
     return ColoredBox(
       color: theme.colors.bgPrimary,
       child: Column(
