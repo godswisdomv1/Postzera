@@ -23,7 +23,7 @@ dependencies:
   share_plus: ^13.3.1
   url_launcher: any
   image_picker: any
-  file_picker: ^13.3.0
+  file_picker: ^13.3.2
   pro_video_editor: 2.50.1
   sqlite3: ^3.8.0
   path_provider: any
