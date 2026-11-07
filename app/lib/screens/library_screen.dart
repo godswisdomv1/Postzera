@@ -11,7 +11,6 @@ import 'package:postzera/l10n/localized_text.dart';
 import 'package:postzera/screens/routes.dart';
 import 'package:postzera/screens/screen_services.dart';
 import 'package:postzera/theme/pz_spacing.dart';
-import 'package:postzera/theme/pz_theme.dart';
 import 'package:postzera/utils/date_format.dart';
 import 'package:postzera/widgets/foundation/pz_icon_chip.dart';
 import 'package:postzera/widgets/foundation/pz_icons.dart';
