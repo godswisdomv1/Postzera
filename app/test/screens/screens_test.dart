@@ -8,6 +8,7 @@ import 'package:postzera/core/ports/media_picker_port.dart';
 import 'package:postzera/screens/routes.dart';
 import 'package:postzera/widgets/foundation/pz_icon_chip.dart';
 import 'package:postzera/widgets/pz_text_field.dart';
+import 'package:postzera/widgets/pz_theme_swatch.dart';
 
 import '../core/test_helpers.dart';
 import 'screens_app.dart';
@@ -29,6 +30,15 @@ Future<void> tapText(WidgetTester t, String text) async {
   await settle(t, 6);
 }
 
+/// A widget test that, once its body is done, lets the banner and undo timers
+/// run out, so none is left pending when the test ends.
+void screenTest(String name, Future<void> Function(WidgetTester t) body) {
+  testWidgets(name, (WidgetTester t) async {
+    await body(t);
+    await t.pump(const Duration(seconds: 6));
+  });
+}
+
 void phone(WidgetTester t) {
   t.view.physicalSize = const Size(420, 900);
   t.view.devicePixelRatio = 1;
@@ -39,7 +49,7 @@ void main() {
   setUpAll(initializeDateFormatting);
 
   group('QueueScreen', () {
-    testWidgets('an empty queue offers New post and Import', (t) async {
+    screenTest('an empty queue offers New post and Import', (t) async {
       phone(t);
       final TestServices s = await TestServices.create();
       addTearDown(s.dispose);
@@ -50,7 +60,7 @@ void main() {
       expect(find.text('New post'), findsOneWidget);
     });
 
-    testWidgets('a scheduled post shows its platforms and its progress', (
+    screenTest('a scheduled post shows its platforms and its progress', (
       t,
     ) async {
       phone(t);
@@ -66,7 +76,7 @@ void main() {
       expect(find.text('Instagram'), findsOneWidget);
     });
 
-    testWidgets('a post whose time has passed is Overdue', (t) async {
+    screenTest('a post whose time has passed is Overdue', (t) async {
       phone(t);
       final TestServices s = await TestServices.create(
         saved: <Post>[
@@ -79,7 +89,7 @@ void main() {
       expect(find.text('OVERDUE'), findsOneWidget);
     });
 
-    testWidgets('a sent platform shows Posted and counts as sent', (t) async {
+    screenTest('a sent platform shows Posted and counts as sent', (t) async {
       phone(t);
       final TestServices s = await TestServices.create(
         saved: <Post>[TestServices.scheduled('a')],
@@ -99,7 +109,7 @@ void main() {
       expect(find.text('Posted'), findsOneWidget);
     });
 
-    testWidgets('tapping a platform opens its send screen', (t) async {
+    screenTest('tapping a platform opens its send screen', (t) async {
       phone(t);
       final TestServices s = await TestServices.create(
         saved: <Post>[TestServices.scheduled('a')],
@@ -112,7 +122,7 @@ void main() {
       expect(visited.last, Routes.send);
     });
 
-    testWidgets('New post and the Library button navigate', (t) async {
+    screenTest('New post and the Library button navigate', (t) async {
       phone(t);
       final TestServices s = await TestServices.create();
       addTearDown(s.dispose);
@@ -135,7 +145,7 @@ void main() {
       );
     }
 
-    testWidgets('lists posts, filters them and searches', (t) async {
+    screenTest('lists posts, filters them and searches', (t) async {
       phone(t);
       final TestServices s = await library();
       addTearDown(s.dispose);
@@ -152,7 +162,7 @@ void main() {
       expect(s.posts.value.query, 'scheduled');
     });
 
-    testWidgets('an empty library says so', (t) async {
+    screenTest('an empty library says so', (t) async {
       phone(t);
       final TestServices s = await TestServices.create();
       addTearDown(s.dispose);
@@ -161,7 +171,7 @@ void main() {
       expect(find.text('No posts yet'), findsOneWidget);
     });
 
-    testWidgets('the menu duplicates a post', (t) async {
+    screenTest('the menu duplicates a post', (t) async {
       phone(t);
       final TestServices s = await library();
       addTearDown(s.dispose);
@@ -175,7 +185,7 @@ void main() {
       expect(s.posts.value.posts.length, before + 1);
     });
 
-    testWidgets('delete asks first, then removes the post and offers undo', (
+    screenTest('delete asks first, then removes the post and offers undo', (
       t,
     ) async {
       phone(t);
@@ -199,7 +209,7 @@ void main() {
   });
 
   group('ComposerScreen', () {
-    testWidgets('typing fills the draft and the hint shows the limit', (
+    screenTest('typing fills the draft and the hint shows the limit', (
       t,
     ) async {
       phone(t);
@@ -220,7 +230,7 @@ void main() {
       await t.pump(const Duration(seconds: 2));
     });
 
-    testWidgets('previewing without a hook shows an error', (t) async {
+    screenTest('previewing without a hook shows an error', (t) async {
       phone(t);
       final TestServices s = await TestServices.create();
       addTearDown(s.dispose);
@@ -239,7 +249,7 @@ void main() {
       expect(visited.contains(Routes.variants), isFalse);
     });
 
-    testWidgets('previewing with a hook opens the variants', (t) async {
+    screenTest('previewing with a hook opens the variants', (t) async {
       phone(t);
       final TestServices s = await TestServices.create();
       addTearDown(s.dispose);
@@ -260,7 +270,7 @@ void main() {
       await t.pump(const Duration(seconds: 2));
     });
 
-    testWidgets('choosing a card style and a photo updates the draft', (
+    screenTest('choosing a card style and a photo updates the draft', (
       t,
     ) async {
       phone(t);
@@ -271,7 +281,13 @@ void main() {
         screensApp(s, initial: Routes.compose, arguments: const ComposeArgs()),
       );
       await settle(t);
-      await tapText(t, 'Midnight');
+      final Finder midnight = find.byWidgetPredicate(
+        (Widget w) => w is PzThemeSwatch && w.theme.id == 'midnight',
+      );
+      await t.ensureVisible(midnight);
+      await t.pump();
+      await t.tap(midnight);
+      await settle(t, 6);
       expect(s.composer.value.cardThemeId, 'midnight');
       await tapText(t, 'Photo');
       await settle(t);
@@ -280,7 +296,7 @@ void main() {
       await t.pump(const Duration(seconds: 2));
     });
 
-    testWidgets('the schedule row sets a time', (t) async {
+    screenTest('the schedule row sets a time', (t) async {
       phone(t);
       final TestServices s = await TestServices.create();
       addTearDown(s.dispose);
@@ -297,7 +313,7 @@ void main() {
       await t.pump(const Duration(seconds: 2));
     });
 
-    testWidgets('editing a saved post fills the form', (t) async {
+    screenTest('editing a saved post fills the form', (t) async {
       phone(t);
       final TestServices s = await TestServices.create(
         saved: <Post>[TestServices.scheduled('a', hook: 'Saved hook')],
@@ -319,7 +335,7 @@ void main() {
   });
 
   group('VariantsScreen', () {
-    testWidgets('shows a card per platform and prepares the media', (t) async {
+    screenTest('shows a card per platform and prepares the media', (t) async {
       phone(t);
       final TestServices s = await TestServices.create(
         saved: <Post>[TestServices.scheduled('a')],
@@ -339,7 +355,7 @@ void main() {
       expect(s.renderer.images + s.renderer.slides, greaterThan(0));
     });
 
-    testWidgets('a draft can be scheduled from here', (t) async {
+    screenTest('a draft can be scheduled from here', (t) async {
       phone(t);
       final TestServices s = await TestServices.create(
         saved: <Post>[testPost(hook: 'Draft hook')],
@@ -362,7 +378,7 @@ void main() {
       expect(saved.scheduledAt, isNotNull);
     });
 
-    testWidgets('Send now opens the first platform', (t) async {
+    screenTest('Send now opens the first platform', (t) async {
       phone(t);
       final TestServices s = await TestServices.create(
         saved: <Post>[TestServices.scheduled('a')],
@@ -398,7 +414,7 @@ void main() {
       return s;
     }
 
-    testWidgets('shows the caption and copies it', (t) async {
+    screenTest('shows the caption and copies it', (t) async {
       final TestServices s = await opened(t);
       expect(find.text('CAPTION'), findsWidgets);
       await tapText(t, 'Copy caption');
@@ -406,7 +422,7 @@ void main() {
       expect(find.text('Caption copied'), findsOneWidget);
     });
 
-    testWidgets('Send shares the file, then asks whether it was posted', (
+    screenTest('Send shares the file, then asks whether it was posted', (
       t,
     ) async {
       final TestServices s = await opened(t);
@@ -426,7 +442,7 @@ void main() {
       );
     });
 
-    testWidgets('Not yet leaves the platform unmarked', (t) async {
+    screenTest('Not yet leaves the platform unmarked', (t) async {
       final TestServices s = await opened(t);
       await tapText(t, 'Send');
       await settle(t, 16);
@@ -436,7 +452,7 @@ void main() {
       expect(await s.recordRepo.forPost('a'), isEmpty);
     });
 
-    testWidgets('Skip records the platform as skipped', (t) async {
+    screenTest('Skip records the platform as skipped', (t) async {
       final TestServices s = await opened(t);
       await tapText(t, 'Skip this platform');
       await settle(t, 10);
