@@ -60,7 +60,7 @@ void main() {
       addTearDown(s.dispose);
       await t.pumpWidget(screensApp(s));
       await settle(t);
-      expect(find.text('Today'), findsOneWidget);
+      expect(find.text('TODAY'), findsOneWidget);
       expect(find.text('Launch day'), findsOneWidget);
       expect(find.text('0 of 9 sent'), findsOneWidget);
       expect(find.text('Instagram'), findsOneWidget);
@@ -76,7 +76,7 @@ void main() {
       addTearDown(s.dispose);
       await t.pumpWidget(screensApp(s));
       await settle(t);
-      expect(find.text('Overdue'), findsOneWidget);
+      expect(find.text('OVERDUE'), findsOneWidget);
     });
 
     testWidgets('a sent platform shows Posted and counts as sent', (t) async {
@@ -400,7 +400,7 @@ void main() {
 
     testWidgets('shows the caption and copies it', (t) async {
       final TestServices s = await opened(t);
-      expect(find.text('Caption'), findsWidgets);
+      expect(find.text('CAPTION'), findsWidgets);
       await tapText(t, 'Copy caption');
       expect(s.clipboard.copied, isNotEmpty);
       expect(find.text('Caption copied'), findsOneWidget);
