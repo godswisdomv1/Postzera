@@ -336,7 +336,7 @@ void main() {
       expect(find.text('Variants'), findsOneWidget);
       expect(s.composer.value.variants.length, 9);
       expect(find.text('Send now'), findsOneWidget);
-      expect(s.renderer.images + s.renderer.slides + s.renderer.overlays, greaterThan(0));
+      expect(s.renderer.images + s.renderer.slides, greaterThan(0));
     });
 
     testWidgets('a draft can be scheduled from here', (t) async {
