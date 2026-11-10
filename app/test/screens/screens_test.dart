@@ -22,11 +22,23 @@ Future<void> settle(WidgetTester t, [int frames = 12]) async {
   }
 }
 
-Future<void> tapText(WidgetTester t, String text) async {
-  final Finder f = find.text(text).first;
-  await t.ensureVisible(f);
+/// Scrolls the screen's list until [finder] has been built and is on screen.
+Future<void> reveal(WidgetTester t, Finder finder) async {
+  if (finder.evaluate().isEmpty) {
+    await t.scrollUntilVisible(
+      finder,
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
+  }
+  await t.ensureVisible(finder.first);
   await t.pump();
-  await t.tap(f);
+}
+
+Future<void> tapText(WidgetTester t, String text) async {
+  final Finder f = find.text(text);
+  await reveal(t, f);
+  await t.tap(f.first);
   await settle(t, 6);
 }
 
@@ -284,8 +296,7 @@ void main() {
       final Finder midnight = find.byWidgetPredicate(
         (Widget w) => w is PzThemeSwatch && w.theme.id == 'midnight',
       );
-      await t.ensureVisible(midnight);
-      await t.pump();
+      await reveal(t, midnight);
       await t.tap(midnight);
       await settle(t, 6);
       expect(s.composer.value.cardThemeId, 'midnight');
