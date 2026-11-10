@@ -599,5 +599,480 @@
   "library_statusArchived": "Archived",
   "@library_statusArchived": {
     "description": "Status of an archived post."
+  },
+  "platforms_title": "Platforms",
+  "@platforms_title": {
+    "description": "Title of the platforms screen."
+  },
+  "platforms_add": "Add platform",
+  "@platforms_add": {
+    "description": "Button that opens the form for a custom platform."
+  },
+  "platforms_moveUp": "Move up",
+  "@platforms_moveUp": {
+    "description": "Read aloud for the button that moves a platform up."
+  },
+  "platforms_moveDown": "Move down",
+  "@platforms_moveDown": {
+    "description": "Read aloud for the button that moves a platform down."
+  },
+  "platforms_limitLine": "{limit} characters, {shape}",
+  "@platforms_limitLine": {
+    "description": "Second line of a platform row: its caption limit and image shape.",
+    "placeholders": {
+      "limit": {
+        "type": "int"
+      },
+      "shape": {
+        "type": "String"
+      }
+    }
+  },
+  "platforms_addName": "Name",
+  "@platforms_addName": {
+    "description": "Label of the custom platform name field."
+  },
+  "platforms_addMonogram": "Letters, one or two",
+  "@platforms_addMonogram": {
+    "description": "Label of the custom platform letters field."
+  },
+  "platforms_addLimit": "Caption limit",
+  "@platforms_addLimit": {
+    "description": "Label of the custom platform caption limit field."
+  },
+  "platforms_addHashtags": "Hashtags allowed",
+  "@platforms_addHashtags": {
+    "description": "Label of the custom platform hashtag count field."
+  },
+  "platforms_addShape": "Image shape",
+  "@platforms_addShape": {
+    "description": "Heading of the image shape choice."
+  },
+  "platforms_addSave": "Add",
+  "@platforms_addSave": {
+    "description": "Button that saves the custom platform."
+  },
+  "platforms_addError": "Check the name, the letters and the numbers.",
+  "@platforms_addError": {
+    "description": "Error when the custom platform form is not valid."
+  },
+  "editor_captionLimit": "Caption limit",
+  "@editor_captionLimit": {
+    "description": "Label of the caption limit field in the template editor."
+  },
+  "editor_hashtagCount": "Hashtags allowed",
+  "@editor_hashtagCount": {
+    "description": "Label of the hashtag count field."
+  },
+  "editor_hashtagStyle": "Hashtag placement",
+  "@editor_hashtagStyle": {
+    "description": "Heading of the hashtag placement choice."
+  },
+  "hashtag_end": "At the end",
+  "@hashtag_end": {
+    "description": "Hashtag placement: after the text."
+  },
+  "hashtag_inline": "In the text",
+  "@hashtag_inline": {
+    "description": "Hashtag placement: inside the text."
+  },
+  "hashtag_none": "None",
+  "@hashtag_none": {
+    "description": "Hashtag placement: no hashtags."
+  },
+  "editor_titleLimit": "Title limit",
+  "@editor_titleLimit": {
+    "description": "Label of the title limit field."
+  },
+  "editor_blocks": "Order of the parts",
+  "@editor_blocks": {
+    "description": "Heading of the list of caption parts."
+  },
+  "slot_hook": "Hook",
+  "@slot_hook": {
+    "description": "Name of the hook part of a post."
+  },
+  "slot_body": "Body",
+  "@slot_body": {
+    "description": "Name of the body part of a post."
+  },
+  "slot_cta": "Call to action",
+  "@slot_cta": {
+    "description": "Name of the call-to-action part of a post."
+  },
+  "slot_link": "Link",
+  "@slot_link": {
+    "description": "Name of the link part of a post."
+  },
+  "slot_hashtags": "Hashtags",
+  "@slot_hashtags": {
+    "description": "Name of the hashtags part of a post."
+  },
+  "editor_required": "Always keep",
+  "@editor_required": {
+    "description": "Switch: this part is never dropped to fit the limit."
+  },
+  "editor_shape": "Image shape",
+  "@editor_shape": {
+    "description": "Heading of the image shape choice."
+  },
+  "editor_kind": "Made as",
+  "@editor_kind": {
+    "description": "Heading of the image or video choice."
+  },
+  "kind_image": "Image",
+  "@kind_image": {
+    "description": "Output kind: a picture."
+  },
+  "kind_video": "Video",
+  "@kind_video": {
+    "description": "Output kind: a video."
+  },
+  "kind_followSource": "Follows your media",
+  "@kind_followSource": {
+    "description": "Output kind: video when you chose a video, otherwise a picture."
+  },
+  "editor_mediaSlots": "Text printed on the media",
+  "@editor_mediaSlots": {
+    "description": "Heading of the choice of parts printed on the picture or video."
+  },
+  "editor_reset": "Reset to default",
+  "@editor_reset": {
+    "description": "Button that restores a built-in platform."
+  },
+  "editor_delete": "Delete platform",
+  "@editor_delete": {
+    "description": "Button that deletes a custom platform."
+  },
+  "import_title": "Import posts",
+  "@import_title": {
+    "description": "Title of the import screen."
+  },
+  "import_intro": "Choose a CSV file. The first line names the columns. Only hook is required: hook, body, cta, link, hashtags, scheduled, card_theme.",
+  "@import_intro": {
+    "description": "Explains the CSV format."
+  },
+  "import_choose": "Choose a CSV file",
+  "@import_choose": {
+    "description": "Button that opens the file picker."
+  },
+  "import_chooseAnother": "Choose another file",
+  "@import_chooseAnother": {
+    "description": "Button to pick a different file."
+  },
+  "import_summary": "{valid} ready, {invalid} with problems",
+  "@import_summary": {
+    "description": "Summary of the checked file.",
+    "placeholders": {
+      "valid": {
+        "type": "int"
+      },
+      "invalid": {
+        "type": "int"
+      }
+    }
+  },
+  "import_more": "{count} more rows were not read. The limit is 200.",
+  "@import_more": {
+    "description": "Note when the file has more than 200 rows.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "import_issueMissingHook": "Line {line}: the hook is empty",
+  "@import_issueMissingHook": {
+    "description": "Problem found in a CSV row.",
+    "placeholders": {
+      "line": {
+        "type": "int"
+      }
+    }
+  },
+  "import_issueInvalidDate": "Line {line}: the date must look like 2026-12-31 09:30",
+  "@import_issueInvalidDate": {
+    "description": "Problem found in a CSV row.",
+    "placeholders": {
+      "line": {
+        "type": "int"
+      }
+    }
+  },
+  "import_issueUnclosedQuote": "Line {line}: a quote is never closed",
+  "@import_issueUnclosedQuote": {
+    "description": "Problem found in a CSV row.",
+    "placeholders": {
+      "line": {
+        "type": "int"
+      }
+    }
+  },
+  "import_noHookColumn": "The file has no hook column, so nothing can be imported.",
+  "@import_noHookColumn": {
+    "description": "Problem with the CSV header."
+  },
+  "import_confirm": "{count, plural, =1{Import 1 post} other{Import {count} posts}}",
+  "@import_confirm": {
+    "description": "Button that imports the valid rows.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "import_done": "Done",
+  "@import_done": {
+    "description": "Button shown after the import."
+  },
+  "settings_title": "Settings",
+  "@settings_title": {
+    "description": "Title of the settings screen."
+  },
+  "settings_appearance": "Appearance",
+  "@settings_appearance": {
+    "description": "Settings section."
+  },
+  "settings_theme": "Theme",
+  "@settings_theme": {
+    "description": "Label of the theme choice."
+  },
+  "theme_system": "System",
+  "@theme_system": {
+    "description": "Theme choice: follow the phone."
+  },
+  "theme_light": "Light",
+  "@theme_light": {
+    "description": "Theme choice."
+  },
+  "theme_dark": "Dark",
+  "@theme_dark": {
+    "description": "Theme choice."
+  },
+  "settings_cardTheme": "Default card style",
+  "@settings_cardTheme": {
+    "description": "Label of the default card style choice."
+  },
+  "settings_language": "Language",
+  "@settings_language": {
+    "description": "Settings row."
+  },
+  "settings_languageSystem": "System default",
+  "@settings_languageSystem": {
+    "description": "Language choice: follow the phone."
+  },
+  "settings_reminders": "Daily reminders",
+  "@settings_reminders": {
+    "description": "Settings section and switch."
+  },
+  "settings_reminderTime": "Reminder time",
+  "@settings_reminderTime": {
+    "description": "Row that sets the default time for new posts."
+  },
+  "settings_notificationsOff": "Notifications are off",
+  "@settings_notificationsOff": {
+    "description": "Row shown when notifications are denied."
+  },
+  "settings_notificationsOffBody": "Turn them on in your phone's settings, then come back. You can still send every post from the queue.",
+  "@settings_notificationsOffBody": {
+    "description": "Instructions when notifications are denied."
+  },
+  "settings_notificationsAllow": "Allow notifications",
+  "@settings_notificationsAllow": {
+    "description": "Button that asks for notification permission."
+  },
+  "settings_platforms": "Platforms",
+  "@settings_platforms": {
+    "description": "Settings row."
+  },
+  "settings_data": "Your posts",
+  "@settings_data": {
+    "description": "Settings section for import and export."
+  },
+  "settings_import": "Import posts from a CSV file",
+  "@settings_import": {
+    "description": "Settings row."
+  },
+  "settings_export": "Export posts as a CSV file",
+  "@settings_export": {
+    "description": "Settings row."
+  },
+  "settings_ads": "Ads",
+  "@settings_ads": {
+    "description": "Settings section."
+  },
+  "settings_removeAds": "Remove ads",
+  "@settings_removeAds": {
+    "description": "Settings row that opens the paywall."
+  },
+  "settings_restore": "Restore purchases",
+  "@settings_restore": {
+    "description": "Settings row."
+  },
+  "settings_privacyChoices": "Privacy choices",
+  "@settings_privacyChoices": {
+    "description": "Settings row that opens the ad privacy options."
+  },
+  "settings_legal": "Legal",
+  "@settings_legal": {
+    "description": "Settings section."
+  },
+  "settings_privacyPolicy": "Privacy policy",
+  "@settings_privacyPolicy": {
+    "description": "Settings row."
+  },
+  "settings_terms": "Terms of use",
+  "@settings_terms": {
+    "description": "Settings row."
+  },
+  "settings_licenses": "Open-source licenses",
+  "@settings_licenses": {
+    "description": "Settings row."
+  },
+  "settings_support": "Support",
+  "@settings_support": {
+    "description": "Settings section."
+  },
+  "settings_contact": "Contact support",
+  "@settings_contact": {
+    "description": "Settings row that writes an email."
+  },
+  "settings_report": "Report a problem",
+  "@settings_report": {
+    "description": "Settings row that writes an email with the latest log lines."
+  },
+  "settings_reportSubject": "Postzera problem report",
+  "@settings_reportSubject": {
+    "description": "Subject of the problem report email."
+  },
+  "settings_about": "About",
+  "@settings_about": {
+    "description": "Settings section."
+  },
+  "settings_version": "Version",
+  "@settings_version": {
+    "description": "Settings row."
+  },
+  "settings_deleteAll": "Delete all data",
+  "@settings_deleteAll": {
+    "description": "Settings row that erases everything."
+  },
+  "settings_deleteTitle": "Delete all data?",
+  "@settings_deleteTitle": {
+    "description": "Title of the confirmation."
+  },
+  "settings_deleteBody": "Your posts, platforms, settings and files are removed from this phone. This cannot be undone.",
+  "@settings_deleteBody": {
+    "description": "Text of the confirmation."
+  },
+  "settings_deleteConfirm": "Delete everything",
+  "@settings_deleteConfirm": {
+    "description": "Confirm button."
+  },
+  "paywall_title": "Remove ads",
+  "@paywall_title": {
+    "description": "Headline of the paywall."
+  },
+  "paywall_body": "One purchase takes the banner away for good. Everything else in Postzera is free.",
+  "@paywall_body": {
+    "description": "Text of the paywall."
+  },
+  "paywall_priceLoading": "Loading the price",
+  "@paywall_priceLoading": {
+    "description": "Shown until the store answers."
+  },
+  "paywall_buy": "Remove ads for {price}",
+  "@paywall_buy": {
+    "description": "Primary button of the paywall.",
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "paywall_pending": "The purchase is pending. The ads go away once the store confirms it.",
+  "@paywall_pending": {
+    "description": "Shown while a purchase is pending."
+  },
+  "paywall_done": "The ads are removed. Thank you.",
+  "@paywall_done": {
+    "description": "Shown once the purchase is owned."
+  },
+  "paywall_close": "Close",
+  "@paywall_close": {
+    "description": "Read aloud for the button that closes the paywall."
+  },
+  "onboarding_step": "Step {step} of {total}",
+  "@onboarding_step": {
+    "description": "Progress of the first-run steps.",
+    "placeholders": {
+      "step": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "onboarding_platformsTitle": "Where do you post?",
+  "@onboarding_platformsTitle": {
+    "description": "Title of the first step."
+  },
+  "onboarding_platformsBody": "Choose the platforms you want a version for. You can change this later.",
+  "@onboarding_platformsBody": {
+    "description": "Text of the first step."
+  },
+  "onboarding_timeTitle": "A daily reminder",
+  "@onboarding_timeTitle": {
+    "description": "Title of the second step."
+  },
+  "onboarding_timeBody": "Postzera reminds you when a post is ready to send. Pick the time that new posts start with.",
+  "@onboarding_timeBody": {
+    "description": "Text of the second step."
+  },
+  "onboarding_timeChange": "Change time",
+  "@onboarding_timeChange": {
+    "description": "Button that opens the time wheels."
+  },
+  "onboarding_notifTitle": "Allow reminders?",
+  "@onboarding_notifTitle": {
+    "description": "Title of the third step."
+  },
+  "onboarding_notifBody": "Postzera sends a notification only when posts are ready to send. Nothing else, and everything stays on your phone.",
+  "@onboarding_notifBody": {
+    "description": "Reason shown before the notification permission is asked."
+  },
+  "onboarding_next": "Next",
+  "@onboarding_next": {
+    "description": "Button to the next step."
+  },
+  "onboarding_skip": "Skip",
+  "@onboarding_skip": {
+    "description": "Button that skips a step."
+  },
+  "onboarding_allow": "Allow notifications",
+  "@onboarding_allow": {
+    "description": "Button that asks for notification permission."
+  },
+  "onboarding_finish": "Start",
+  "@onboarding_finish": {
+    "description": "Button that ends the first-run steps."
+  },
+  "licenses_title": "Open-source licenses",
+  "@licenses_title": {
+    "description": "Title of the licenses screen."
+  },
+  "licenses_count": "{count, plural, =1{1 license} other{{count} licenses}}",
+  "@licenses_count": {
+    "description": "Number of licenses of a package.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "licenses_loading": "Loading licenses",
+  "@licenses_loading": {
+    "description": "Shown while the licenses are collected."
   }
 }

@@ -14,7 +14,8 @@ import 'package:postzera/widgets/pz_secondary_button.dart';
 ///
 /// The day wheel runs for [days] days from [minimum] (or from [initial]'s day
 /// when there is no minimum). Confirm is disabled while the chosen time is
-/// before [minimum].
+/// before [minimum]. With [timeOnly] there is no day wheel, and the result
+/// keeps the day of [initial].
 Future<DateTime?> showPzDateTimeSheet({
   required BuildContext context,
   required DateTime initial,
@@ -22,6 +23,7 @@ Future<DateTime?> showPzDateTimeSheet({
   required String confirmLabel,
   DateTime? minimum,
   int days = 366,
+  bool timeOnly = false,
 }) {
   return showPzSheet<DateTime>(
     context: context,
@@ -32,6 +34,7 @@ Future<DateTime?> showPzDateTimeSheet({
       title: title,
       confirmLabel: confirmLabel,
       days: days,
+      timeOnly: timeOnly,
     ),
   );
 }
@@ -43,6 +46,7 @@ class _DateTimeBody extends StatefulWidget {
     required this.title,
     required this.confirmLabel,
     required this.days,
+    required this.timeOnly,
   });
 
   final DateTime initial;
@@ -50,6 +54,9 @@ class _DateTimeBody extends StatefulWidget {
   final String title;
   final String confirmLabel;
   final int days;
+
+  /// Only the hour and the minute are chosen; the day stays as it is.
+  final bool timeOnly;
 
   @override
   State<_DateTimeBody> createState() => _DateTimeBodyState();
@@ -164,7 +171,8 @@ class _DateTimeBodyState extends State<_DateTimeBody> {
                 textDirection: TextDirection.ltr,
                 child: Row(
                   children: <Widget>[
-                    _wheel(
+                    if (!widget.timeOnly)
+                      _wheel(
                       controller: _dayController,
                       count: widget.days,
                       label: (int i) => dayFormat.format(
