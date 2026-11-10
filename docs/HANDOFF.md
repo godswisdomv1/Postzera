@@ -25,6 +25,7 @@ Test phone: Redmi A5 (arm64). User works on a phone only. No security lectures. 
 | 13 | foundation widgets (pressable, icons, card, row, chip, buttons, nav bar, empty/error views...) |
 | 14 | text field + toolbar, switch, segmented, sheet, dialog, banner host, date-time sheet, page route, back swipe, localized_text |
 | 15 | ad slot, badge, swatch, progress bar, variant card/strip, gallery + media lab (`lib/dev/`) |
+| 16 | screens I: queue, composer, variants, send, library + `ScreenServices`, routes, `PzScreen`, 80 strings, 24 screen tests |
 
 Tests: ~370 unit/widget tests, gallery smoke sweep (light, dark, 1.0x, 2.0x), emulator `device_test`.
 
@@ -40,7 +41,6 @@ Tests: ~370 unit/widget tests, gallery smoke sweep (light, dark, 1.0x, 2.0x), em
 ## Remaining batches (file ids from blueprint 19E/19F)
 | Batch | Files |
 | --- | --- |
-| 16 screens I | F169 queue, F170 composer, F171 variants, F172 send, F173 library (`lib/screens/`) |
 | 17 screens II | F174 platforms, F175 template editor, F176 import, F177 settings, F178 paywall, F179 onboarding, F180 licenses |
 | 18 shell | F181 app_services, F182 bootstrap, F183 app_routes, F184 app, F185 main, F186 license_registration |
 | 19 | F187-F196 ten ARB translations (es fr de pt ar hi ja ko zh he), F197-F199 widget/boot tests. Then Checkpoint 2 (every screen, consent matrix, purchase test) |

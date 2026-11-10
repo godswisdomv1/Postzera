@@ -34,3 +34,15 @@ Where this file and the blueprint disagree, this file wins.
 - D29 Widgets may import `l10n/` and `core/providers`; `l10n/localized_text.dart` maps errors, banners, undo labels to strings.
 - D30 Dev tools (`lib/dev/`): gallery + media lab. Media lab uses unique output ids and clears its output folder per run (earlier 2-3 ms results were cache hits). Both pages stay alive (IndexedStack).
 - D31 Extra CI: `smoke_android.yml` (installs a built APK on an emulator, reports crash log), `device_test.yml` (integration test of the real screens on an emulator), `inspect.yml` (reads package APIs), `scaffold.yml` (flutter create, finalize, brand, upgrade).
+
+## Screens (Batch 16)
+- D40 Screens read providers through `ScreenServices` / `ServicesScope` (`lib/screens/screen_services.dart`). The shell's `AppServices` implements it; tests use `test/screens/test_services.dart` (real providers on in-memory fakes). Route names and typed args are in `lib/screens/routes.dart`. Screens navigate by route name.
+- D41 `PzScreen` is the frame of every screen (page color, nav bar, 600 dp content, fixed bottom area on the safe area). `PzRow` gained a `leading` widget; `PzIcons` gained `more` and `search`.
+- D42 Queue: empty state offers Import only (the fixed New post button is already there; the blueprint's duplicate button was dropped). The quiet Remove ads row sits above the banner, shown only while a banner is visible.
+- D43 Queue post cards: tapping the header opens the variants; each platform row opens its send screen; status chip Posted or Skipped.
+- D44 Library: rows grouped by day inside one card per day; row menu is a bottom sheet (Edit, Preview and send, Duplicate, Delete with confirmation and undo). Search debounced 250 ms.
+- D45 Composer: counters use the shortest caption limit among enabled platforms that use that slot. Draft autosaves; leaving an unsaved empty post discards it (`PopScope`).
+- D46 Variants: opened by post id; reuses the composer's variants when it is the same post, otherwise loads the post and builds. A draft shows Schedule (primary) and Send now; other posts show Send now. Tapping a card saves a draft first, then opens Send.
+- D47 Send: the paste hint is always shown (no one-time flag exists in settings). `SelectableText` is Material, so captions use plain `Text` with copy buttons. The mark-as-posted sheet is not dismissible by the scrim.
+- D48 Section headers render in capitals (`PzSectionHeader`), so tests look for the capitalized text.
+- D49 Widget tests must scroll to items below the fold (`reveal` helper) and wrap tests in `screenTest` so banner and undo timers expire.
