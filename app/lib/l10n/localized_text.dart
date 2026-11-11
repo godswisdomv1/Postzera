@@ -1,6 +1,10 @@
 import 'package:postzera/core/models/app_error.dart';
+import 'package:postzera/core/models/media_spec.dart';
+import 'package:postzera/core/models/platform_profile.dart';
+import 'package:postzera/core/models/platform_template.dart';
 import 'package:postzera/core/providers/banner_provider.dart';
 import 'package:postzera/core/providers/undo_provider.dart';
+import 'package:postzera/core/services/csv_importer.dart';
 import 'package:postzera/l10n/app_localizations.dart';
 
 /// The localized sentence for an error. Screens and banners use this one
@@ -62,5 +66,51 @@ String undoText(AppLocalizations l, UndoLabel label) {
     UndoLabel.postDeleted => l.undo_postDeleted,
     UndoLabel.markedPosted => l.undo_markedPosted,
     UndoLabel.skipped => l.undo_skipped,
+  };
+}
+
+/// The name of a part of a post.
+String slotText(AppLocalizations l, TemplateSlot slot) {
+  return switch (slot) {
+    TemplateSlot.hook => l.slot_hook,
+    TemplateSlot.body => l.slot_body,
+    TemplateSlot.cta => l.slot_cta,
+    TemplateSlot.link => l.slot_link,
+    TemplateSlot.hashtags => l.slot_hashtags,
+  };
+}
+
+/// An image shape as a ratio. Ratios read the same in every language.
+String aspectText(MediaAspect aspect) {
+  return switch (aspect) {
+    MediaAspect.ratio16x9 => '16:9',
+    MediaAspect.ratio4x5 => '4:5',
+    MediaAspect.ratio9x16 => '9:16',
+    MediaAspect.ratio2x3 => '2:3',
+  };
+}
+
+String hashtagStyleText(AppLocalizations l, HashtagStyle style) {
+  return switch (style) {
+    HashtagStyle.end => l.hashtag_end,
+    HashtagStyle.inline => l.hashtag_inline,
+    HashtagStyle.none => l.hashtag_none,
+  };
+}
+
+String preferredKindText(AppLocalizations l, PreferredKind kind) {
+  return switch (kind) {
+    PreferredKind.image => l.kind_image,
+    PreferredKind.video => l.kind_video,
+    PreferredKind.followSource => l.kind_followSource,
+  };
+}
+
+/// The sentence for a problem found in a CSV row.
+String csvIssueText(AppLocalizations l, CsvRowError error) {
+  return switch (error.issue) {
+    CsvIssue.missingHook => l.import_issueMissingHook(error.line),
+    CsvIssue.invalidDate => l.import_issueInvalidDate(error.line),
+    CsvIssue.unclosedQuote => l.import_issueUnclosedQuote(error.line),
   };
 }
