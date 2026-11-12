@@ -9,7 +9,6 @@ import 'package:postzera/l10n/app_localizations.dart';
 import 'package:postzera/l10n/localized_text.dart';
 import 'package:postzera/screens/screen_services.dart';
 import 'package:postzera/theme/pz_spacing.dart';
-import 'package:postzera/theme/pz_theme.dart';
 import 'package:postzera/widgets/foundation/pz_icon_chip.dart';
 import 'package:postzera/widgets/foundation/pz_icons.dart';
 import 'package:postzera/widgets/pz_card.dart';
@@ -166,7 +165,6 @@ class _TemplateEditorScreenState extends State<TemplateEditorScreen> {
   }
 
   Widget _form(BuildContext context, PlatformProfile p) {
-    final PzThemeData theme = PzTheme.of(context);
     final AppLocalizations l10n = AppLocalizations.of(context);
     final List<TemplateBlock> blocks = p.template.blocks;
     return ListView(
