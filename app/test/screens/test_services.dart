@@ -63,6 +63,8 @@ class TestServices implements ScreenServices {
   late final FakeShare share = FakeShare();
   late final FakePicker picker = FakePicker();
   late final FakeLinks fakeLinks = FakeLinks();
+  late final FakeImport fakeImport = FakeImport();
+  late final FakeConsent fakeConsent = FakeConsent();
   late final FakeSettingsStore settingsStore = FakeSettingsStore();
   late final FakeRenderer renderer = FakeRenderer(files);
   late final FakeNotifications notifications = FakeNotifications();
@@ -128,7 +130,7 @@ class TestServices implements ScreenServices {
   );
   @override
   late final ConsentProvider consent = ConsentProvider(
-    consent: FakeConsent(),
+    consent: fakeConsent,
     ads: FakeAds(),
     entitlement: entitlement,
     clock: fixedClock,
@@ -162,7 +164,7 @@ class TestServices implements ScreenServices {
   );
   @override
   late final ImportProvider importer = ImportProvider(
-    picker: FakeImport(),
+    picker: fakeImport,
     posts: postRepo,
     importer: CsvImporter(),
     banners: banners,

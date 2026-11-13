@@ -1,11 +1,18 @@
 import 'package:flutter/widgets.dart';
 import 'package:postzera/l10n/app_localizations.dart';
 import 'package:postzera/screens/composer_screen.dart';
+import 'package:postzera/screens/import_screen.dart';
 import 'package:postzera/screens/library_screen.dart';
+import 'package:postzera/screens/licenses_screen.dart';
+import 'package:postzera/screens/onboarding_screen.dart';
+import 'package:postzera/screens/paywall_screen.dart';
+import 'package:postzera/screens/platforms_screen.dart';
 import 'package:postzera/screens/queue_screen.dart';
 import 'package:postzera/screens/routes.dart';
 import 'package:postzera/screens/screen_services.dart';
 import 'package:postzera/screens/send_screen.dart';
+import 'package:postzera/screens/settings_screen.dart';
+import 'package:postzera/screens/template_editor_screen.dart';
 import 'package:postzera/screens/variants_screen.dart';
 import 'package:postzera/theme/pz_theme.dart';
 import 'package:postzera/widgets/pz_banner.dart';
@@ -67,6 +74,22 @@ Route<dynamic> _route(RouteSettings settings, List<String>? visited) {
     case Routes.send:
       final SendArgs args = settings.arguments as SendArgs;
       page = SendScreen(postId: args.postId, platformId: args.platformId);
+    case Routes.platforms:
+      page = const PlatformsScreen();
+    case Routes.templateEditor:
+      page = TemplateEditorScreen(
+        platformId: (settings.arguments as TemplateEditorArgs).platformId,
+      );
+    case Routes.importCsv:
+      page = const ImportScreen();
+    case Routes.settings:
+      page = const SettingsScreen();
+    case Routes.paywall:
+      page = const PaywallScreen();
+    case Routes.onboarding:
+      page = const OnboardingScreen();
+    case Routes.licenses:
+      page = const LicensesScreen();
     default:
       page = Center(child: Text('route:${settings.name}'));
   }
