@@ -24,7 +24,7 @@ dependencies:
   url_launcher: any
   image_picker: any
   file_picker: ^13.3.0
-  pro_video_editor: 2.50.1
+  pro_video_editor: 2.53.0
   sqlite3: ^3.8.0
   path_provider: any
   path: any
