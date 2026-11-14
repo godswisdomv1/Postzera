@@ -4,15 +4,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:postzera/core/models/app_settings.dart';
 import 'package:postzera/core/models/platform_profile.dart';
+import 'package:postzera/core/models/consent_state.dart';
 import 'package:postzera/core/models/platform_template.dart';
 import 'package:postzera/core/models/post.dart';
+import 'package:postzera/core/ports/consent_port.dart';
 import 'package:postzera/core/ports/file_import_port.dart';
 import 'package:postzera/core/ports/purchase_port.dart';
 import 'package:postzera/screens/routes.dart';
 import 'package:postzera/widgets/foundation/pz_icon_chip.dart';
 import 'package:postzera/widgets/pz_switch.dart';
 
-import '../core/fakes.dart';
 import 'screens_app.dart';
 import 'screens_test.dart' show reveal, screenTest, settle, tapText, phone;
 import 'test_services.dart';
@@ -195,6 +196,16 @@ void main() {
     screenTest('the privacy choices row appears only when required', (t) async {
       final TestServices s = await settings(t);
       expect(find.text('Privacy choices'), findsNothing);
+      s.fakeConsent.next = const ConsentRefreshResult(
+        updateOk: true,
+        status: ConsentStatus.obtained,
+        canRequestAds: true,
+        privacyOptionsRequired: true,
+      );
+      await s.consent.refresh();
+      await settle(t, 8);
+      await reveal(t, find.text('Privacy choices'));
+      expect(find.text('Privacy choices'), findsOneWidget);
     });
 
     screenTest('turns the daily reminders off', (t) async {
