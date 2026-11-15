@@ -39,6 +39,14 @@ class _ImportScreenState extends State<ImportScreen> {
     }
   }
 
+  /// Imports the valid rows, then tells the library and the reminders that
+  /// there are new posts.
+  Future<void> _confirm(ScreenServices s) async {
+    await s.importer.confirm();
+    unawaited(s.posts.load());
+    unawaited(s.reminders.sync());
+  }
+
   @override
   Widget build(BuildContext context) {
     final ScreenServices s = ServicesScope.of(context);
@@ -163,7 +171,7 @@ class _ImportScreenState extends State<ImportScreen> {
           children: <Widget>[
             PzPrimaryButton(
               label: l10n.import_confirm(n),
-              onPressed: n == 0 ? null : () => unawaited(s.importer.confirm()),
+              onPressed: n == 0 ? null : () => unawaited(_confirm(s)),
             ),
             const SizedBox(height: PzSpacing.sm),
             PzSecondaryButton(
