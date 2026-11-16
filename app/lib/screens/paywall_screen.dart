@@ -33,10 +33,14 @@ class _PaywallScreenState extends State<PaywallScreen> {
     if (!_started) {
       _started = true;
       final EntitlementProvider e = ServicesScope.of(context).entitlement;
-      e.clearError();
-      if (e.value.price == null) {
-        unawaited(e.connect());
-      }
+      // The provider notifies its listeners, which must not happen while the
+      // screen is still being built. Do it right after the first frame.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        e.clearError();
+        if (e.value.price == null) {
+          unawaited(e.connect());
+        }
+      });
     }
   }
 
