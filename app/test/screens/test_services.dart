@@ -187,6 +187,9 @@ class TestServices implements ScreenServices {
     final TestServices s = TestServices._();
     await s.sync.load();
     await s.profiles.load();
+    // The provider only listens for store events after init, as bootstrap
+    // does at startup.
+    await s.entitlement.init();
     for (final Post p in saved) {
       await s.postRepo.upsert(p);
     }
@@ -207,6 +210,7 @@ class TestServices implements ScreenServices {
   );
 
   void dispose() {
+    entitlement.dispose();
     banners.dispose();
     undo.dispose();
     composer.dispose();
