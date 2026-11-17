@@ -46,3 +46,15 @@ Where this file and the blueprint disagree, this file wins.
 - D47 Send: the paste hint is always shown (no one-time flag exists in settings). `SelectableText` is Material, so captions use plain `Text` with copy buttons. The mark-as-posted sheet is not dismissible by the scrim.
 - D48 Section headers render in capitals (`PzSectionHeader`), so tests look for the capitalized text.
 - D49 Widget tests must scroll to items below the fold (`reveal` helper) and wrap tests in `screenTest` so banner and undo timers expire.
+
+## Screens II (Batch 17)
+- D50 `AppLinks` (`core/data/app_links.dart`): support email fixed; privacy, terms and support page URLs come from `--dart-define` and a row with no URL is hidden (no placeholder URLs).
+- D51 `showPzDateTimeSheet` gained `timeOnly` (no day wheel) for the reminder time in Settings and onboarding.
+- D52 Template editor saves every change at once; custom platforms offer Delete, built-in ones Reset to default. Platform rows open the editor, the switch toggles.
+- D53 Import: after confirming, the screen reloads the posts provider and syncs reminders. Row problems are localized from `CsvIssue` codes with line numbers.
+- D54 Settings: Privacy choices row only when `privacyOptionsRequired`; notifications row shows instructions when denied and an Allow button while permission is unknown; Delete all data asks first, then goes to onboarding.
+- D55 Paywall: price is the store's; the provider's `clearError`/`connect` run after the first frame (a provider must not notify during build). Pro shows a thank-you and Done.
+- D56 Onboarding: three skippable steps, the notification permission is asked only on the last step's Allow button.
+- D57 Licenses screen reads `LicenseRegistry`; back from a package returns to the list (`PopScope`).
+- D58 `EntitlementProvider` listens for store events only after `init()`; any host (bootstrap, test services) must call it.
+

@@ -26,6 +26,7 @@ Test phone: Redmi A5 (arm64). User works on a phone only. No security lectures. 
 | 14 | text field + toolbar, switch, segmented, sheet, dialog, banner host, date-time sheet, page route, back swipe, localized_text |
 | 15 | ad slot, badge, swatch, progress bar, variant card/strip, gallery + media lab (`lib/dev/`) |
 | 16 | screens I: queue, composer, variants, send, library + `ScreenServices`, routes, `PzScreen`, 80 strings, 24 screen tests |
+| 17 | screens II: platforms, template editor, import, settings, paywall, onboarding, licenses; `AppLinks`, time-only date sheet, ~165 strings, `screens2_test.dart` (green at c81639e, 525 tests) |
 
 Tests: ~370 unit/widget tests, gallery smoke sweep (light, dark, 1.0x, 2.0x), emulator `device_test`.
 
@@ -41,7 +42,6 @@ Tests: ~370 unit/widget tests, gallery smoke sweep (light, dark, 1.0x, 2.0x), em
 ## Remaining batches (file ids from blueprint 19E/19F)
 | Batch | Files |
 | --- | --- |
-| 17 screens II | F174 platforms, F175 template editor, F176 import, F177 settings, F178 paywall, F179 onboarding, F180 licenses |
 | 18 shell | F181 app_services, F182 bootstrap, F183 app_routes, F184 app, F185 main, F186 license_registration |
 | 19 | F187-F196 ten ARB translations (es fr de pt ar hi ja ko zh he), F197-F199 widget/boot tests. Then Checkpoint 2 (every screen, consent matrix, purchase test) |
 | 20 website | F200-F208 (index, privacy, support, style, robots, sitemap, 3 images). User connects Cloudflare |
@@ -49,6 +49,8 @@ Tests: ~370 unit/widget tests, gallery smoke sweep (light, dark, 1.0x, 2.0x), em
 Rules: screens have no string literals in `Text` (use l10n); screens never import `platform/`; widgets never import `platform/`.
 
 ## Carry-forward (must not be forgotten)
+- `bootstrap.dart` must call `entitlement.init()` (it subscribes to store events there) before the store connects; `TestServices.create` does the same.
+- Production web links come from build defines `PRIVACY_URL`, `TERMS_URL`, `SUPPORT_URL` (`AppLinks`); pass them in the release workflow once the website is live. Support email is fixed in `AppLinks`.
 - `bootstrap.dart` must call `initializeDateFormatting()` (date wheels, formats) and use `PzSystemUi` in `app.dart`.
 - `PzTheme` must sit above the Navigator (overlays read it). `PzBannerHost` offsets by top inset + 56.
 - Add Hugeicons licence to the licenses screen (MIT).
