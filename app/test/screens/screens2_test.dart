@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart' show LicenseEntry, LicenseEntryWithLine
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:postzera/core/data/app_links.dart';
 import 'package:postzera/core/models/app_settings.dart';
 import 'package:postzera/core/models/platform_profile.dart';
 import 'package:postzera/core/models/consent_state.dart';
@@ -206,6 +207,34 @@ void main() {
       await settle(t, 8);
       await reveal(t, find.text('Privacy choices'));
       expect(find.text('Privacy choices'), findsOneWidget);
+    });
+
+    screenTest('the legal and support rows are always there and open the site', (t) async {
+      final TestServices s = await settings(t);
+      for (final String label in <String>[
+        'Privacy policy',
+        'Terms of use',
+        'Contact support',
+      ]) {
+        await reveal(t, find.text(label));
+        await t.tap(find.text(label));
+        await t.pump();
+      }
+      expect(
+        s.fakeLinks.opened.map((Uri u) => u.toString()).toList(),
+        <String>[AppLinks.privacyUrl, AppLinks.termsUrl, AppLinks.supportUrl],
+      );
+      expect(AppLinks.supportUrl, 'https://postzera.godswisdomv1.workers.dev/support');
+    });
+
+    screenTest('Report a problem writes an email to support', (t) async {
+      final TestServices s = await settings(t);
+      await reveal(t, find.text('Report a problem'));
+      await t.tap(find.text('Report a problem'));
+      await t.pump();
+      expect(s.fakeLinks.mails.length, 1);
+      expect(s.fakeLinks.mails.single.to, AppLinks.supportEmail);
+      expect(s.fakeLinks.mails.single.subject, 'Postzera problem report');
     });
 
     screenTest('turns the daily reminders off', (t) async {

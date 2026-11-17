@@ -320,21 +320,18 @@ class SettingsScreen extends StatelessWidget {
         PzCard(
           child: Column(
             children: <Widget>[
-              if (AppLinks.privacyUrl.isNotEmpty)
-                PzRow(
-                  label: l10n.settings_privacyPolicy,
-                  padding: _inCard,
-                  onTap: () => unawaited(
-                    s.links.open(Uri.parse(AppLinks.privacyUrl)),
-                  ),
-                ),
-              if (AppLinks.termsUrl.isNotEmpty)
-                PzRow(
-                  label: l10n.settings_terms,
-                  padding: _inCard,
-                  onTap: () =>
-                      unawaited(s.links.open(Uri.parse(AppLinks.termsUrl))),
-                ),
+              PzRow(
+                label: l10n.settings_privacyPolicy,
+                padding: _inCard,
+                onTap: () =>
+                    unawaited(s.links.open(Uri.parse(AppLinks.privacyUrl))),
+              ),
+              PzRow(
+                label: l10n.settings_terms,
+                padding: _inCard,
+                onTap: () =>
+                    unawaited(s.links.open(Uri.parse(AppLinks.termsUrl))),
+              ),
               PzRow(
                 label: l10n.settings_licenses,
                 padding: _inCard,
@@ -350,9 +347,8 @@ class SettingsScreen extends StatelessWidget {
               PzRow(
                 label: l10n.settings_contact,
                 padding: _inCard,
-                onTap: () => unawaited(
-                  s.links.composeMail(to: AppLinks.supportEmail),
-                ),
+                onTap: () =>
+                    unawaited(s.links.open(Uri.parse(AppLinks.supportUrl))),
               ),
               PzRow(
                 label: l10n.settings_report,
@@ -365,14 +361,6 @@ class SettingsScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              if (AppLinks.supportUrl.isNotEmpty)
-                PzRow(
-                  label: l10n.settings_support,
-                  padding: _inCard,
-                  onTap: () => unawaited(
-                    s.links.open(Uri.parse(AppLinks.supportUrl)),
-                  ),
-                ),
             ],
           ),
         ),

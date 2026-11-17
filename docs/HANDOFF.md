@@ -50,7 +50,7 @@ Rules: screens have no string literals in `Text` (use l10n); screens never impor
 
 ## Carry-forward (must not be forgotten)
 - `bootstrap.dart` must call `entitlement.init()` (it subscribes to store events there) before the store connects; `TestServices.create` does the same.
-- Production web links come from build defines `PRIVACY_URL`, `TERMS_URL`, `SUPPORT_URL` (`AppLinks`); pass them in the release workflow once the website is live. Support email is fixed in `AppLinks`.
+- Website is live at https://postzera.godswisdomv1.workers.dev (/, /support, /privacy, /terms), served by Cloudflare from `website/`. `AppLinks` holds these as fixed values. The email address is printed only on the support page; the app's Settings opens that page and keeps one email row, Report a problem (last 20 log lines).
 - `bootstrap.dart` must call `initializeDateFormatting()` (date wheels, formats) and use `PzSystemUi` in `app.dart`.
 - `PzTheme` must sit above the Navigator (overlays read it). `PzBannerHost` offsets by top inset + 56.
 - Add Hugeicons licence to the licenses screen (MIT).
@@ -59,6 +59,8 @@ Rules: screens have no string literals in `Text` (use l10n); screens never impor
 - Smoke-test every release build on the emulator (`smoke_android`).
 
 ## Open decisions / inputs from the user
-- Hold ads until Pro state is known, or blueprint as written (unanswered; currently as written).
+- Ads while Pro state is unknown: DECIDED, do not hold ads, blueprint as written (D59).
+- Logo / app icon: NOT chosen. Current teardrop mark is only a draft; candidates are being presented. After the choice: regenerate launcher icons, splash, notification icon, website images (favicon, app-icon, og).
+- Store badges on the home page are images only until the store listing URLs exist.
 - Apple team ID; AdMob app and banner ids; Codemagic key; domain and Cloudflare URLs; Postzera mark on media (user picks from samples).
 - `hugeicons` 4.4.0 evaluation.

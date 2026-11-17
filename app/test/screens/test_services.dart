@@ -33,6 +33,18 @@ import '../core/test_helpers.dart';
 /// A link launcher that records what it was asked to open.
 class FakeLinks implements LinkPort {
   final List<Uri> opened = <Uri>[];
+  final List<({String to, String subject, String body})> mails =
+      <({String to, String subject, String body})>[];
+
+  @override
+  Future<bool> composeMail({
+    required String to,
+    String subject = '',
+    String body = '',
+  }) async {
+    mails.add((to: to, subject: subject, body: body));
+    return true;
+  }
 
   @override
   Future<bool> open(Uri url) async {
