@@ -60,6 +60,9 @@ li { margin-bottom: 6px; }
 .lead { font-size: 1.1875rem; color: var(--text-2); }
 .meta { color: var(--text-3); font-size: 0.8125rem; margin-bottom: 24px; }
 
+.badges { display: flex; gap: 12px; flex-wrap: wrap; margin: 24px 0 0; }
+.badges img { display: block; height: 54px; width: auto; }
+
 .card { background: var(--card); border: 0.5px solid var(--border); border-radius: 16px; padding: 16px; margin: 0 0 16px; }
 .card h3 { margin-top: 0; }
 .card p:last-child, .card ul:last-child { margin-bottom: 0; }

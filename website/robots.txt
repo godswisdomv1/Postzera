@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://postzera.godswisdomv1.workers.dev/sitemap.xml
