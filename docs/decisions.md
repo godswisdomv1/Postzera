@@ -65,3 +65,15 @@ Where this file and the blueprint disagree, this file wins.
 - D62 Home page carries Google Play and App Store badges cropped from the user's photo (`images/badge-*.png`), as plain images until real listing URLs exist.
 - D63 Terms name no legal entity and no governing law (the user: free app, no obligation). Privacy text must be reconciled with `DATA_BACKING.md` in Batch 21.
 
+## App shell (Batch 18)
+- D64 `Adapters` bundles every port and `AppServices.create` wires every provider (reminder replanning hooks on posts, queue, import and settings). The blueprint's `AppScope` is omitted: `ServicesScope` already carries the services, so it would be dead code.
+- D65 Startup after the first frame: consent, store, reminders and the file sweep START in the blueprint's order but run side by side, so a consent form left open cannot delay reminders or restore. Ads are still requested only after consent (the consent provider guards it). A failing step is logged and the others run.
+- D66 Fatal views: `FatalErrorView` (also the `ErrorWidget` replacement and the overlay for `fatalError`), `FatalApp` for startup failures. Try again returns to the queue. The fatal layout shows Try again whenever a retry action is supplied; a database newer than the app (`dbDowngrade`) supplies none.
+- D67 Theme change: new colors at once under a 200 ms veil of the old page color; the navigator is never rebuilt. Instant under Reduce Motion.
+- D68 Reminder texts come from ARB (`reminder_*`) and are re-planned after a language change.
+- D69 Only the three font licences are registered by code. Package licences, Hugeicons included, are collected by Flutter's build.
+- D70 Launch sweep deletes generated media older than 14 days. The 7-days-after-sent rule is not implemented (see HANDOFF known gap).
+- D71 `initializeDateFormatting()` runs at startup; `entitlement.init()` runs in `loadInitial()` before the first frame (it only reads the cached flag).
+- D72 The boot test (blueprint F199) was written in Batch 18 with the shell, as the blueprint's own rule says tests land with their code.
+- D73 Banner Retry: scheduling failures replan, store failures reconnect, anything else just closes the banner (those are retried where they happened).
+
