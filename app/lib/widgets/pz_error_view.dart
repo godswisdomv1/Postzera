@@ -9,8 +9,9 @@ import 'package:postzera/widgets/pz_primary_button.dart';
 import 'package:postzera/widgets/pz_secondary_button.dart';
 
 /// An error laid out as an icon, a title, a message and up to two actions.
-/// Retry is offered only for an error that can be retried. The caller
-/// supplies the localized words.
+/// Retry is offered for an error that can be retried, and always in the fatal
+/// layout when the caller supplies a retry action (the caller leaves it out
+/// where trying again cannot help). The caller supplies the localized words.
 ///
 /// With [fatal] it fills its space with the page color and works even above
 /// the app's theme, so the error widget never shows a grey screen.
@@ -70,7 +71,7 @@ class PzErrorView extends StatelessWidget {
                   color: theme.colors.textSecondary,
                 ),
               ),
-              if (error.retriable &&
+              if ((error.retriable || fatal) &&
                   retry != null &&
                   shownRetry != null) ...<Widget>[
                 const SizedBox(height: PzSpacing.lg),

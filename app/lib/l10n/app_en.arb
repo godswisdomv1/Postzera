@@ -1074,5 +1074,43 @@
   "licenses_loading": "Loading licenses",
   "@licenses_loading": {
     "description": "Shown while the licenses are collected."
+  },
+  "reminder_title": "Time to post",
+  "@reminder_title": {
+    "description": "Title of the daily reminder notification."
+  },
+  "reminder_channelName": "Daily reminders",
+  "@reminder_channelName": {
+    "description": "Name of the Android notification channel for reminders, shown in the phone's settings."
+  },
+  "reminder_postsCount": "{count, plural, =1{1 post} other{{count} posts}}",
+  "@reminder_postsCount": {
+    "description": "Number of posts, used inside the reminder text.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reminder_platformsCount": "{count, plural, =1{1 platform} other{{count} platforms}}",
+  "@reminder_platformsCount": {
+    "description": "Number of platforms, used inside the reminder text.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reminder_body": "{posts} ready for {platforms}",
+  "@reminder_body": {
+    "description": "Body of the reminder notification. The two values are phrases such as '3 posts' and '9 platforms'.",
+    "placeholders": {
+      "posts": {
+        "type": "String"
+      },
+      "platforms": {
+        "type": "String"
+      }
+    }
   }
 }

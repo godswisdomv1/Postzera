@@ -57,6 +57,7 @@ class FakeFileStore implements FileStorePort {
   /// Path to size in bytes.
   final Map<String, int> sizes = <String, int>{};
   final List<String> deletedPostFiles = <String>[];
+  final List<Duration> sweeps = <Duration>[];
   final List<String> deletedOutputs = <String>[];
   final List<String> deleted = <String>[];
   final Map<String, String> exports = <String, String>{};
@@ -122,7 +123,10 @@ class FakeFileStore implements FileStorePort {
   }
 
   @override
-  Future<int> sweepOutputs({required Duration olderThan}) async => 0;
+  Future<int> sweepOutputs({required Duration olderThan}) async {
+    sweeps.add(olderThan);
+    return 0;
+  }
 
   @override
   Future<void> deleteAllMedia() async {
@@ -261,6 +265,7 @@ class FakePurchases implements PurchasePort {
   final StreamController<PurchaseEvent> controller =
       StreamController<PurchaseEvent>.broadcast();
   int connects = 0;
+  Object? failConnect;
   String? price = r'$41.99';
   bool? owned;
   PurchaseEvent? onBuy;
@@ -269,6 +274,10 @@ class FakePurchases implements PurchasePort {
   @override
   Future<void> connect() async {
     connects++;
+    final Object? error = failConnect;
+    if (error != null) {
+      throw error;
+    }
   }
 
   @override
