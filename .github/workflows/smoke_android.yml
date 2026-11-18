@@ -1,7 +1,9 @@
 name: smoke_android
 # Manual only. Installs the release x86_64 APK of an earlier build run on an
 # Android emulator, launches it and reports whether it stays alive, with the
-# crash log as annotations. It builds nothing and signs nothing.
+# crash log as annotations, and publishes a screenshot to the throwaway
+# smoke-shots branch (replaced on every run). It builds nothing and signs
+# nothing.
 on:
   workflow_dispatch:
     inputs:
@@ -15,7 +17,7 @@ on:
         default: '34'
         options: ['34', '36', '30']
 permissions:
-  contents: read
+  contents: write   # only to publish the screenshot to the smoke-shots branch
   actions: read
 jobs:
   smoke:
@@ -43,3 +45,16 @@ jobs:
           profile: pixel_6
           disable-animations: true
           script: bash app/tool/smoke_android.sh apk/app-x86_64-release.apk 25
+      - name: Publish the screenshot
+        if: always()
+        run: |
+          [ -f screen.png ] || exit 0
+          cp screen.png /tmp/screen.png
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan smoke-shots
+          git rm -rf --quiet .
+          cp /tmp/screen.png "screen-${{ inputs.run_id }}.png"
+          git add "screen-${{ inputs.run_id }}.png"
+          git commit -q -m "smoke screenshot for run ${{ inputs.run_id }}"
+          git push -f origin smoke-shots
